@@ -6,7 +6,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -422,12 +421,24 @@ public class Selection {
         return null;
     }
 
-    public static List<Selection> getCuboid(World world, int X, int Y, int Z, int XX, int YY, int ZZ) {
+    /**
+     * Collect a cuboid of selections from the point of view of referenceA, centered around referenceB.
+     *
+     * @param referenceA Point of view for the selections.
+     * @param referenceB Center of the cuboid.
+     * @param radius     Radius of cuboid.
+     * @return List of Selections.
+     */
+    public static List<Selection> getCuboid(Location referenceA, Location referenceB, int radius) {
         List<Selection> selections = Lists.newArrayList();
+        int X = referenceB.getBlockX() - radius, Y = referenceB.getBlockY() - radius, Z = referenceB.getBlockZ() - radius, XX = referenceB.getBlockX() + radius, YY = referenceB.getBlockY() + radius, ZZ = referenceB.getBlockZ() + radius;
+        int differenceX = referenceB.getBlockX() - referenceA.getBlockX();
+        int differenceY = referenceB.getBlockY() - referenceA.getBlockY();
+        int differenceZ = referenceB.getBlockZ() - referenceA.getBlockZ();
         for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomains.integers()))
             for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomains.integers()))
                 for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
-                    selections.add(new Selection(x, y, z, world.getBlockAt(x, y, z).getType()));
+                    selections.add(new Selection(x + differenceX, y + differenceY, z + differenceZ, referenceA.getWorld().getBlockAt(x, y, z).getType()));
         return selections;
     }
 }
