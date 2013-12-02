@@ -1,10 +1,12 @@
 package com.censoredsoftware.censoredlib.schematic;
 
 import com.censoredsoftware.censoredlib.util.Randoms;
+import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -388,5 +390,44 @@ public class Selection {
                 for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
                     set.add(getLocation(reference, x, y, z));
         return set;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this).add("X", X).add("Y", Y).add("Z", Z).toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(X, Y, Z);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Selection) return Objects.equal(this, object);
+        return false;
+    }
+
+    public String nonCuboidSingleBlockDataToString() {
+        return X + "~and~" + Y + "~and~" + Z + "~and~" + blockData.get(0).getMaterial().name();
+    }
+
+    public static Selection nonCuboidSingleBlockDataFromString(String string) {
+        try {
+            String[] args = string.split("~and~");
+            if (args.length != 4) return null;
+            return new Selection(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Material.valueOf(args[3]));
+        } catch (Throwable ignored) {
+        }
+        return null;
+    }
+
+    public static List<Selection> getCuboid(World world, int X, int Y, int Z, int XX, int YY, int ZZ) {
+        List<Selection> selections = Lists.newArrayList();
+        for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomains.integers()))
+            for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomains.integers()))
+                for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
+                    selections.add(new Selection(x, y, z, world.getBlockAt(x, y, z).getType()));
+        return selections;
     }
 }
