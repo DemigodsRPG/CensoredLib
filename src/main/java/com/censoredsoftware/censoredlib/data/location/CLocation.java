@@ -16,6 +16,7 @@ import java.util.*;
 public class CLocation implements ConfigurationSerializable {
     private UUID id;
     private String world;
+    private Long seed;
     private Double X;
     private Double Y;
     private Double Z;
@@ -29,6 +30,7 @@ public class CLocation implements ConfigurationSerializable {
     public CLocation(UUID id, ConfigurationSection conf) {
         this.id = id;
         world = conf.getString("world");
+        seed = conf.getLong("seed");
         X = conf.getDouble("X");
         Y = conf.getDouble("Y");
         Z = conf.getDouble("Z");
@@ -41,6 +43,7 @@ public class CLocation implements ConfigurationSerializable {
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("world", world);
+        map.put("seed", seed);
         map.put("X", X);
         map.put("Y", Y);
         map.put("Z", Z);
@@ -56,6 +59,10 @@ public class CLocation implements ConfigurationSerializable {
 
     public void setWorld(String world) {
         this.world = world;
+    }
+
+    public void setWorldSeed(Long worldSeed) {
+        this.seed = worldSeed;
     }
 
     public void setX(Double X) {
@@ -199,7 +206,19 @@ public class CLocation implements ConfigurationSerializable {
             return location1.distance(location3);
         }
 
-        public static CLocation fromString(String string) {
+        public static String locationToString(Location location) {
+            CLocation cLocation = new CLocation();
+            cLocation.generateId();
+            cLocation.setWorld(location.getWorld().getName());
+            cLocation.setX(location.getX());
+            cLocation.setY(location.getY());
+            cLocation.setZ(location.getZ());
+            cLocation.setPitch(location.getPitch());
+            cLocation.setYaw(location.getYaw());
+            return cLocation.toString();
+        }
+
+        public static Location fromString(String string) {
             try {
                 String[] args = string.split("~and~");
                 if (args.length != 6) return null;
@@ -210,6 +229,7 @@ public class CLocation implements ConfigurationSerializable {
                 location.setZ(Double.valueOf(args[3]));
                 location.setPitch(Float.valueOf(args[4]));
                 location.setYaw(Float.valueOf(args[5]));
+                return location.toLocation();
             } catch (Throwable ignored) {
             }
             return null;
