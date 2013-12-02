@@ -110,6 +110,12 @@ public class CLocation implements ConfigurationSerializable {
         return Region.Util.getRegion(toLocation());
     }
 
+    @Override
+    public String toString() {
+        return world + "~and~" + X + "~and~" + Y + "~and~" + Z + "~and~" + pitch + "~and~" + yaw;
+    }
+
+
     public static class Util {
         /**
          * Randoms a random location with the center being <code>reference</code>.
@@ -191,6 +197,22 @@ public class CLocation implements ConfigurationSerializable {
             Location location3 = location2.clone();
             location3.setY(Y);
             return location1.distance(location3);
+        }
+
+        public static CLocation fromString(String string) {
+            try {
+                String[] args = string.split("~and~");
+                if (args.length != 6) return null;
+                CLocation location = new CLocation();
+                location.setWorld(args[0]);
+                location.setX(Double.valueOf(args[1]));
+                location.setY(Double.valueOf(args[2]));
+                location.setZ(Double.valueOf(args[3]));
+                location.setPitch(Float.valueOf(args[4]));
+                location.setYaw(Float.valueOf(args[5]));
+            } catch (Throwable ignored) {
+            }
+            return null;
         }
     }
 }
