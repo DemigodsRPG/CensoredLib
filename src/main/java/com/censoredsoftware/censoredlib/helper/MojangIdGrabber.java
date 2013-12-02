@@ -1,6 +1,6 @@
 package com.censoredsoftware.censoredlib.helper;
 
-import com.censoredsoftware.censoredlib.CensoredLib;
+import com.censoredsoftware.censoredlib.CensoredLibPlugin;
 import com.censoredsoftware.censoredlib.data.TimedData;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -183,7 +183,7 @@ public class MojangIdGrabber {
 
         @Override
         public String getSavePath() {
-            return CensoredLib.SAVE_PATH;
+            return CensoredLibPlugin.SAVE_PATH;
         }
 
         @Override

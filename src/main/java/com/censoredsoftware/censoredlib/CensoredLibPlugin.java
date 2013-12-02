@@ -3,7 +3,7 @@ package com.censoredsoftware.censoredlib;
 import com.censoredsoftware.censoredlib.helper.MojangIdGrabber;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CensoredLib extends JavaPlugin {
+public class CensoredLibPlugin extends JavaPlugin {
     public static String SAVE_PATH;
 
     /**
