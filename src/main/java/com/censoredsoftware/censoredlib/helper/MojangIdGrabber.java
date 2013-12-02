@@ -29,11 +29,9 @@ public class MojangIdGrabber {
         repository = new HttpProfileRepository();
         file = (new File());
         file.loadToData();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new BukkitRunnable()
-        {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new BukkitRunnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 // Save data
                 MojangIdGrabber.file.saveToFile();
             }
@@ -96,31 +94,27 @@ public class MojangIdGrabber {
         }
     }
 
-    private static class File extends ConfigFile<UUID, TimedData>{
+    private static class File extends ConfigFile<UUID, TimedData> {
         private static ConcurrentMap<UUID, TimedData> timedData = Maps.newConcurrentMap();
 
-        public static TimedData get(UUID id)
-        {
+        public static TimedData get(UUID id) {
             return timedData.get(id);
         }
 
-        public static Set<TimedData> getAll()
-        {
+        public static Set<TimedData> getAll() {
             return Sets.newHashSet(timedData.values());
         }
 
-        public static TimedData find(String key, String subKey)
-        {
-            if(findByKey(key) == null) return null;
+        public static TimedData find(String key, String subKey) {
+            if (findByKey(key) == null) return null;
 
-            for(TimedData data : findByKey(key))
-                if(data.getSubKey().equals(subKey)) return data;
+            for (TimedData data : findByKey(key))
+                if (data.getSubKey().equals(subKey)) return data;
 
             return null;
         }
 
-        public static Set<TimedData> findByKey(final String key)
-        {
+        public static Set<TimedData> findByKey(final String key) {
             return Sets.newHashSet(Collections2.filter(getAll(), new Predicate<TimedData>() {
                 @Override
                 public boolean apply(TimedData serverData) {
@@ -129,14 +123,12 @@ public class MojangIdGrabber {
             }));
         }
 
-        public static void delete(TimedData data)
-        {
+        public static void delete(TimedData data) {
             timedData.remove(data.getId());
         }
 
-        public static void remove(String key, String subKey)
-        {
-            if(find(key, subKey) != null) delete(find(key, subKey));
+        public static void remove(String key, String subKey) {
+            if (find(key, subKey) != null) delete(find(key, subKey));
         }
 
         public static void saveTimed(String key, String subKey, Object data, Integer seconds) {
@@ -213,5 +205,7 @@ public class MojangIdGrabber {
         public void loadToData() {
             timedData = loadFromFile();
         }
-    };
+    }
+
+    ;
 }

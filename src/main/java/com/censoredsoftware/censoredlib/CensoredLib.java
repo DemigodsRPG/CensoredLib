@@ -3,16 +3,14 @@ package com.censoredsoftware.censoredlib;
 import com.censoredsoftware.censoredlib.helper.MojangIdGrabber;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CensoredLib extends JavaPlugin
-{
+public class CensoredLib extends JavaPlugin {
     public static String SAVE_PATH;
 
     /**
      * The Bukkit enable method.
      */
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         SAVE_PATH = getDataFolder() + "/data/";
 
         // Load Mojang Id Grabber
@@ -23,6 +21,6 @@ public class CensoredLib extends JavaPlugin
      * The Bukkit disable method.
      */
     @Override
-    public void onDisable()
-    {}
+    public void onDisable() {
+    }
 }
