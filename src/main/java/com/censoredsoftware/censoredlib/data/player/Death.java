@@ -7,57 +7,66 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class Death implements ConfigurationSerializable {
-    private UUID id;
-    private long deathTime;
-    private UUID killed, attacking;
+public abstract class Death implements ConfigurationSerializable
+{
+	private UUID id;
+	private long deathTime;
+	private UUID killed, attacking;
 
-    public Death(UUID killed) {
-        deathTime = System.currentTimeMillis();
-        id = UUID.randomUUID();
-        this.killed = killed;
-        save();
-    }
+	public Death(UUID killed)
+	{
+		deathTime = System.currentTimeMillis();
+		id = UUID.randomUUID();
+		this.killed = killed;
+		save();
+	}
 
-    public Death(UUID killed, UUID attacking) {
-        deathTime = System.currentTimeMillis();
-        id = UUID.randomUUID();
-        this.killed = killed;
-        this.attacking = attacking;
-        save();
-    }
+	public Death(UUID killed, UUID attacking)
+	{
+		deathTime = System.currentTimeMillis();
+		id = UUID.randomUUID();
+		this.killed = killed;
+		this.attacking = attacking;
+		save();
+	}
 
-    public Death(UUID id, ConfigurationSection conf) {
-        this.id = id;
-        deathTime = conf.getLong("deathTime");
-        killed = UUID.fromString(conf.getString("killed"));
-        if (conf.isString("attacking")) attacking = UUID.fromString(conf.getString("attacking"));
-    }
+	public Death(UUID id, ConfigurationSection conf)
+	{
+		this.id = id;
+		deathTime = conf.getLong("deathTime");
+		killed = UUID.fromString(conf.getString("killed"));
+		if(conf.isString("attacking")) attacking = UUID.fromString(conf.getString("attacking"));
+	}
 
-    protected abstract void save();
+	protected abstract void save();
 
-    @Override
-    public Map<String, Object> serialize() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("deathTime", deathTime);
-        map.put("killed", killed.toString());
-        if (attacking != null) map.put("attacking", attacking.toString());
-        return map;
-    }
+	@Override
+	public Map<String, Object> serialize()
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("deathTime", deathTime);
+		map.put("killed", killed.toString());
+		if(attacking != null) map.put("attacking", attacking.toString());
+		return map;
+	}
 
-    public UUID getId() {
-        return id;
-    }
+	public UUID getId()
+	{
+		return id;
+	}
 
-    public long getDeathTime() {
-        return deathTime;
-    }
+	public long getDeathTime()
+	{
+		return deathTime;
+	}
 
-    public UUID getKilled() {
-        return killed;
-    }
+	public UUID getKilled()
+	{
+		return killed;
+	}
 
-    public UUID getAttacking() {
-        return attacking;
-    }
+	public UUID getAttacking()
+	{
+		return attacking;
+	}
 }

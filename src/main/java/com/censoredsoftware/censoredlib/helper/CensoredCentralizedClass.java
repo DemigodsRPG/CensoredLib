@@ -1,11 +1,12 @@
 package com.censoredsoftware.censoredlib.helper;
 
-public abstract class CensoredCentralizedClass {
-    protected abstract int loadWorlds();
+public abstract class CensoredCentralizedClass
+{
+	protected abstract int loadWorlds();
 
-    protected abstract void loadListeners();
+	protected abstract void loadListeners();
 
-    protected abstract void loadCommands();
+	protected abstract void loadCommands();
 
-    protected abstract void loadPermissions(boolean load);
+	protected abstract void loadPermissions(boolean load);
 }

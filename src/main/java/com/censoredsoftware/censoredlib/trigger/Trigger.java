@@ -1,7 +1,8 @@
 package com.censoredsoftware.censoredlib.trigger;
 
-public interface Trigger {
-    public void processSync();
+public interface Trigger
+{
+	public void processSync();
 
-    public void processAsync();
+	public void processAsync();
 }

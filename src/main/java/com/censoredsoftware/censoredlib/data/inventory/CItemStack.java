@@ -7,41 +7,48 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.UUID;
 
-public class CItemStack implements ConfigurationSerializable {
-    private UUID id;
-    private ItemStack item;
+public class CItemStack implements ConfigurationSerializable
+{
+	private UUID id;
+	private ItemStack item;
 
-    public CItemStack() {
-    }
+	public CItemStack()
+	{}
 
-    public CItemStack(UUID id, ConfigurationSection conf) {
-        this.id = id;
-        if (conf.getValues(true) != null) item = ItemStack.deserialize(conf.getValues(true));
-    }
+	public CItemStack(UUID id, ConfigurationSection conf)
+	{
+		this.id = id;
+		if(conf.getValues(true) != null) item = ItemStack.deserialize(conf.getValues(true));
+	}
 
-    @Override
-    public Map<String, Object> serialize() {
-        return item.serialize();
-    }
+	@Override
+	public Map<String, Object> serialize()
+	{
+		return item.serialize();
+	}
 
-    public void generateId() {
-        id = UUID.randomUUID();
-    }
+	public void generateId()
+	{
+		id = UUID.randomUUID();
+	}
 
-    public UUID getId() {
-        return id;
-    }
+	public UUID getId()
+	{
+		return id;
+	}
 
-    public void setItem(ItemStack item) {
-        this.item = item;
-    }
+	public void setItem(ItemStack item)
+	{
+		this.item = item;
+	}
 
-    /**
-     * Returns the DItemStack as an actual, usable ItemStack.
-     *
-     * @return ItemStack
-     */
-    public ItemStack toItemStack() {
-        return item;
-    }
+	/**
+	 * Returns the DItemStack as an actual, usable ItemStack.
+	 * 
+	 * @return ItemStack
+	 */
+	public ItemStack toItemStack()
+	{
+		return item;
+	}
 }
