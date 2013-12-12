@@ -5,9 +5,7 @@ import com.censoredsoftware.censoredlib.language.Symbol;
 import com.censoredsoftware.censoredlib.schematic.BlockData;
 import com.censoredsoftware.censoredlib.schematic.Schematic;
 import com.censoredsoftware.censoredlib.schematic.Selection;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.bukkit.*;
@@ -33,7 +31,7 @@ public class Images
 	static
 	{
 		Map<ChatColor, Color> chatColorColor = Maps.newHashMap();
-		chatColorColor.put(ChatColor.BLACK, Color.decode("#000"));
+		chatColorColor.put(ChatColor.BLACK, Color.decode("#000000"));
 		chatColorColor.put(ChatColor.DARK_BLUE, Color.decode("#0000AA"));
 		chatColorColor.put(ChatColor.DARK_GREEN, Color.decode("#00AA00"));
 		chatColorColor.put(ChatColor.DARK_AQUA, Color.decode("#00AAAA"));
@@ -82,40 +80,52 @@ public class Images
 		return getChatColor(color);
 	}
 
-	public static ChatColor getChatColor(final Color color)
+	/**
+	 * @author CompuPhase (http://www.compuphase.com/cmetric.htm)
+	 */
+	public static double getColorDistance(Color color1, Color color2)
 	{
-		try
-		{
-			return CHAT_COLOR_COLOR.inverse().get(Iterables.find(CHAT_COLOR_COLOR.values(), new Predicate<Color>()
-			{
-				@Override
-				public boolean apply(Color chatColor)
-				{
-					return Integer.MAX_VALUE > Math.sqrt(Math.pow(color.getRed() - chatColor.getRed(), 2) - Math.pow(color.getGreen() - chatColor.getGreen(), 2) - Math.pow(color.getBlue() - chatColor.getBlue(), 2));
-				}
-			}));
-		}
-		catch(Throwable ignored)
-		{}
-		return ChatColor.RESET;
+		long rmean = ((long) color1.getRed() + (long) color2.getRed()) / 2;
+		long r = (long) color1.getRed() - (long) color2.getRed();
+		long g = (long) color1.getGreen() - (long) color2.getGreen();
+		long b = (long) color1.getBlue() - (long) color2.getBlue();
+		return Math.sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8));
 	}
 
-    public static DyeColor getDyeColor(final Color color)
-    {
-        try
-        {
-			return DYE_COLOR_COLOR.inverse().get(Iterables.find(DYE_COLOR_COLOR.values(), new Predicate<Color>()
+	public static ChatColor getChatColor(final Color color)
+	{
+		Color nearestColor = Color.decode("#FFFFFF");
+		double nearestDistance = -1.0;
+
+		for(Color chatColor : CHAT_COLOR_COLOR.values())
+		{
+			double distance = getColorDistance(chatColor, color);
+			if(nearestDistance == -1.0 || distance < nearestDistance)
 			{
-				@Override
-				public boolean apply(Color chatColor)
-				{
-					return Integer.MAX_VALUE > Math.sqrt(Math.pow(color.getRed() - chatColor.getRed(), 2) - Math.pow(color.getGreen() - chatColor.getGreen(), 2) - Math.pow(color.getBlue() - chatColor.getBlue(), 2));
-				}
-			}));
+				nearestColor = color;
+				nearestDistance = distance;
+			}
 		}
-		catch(Throwable ignored)
-		{}
-		return DyeColor.WHITE;
+
+		return CHAT_COLOR_COLOR.inverse().get(nearestColor);
+	}
+
+	public static DyeColor getDyeColor(final Color color)
+    {
+        Color nearestColor = Color.decode("#FFFFFF");
+        double nearestDistance = -1.0;
+
+		for(Color chatColor : DYE_COLOR_COLOR.values())
+		{
+			double distance = getColorDistance(chatColor, color);
+			if(nearestDistance == -1.0 || distance < nearestDistance)
+			{
+				nearestColor = color;
+				nearestDistance = distance;
+			}
+		}
+
+		return DYE_COLOR_COLOR.inverse().get(nearestColor);
 	}
 
 	public static java.util.List<String> convertImage(BufferedImage image, Symbol symbol)
