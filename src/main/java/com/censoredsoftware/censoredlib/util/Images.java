@@ -207,19 +207,8 @@ public class Images
 		}
 	}
 
-	public static java.util.List<String> getPlayerHead(OfflinePlayer player) throws NullPointerException
+	public static BufferedImage getPlayerHead(String playerName)
 	{
-		// Get the player's name.
-		String playerName = player.getName();
-
-		// Check if we already have this player's head.
-		if(Cache.hasTimed(playerName, "") && false) // TODO RE-ENABLE
-		{
-			Object data = Cache.getTimedValue(playerName, "playerHead");
-			if(data != null && data instanceof java.util.List) return (java.util.List<String>) data;
-			else Cache.remove(playerName, "playerHead");
-		}
-
 		try
 		{
 			// Get the image from Mojang.
@@ -235,14 +224,36 @@ public class Images
 			finalImage.getGraphics().drawImage(head, 0, 0, 64, 64, null);
 			finalImage.getGraphics().drawImage(overlay, 0, 0, 64, 64, null);
 
-			// Scale the image down (so we can see it in chat)
-			finalImage = getScaledImage(finalImage, 16, 16);
+			return finalImage;
+		}
+		catch(Throwable ignored)
+		{}
+
+		return null;
+	}
+
+	public static java.util.List<String> getPlayerHead(OfflinePlayer player) throws NullPointerException
+	{
+		// Get the player's name.
+		String playerName = player.getName();
+
+		// Check if we already have this player's head.
+		if(Cache.hasTimed(playerName, ""))
+		{
+			Object data = Cache.getTimedValue(playerName, "playerHead");
+			if(data != null && data instanceof java.util.List) return (java.util.List<String>) data;
+			else Cache.remove(playerName, "playerHead");
+		}
+
+		try
+		{
+			BufferedImage image = getPlayerHead(playerName);
 
 			// Convert.
-			java.util.List<String> convertedImage = convertImage(finalImage, Symbol.FULL_BLOCK);
+			java.util.List<String> convertedImage = convertImage(image, Symbol.FULL_BLOCK);
 
 			// Put the player's head in the cache.
-			// Cache.saveTimedDay(playerName, "playerHead", convertedImage); TODO RE-ENABLE
+			Cache.saveTimedDay(playerName, "playerHead", convertedImage);
 
 			// Return the converted head.
 			return convertedImage;
