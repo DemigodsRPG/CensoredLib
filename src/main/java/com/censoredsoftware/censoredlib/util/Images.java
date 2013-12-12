@@ -207,7 +207,7 @@ public class Images
 		}
 	}
 
-	public static BufferedImage getPlayerHead(String playerName)
+	public static BufferedImage getPlayerHead(String playerName) throws NullPointerException
 	{
 		try
 		{
@@ -226,8 +226,11 @@ public class Images
 
 			return finalImage;
 		}
-		catch(Throwable ignored)
-		{}
+		catch(Throwable errored)
+		{
+			errored.printStackTrace();
+			Bukkit.getServer().getLogger().warning("[CensoredLib] " + "Something went wrong during an image conversion process.");
+		}
 
 		return null;
 	}
@@ -258,8 +261,11 @@ public class Images
 			// Return the converted head.
 			return convertedImage;
 		}
-		catch(Throwable ignored)
-		{}
+		catch(Throwable errored)
+		{
+			errored.printStackTrace();
+			Bukkit.getServer().getLogger().warning("[CensoredLib] " + "Something went wrong during an image conversion process.");
+		}
 
 		// Something went wrong.
 		return null;
