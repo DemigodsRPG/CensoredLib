@@ -12,7 +12,10 @@ import org.bukkit.OfflinePlayer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
@@ -117,6 +120,9 @@ public class Images
 			finalImage.getGraphics().drawImage(head, 0, 0, 64, 64, null);
 			finalImage.getGraphics().drawImage(overlay, 0, 0, 64, 64, null);
 
+			// Scale the image down (so we can see it in chat)
+			finalImage = getScaledImage(finalImage, 16, 16);
+
 			// Convert.
 			java.util.List<String> convertedImage = convertImage(finalImage, Symbol.FULL_BLOCK);
 
@@ -131,5 +137,21 @@ public class Images
 
 		// Something went wrong.
 		return null;
+	}
+
+	/**
+	 * @author Jörn Horstmann (http://stackoverflow.com/a/3967988)
+	 */
+	public static BufferedImage getScaledImage(BufferedImage image, int width, int height) throws IOException
+	{
+		int imageWidth = image.getWidth();
+		int imageHeight = image.getHeight();
+
+		double scaleX = (double) width / imageWidth;
+		double scaleY = (double) height / imageHeight;
+		AffineTransform scaleTransform = AffineTransform.getScaleInstance(scaleX, scaleY);
+		AffineTransformOp bilinearScaleOp = new AffineTransformOp(scaleTransform, AffineTransformOp.TYPE_BILINEAR);
+
+		return bilinearScaleOp.filter(image, new BufferedImage(width, height, image.getType()));
 	}
 }

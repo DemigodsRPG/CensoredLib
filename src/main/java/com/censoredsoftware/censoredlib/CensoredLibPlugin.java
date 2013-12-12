@@ -24,5 +24,7 @@ public class CensoredLibPlugin extends JavaPlugin
 	 */
 	@Override
 	public void onDisable()
-	{}
+	{
+		Cache.unload();
+	}
 }

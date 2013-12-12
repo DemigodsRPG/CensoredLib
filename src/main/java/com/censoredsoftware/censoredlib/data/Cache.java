@@ -20,12 +20,13 @@ public class Cache
 {
 	private static ConcurrentMap<UUID, TimedData> cache = Maps.newConcurrentMap();
 	private static CacheFile file;
+	private static Integer task;
 
 	public static void load(Plugin plugin)
 	{
 		file = (new CacheFile());
 		file.loadToData();
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new BukkitRunnable()
+		task = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new BukkitRunnable()
 		{
 			@Override
 			public void run()
@@ -34,6 +35,12 @@ public class Cache
 				file.saveToFile();
 			}
 		}, 20, 300 * 20);
+	}
+
+	public static void unload()
+	{
+		Bukkit.getScheduler().cancelTask(task);
+		file.saveToFile();
 	}
 
 	public static TimedData get(UUID id)
