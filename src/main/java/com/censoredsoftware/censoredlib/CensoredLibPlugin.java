@@ -1,6 +1,6 @@
 package com.censoredsoftware.censoredlib;
 
-import com.censoredsoftware.censoredlib.helper.MojangIdGrabber;
+import com.censoredsoftware.censoredlib.data.Cache;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CensoredLibPlugin extends JavaPlugin
@@ -16,7 +16,7 @@ public class CensoredLibPlugin extends JavaPlugin
 		SAVE_PATH = getDataFolder() + "/data/";
 
 		// Load Mojang Id Grabber
-		MojangIdGrabber.load(this);
+		Cache.load(this);
 	}
 
 	/**

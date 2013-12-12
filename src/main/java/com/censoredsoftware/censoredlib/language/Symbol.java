@@ -3,7 +3,7 @@ package com.censoredsoftware.censoredlib.language;
 public enum Symbol
 {
 	// Misc
-	BLACK_SQUARE("⬛"), HEAVY_HEART("❤"), DASH("―"), CAUTION("⚠"), MAIL("✉"), DEATH("☠"), WATCH("⌚"), HOURGLASS("⌛"), POINT_OF_INTEREST("⌘"),
+	BLACK_SQUARE("⬛"), FULL_BLOCK("█"), HEAVY_HEART("❤"), DASH("―"), CAUTION("⚠"), MAIL("✉"), DEATH("☠"), WATCH("⌚"), HOURGLASS("⌛"), POINT_OF_INTEREST("⌘"),
 
 	// Misc cont.
 	SUN("☀"), CLOUD("☁"), UNCHECKED_BOX("☐"), CHECKED_BOX("☑"), X_BOX("☒"), COFFEE("☕"), NO_ENTRY("⛔"), WHITE_FLAG("⚐"), BLACK_FLAG("⚑"),
