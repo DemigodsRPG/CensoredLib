@@ -34,43 +34,43 @@ public class Images
 	{
 		Map<ChatColor, Color> chatColorColor = Maps.newHashMap();
 		chatColorColor.put(ChatColor.BLACK, Color.decode("#000"));
-		chatColorColor.put(ChatColor.DARK_BLUE, Color.decode("#00a"));
-		chatColorColor.put(ChatColor.DARK_GREEN, Color.decode("#0a0"));
-		chatColorColor.put(ChatColor.DARK_AQUA, Color.decode("#0aa"));
-		chatColorColor.put(ChatColor.DARK_RED, Color.decode("#a00"));
-		chatColorColor.put(ChatColor.DARK_PURPLE, Color.decode("#a0a"));
-		chatColorColor.put(ChatColor.GOLD, Color.decode("#fa0"));
-		chatColorColor.put(ChatColor.GRAY, Color.decode("#999"));
-		chatColorColor.put(ChatColor.DARK_GRAY, Color.decode("#555"));
-		chatColorColor.put(ChatColor.BLUE, Color.decode("#55f"));
-		chatColorColor.put(ChatColor.GREEN, Color.decode("#5c5"));
-		chatColorColor.put(ChatColor.AQUA, Color.decode("#5cc"));
-		chatColorColor.put(ChatColor.RED, Color.decode("#f55"));
-		chatColorColor.put(ChatColor.LIGHT_PURPLE, Color.decode("#f5f"));
-		chatColorColor.put(ChatColor.YELLOW, Color.decode("#cc5"));
-		chatColorColor.put(ChatColor.WHITE, Color.decode("#aaa"));
+		chatColorColor.put(ChatColor.DARK_BLUE, Color.decode("#0000AA"));
+		chatColorColor.put(ChatColor.DARK_GREEN, Color.decode("#00AA00"));
+		chatColorColor.put(ChatColor.DARK_AQUA, Color.decode("#00AAAA"));
+		chatColorColor.put(ChatColor.DARK_RED, Color.decode("#AA0000"));
+		chatColorColor.put(ChatColor.DARK_PURPLE, Color.decode("#AA00AA"));
+		chatColorColor.put(ChatColor.GOLD, Color.decode("#FFAA00"));
+		chatColorColor.put(ChatColor.GRAY, Color.decode("#AAAAAA"));
+		chatColorColor.put(ChatColor.DARK_GRAY, Color.decode("#555555"));
+		chatColorColor.put(ChatColor.BLUE, Color.decode("#5555FF"));
+		chatColorColor.put(ChatColor.GREEN, Color.decode("#55FF55"));
+		chatColorColor.put(ChatColor.AQUA, Color.decode("#55FFFF"));
+		chatColorColor.put(ChatColor.RED, Color.decode("#FF5555"));
+		chatColorColor.put(ChatColor.LIGHT_PURPLE, Color.decode("#FF55FF"));
+		chatColorColor.put(ChatColor.YELLOW, Color.decode("#FFFF55"));
+		chatColorColor.put(ChatColor.WHITE, Color.decode("#FFFFFF"));
 		CHAT_COLOR_COLOR = ImmutableBiMap.copyOf(chatColorColor);
 	}
 	private static ImmutableBiMap<DyeColor, Color> DYE_COLOR_COLOR;
 	static
 	{
 		Map<DyeColor, Color> dyeColorColor = Maps.newHashMap();
-		dyeColorColor.put(DyeColor.BLACK, Color.decode("#181414"));
-		dyeColorColor.put(DyeColor.BLUE, Color.decode("#253193"));
-		dyeColorColor.put(DyeColor.BROWN, Color.decode("#56331c"));
-		dyeColorColor.put(DyeColor.CYAN, Color.decode("#267191"));
-		dyeColorColor.put(DyeColor.GRAY, Color.decode("#414141"));
-		dyeColorColor.put(DyeColor.GREEN, Color.decode("#364b18"));
-		dyeColorColor.put(DyeColor.LIGHT_BLUE, Color.decode("#6387d2"));
-		dyeColorColor.put(DyeColor.LIME, Color.decode("#39ba2e"));
-		dyeColorColor.put(DyeColor.MAGENTA, Color.decode("#be49c9"));
-		dyeColorColor.put(DyeColor.ORANGE, Color.decode("#ea7e35"));
-		dyeColorColor.put(DyeColor.PINK, Color.decode("#d98199"));
-		dyeColorColor.put(DyeColor.PURPLE, Color.decode("#7e34bf"));
-		dyeColorColor.put(DyeColor.RED, Color.decode("#9e2b27"));
-		dyeColorColor.put(DyeColor.SILVER, Color.decode("#a0a7a7"));
-		dyeColorColor.put(DyeColor.WHITE, Color.decode("#a4a4a4"));
-		dyeColorColor.put(DyeColor.YELLOW, Color.decode("#c2b51c"));
+		dyeColorColor.put(DyeColor.BLACK, Color.decode("#191919"));
+		dyeColorColor.put(DyeColor.BLUE, Color.decode("#334CB2"));
+		dyeColorColor.put(DyeColor.BROWN, Color.decode("#664C33"));
+		dyeColorColor.put(DyeColor.CYAN, Color.decode("#4C7F99"));
+		dyeColorColor.put(DyeColor.GRAY, Color.decode("#4C4C4C"));
+		dyeColorColor.put(DyeColor.GREEN, Color.decode("#667F33"));
+		dyeColorColor.put(DyeColor.LIGHT_BLUE, Color.decode("#6699D8"));
+		dyeColorColor.put(DyeColor.LIME, Color.decode("#7FCC19"));
+		dyeColorColor.put(DyeColor.MAGENTA, Color.decode("#B24CD8"));
+		dyeColorColor.put(DyeColor.ORANGE, Color.decode("#D87F33"));
+		dyeColorColor.put(DyeColor.PINK, Color.decode("#F27FA5"));
+		dyeColorColor.put(DyeColor.PURPLE, Color.decode("#7F3FB2"));
+		dyeColorColor.put(DyeColor.RED, Color.decode("#993333"));
+		dyeColorColor.put(DyeColor.SILVER, Color.decode("#999999"));
+		dyeColorColor.put(DyeColor.WHITE, Color.decode("#FFFFFF"));
+		dyeColorColor.put(DyeColor.YELLOW, Color.decode("#E5E533"));
 		DYE_COLOR_COLOR = ImmutableBiMap.copyOf(dyeColorColor);
 	}
 
