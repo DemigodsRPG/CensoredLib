@@ -176,9 +176,10 @@ public class Images
 
 	public static MapView sendMapImage(Player player, BufferedImage image)
 	{
-		MapView map = Bukkit.getServer().createMap(player.getWorld());
-		ImageRenderer.applyToMap(map, image);
+		MapView map = Bukkit.createMap(player.getWorld());
+		map = ImageRenderer.applyToMap(map, image);
 		player.sendMap(map);
+
 		return map;
 	}
 
@@ -188,22 +189,23 @@ public class Images
 
 		public ImageRenderer(BufferedImage image)
 		{
-			this.image = image;
+			this.image = MapPalette.resizeImage(image);
 		}
 
 		@Override
 		public void render(MapView mapView, MapCanvas mapCanvas, Player player)
 		{
-			image = MapPalette.resizeImage(image);
 			mapCanvas.drawImage(0, 0, image);
 		}
 
-		public static void applyToMap(MapView map, BufferedImage image)
+		public static MapView applyToMap(MapView map, BufferedImage image)
 		{
 			for(MapRenderer renderer : map.getRenderers())
 				map.removeRenderer(renderer);
 
 			map.addRenderer(new ImageRenderer(image));
+
+			return map;
 		}
 	}
 
