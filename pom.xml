@@ -99,6 +99,11 @@
             <scope>compile</scope>
             <optional>false</optional>
         </dependency>
+        <dependency>
+            <groupId>org.simpleframework</groupId>
+            <artifactId>simple</artifactId>
+            <version>5.1.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -131,6 +136,7 @@
                                 <includes>
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>com.mojang:AccountsClient</include>
+                                    <include>org.simpleframework:simple</include>
                                     <include>com.google.code.gson:gson</include>
                                 </includes>
                             </artifactSet>
