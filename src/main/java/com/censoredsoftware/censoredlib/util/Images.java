@@ -176,7 +176,15 @@ public class Images
 				DyeColor color = getDyeColor(new Color(image.getRGB(j, i)));
 
 				// Make new selection.
-				schematic.add(new Selection(j, width - i, 0, new BlockData(Material.WOOL, color.getWoolData())));
+				try
+				{
+					schematic.add(new Selection(j, width - i, 0, new BlockData(Material.WOOL, color.getWoolData())));
+				}
+				catch(Exception check)
+				{
+					check.printStackTrace();
+					Bukkit.broadcastMessage(check.getMessage());
+				}
 			}
 		}
 
