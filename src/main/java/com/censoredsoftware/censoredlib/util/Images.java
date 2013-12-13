@@ -115,9 +115,9 @@ public class Images
         Color nearestColor = Color.decode("#FFFFFF");
         double nearestDistance = -1.0;
 
-		for(Color chatColor : DYE_COLOR_COLOR.values())
+		for(Color dyeColor : DYE_COLOR_COLOR.values())
 		{
-			double distance = getColorDistance(chatColor, color);
+			double distance = getColorDistance(dyeColor, color);
 			if(nearestDistance == -1.0 || distance < nearestDistance)
 			{
 				nearestColor = color;
@@ -176,15 +176,9 @@ public class Images
 				DyeColor color = getDyeColor(new Color(image.getRGB(j, i)));
 
 				// Make new selection.
-				try
-				{
-					schematic.add(new Selection(j, width - i, 0, new BlockData(Material.WOOL, color.getWoolData())));
-				}
-				catch(Exception check)
-				{
-					check.printStackTrace();
-					Bukkit.broadcastMessage(check.getMessage());
-				}
+				Bukkit.broadcastMessage(color.name()); // TODO Remove
+				schematic.add(new Selection(j, width - i, 0, new BlockData(Material.WOOL, color.getWoolData())));
+
 			}
 		}
 
