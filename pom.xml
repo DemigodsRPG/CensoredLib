@@ -104,6 +104,11 @@
             <artifactId>simple</artifactId>
             <version>5.1.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.directwebremoting</groupId>
+            <artifactId>dwr</artifactId>
+            <version>3.0.M1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -137,7 +142,10 @@
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.simpleframework:simple</include>
+                                    <include>org.directwebremoting:dwr</include>
                                     <include>com.google.code.gson:gson</include>
+                                    <include>org.mortbay.jetty:cometd</include>
+                                    <include>org.mortbay.jetty:jetty-util</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
