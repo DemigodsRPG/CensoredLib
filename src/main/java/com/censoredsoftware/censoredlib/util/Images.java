@@ -262,7 +262,11 @@ public class Images
 
 		try
 		{
+			// Find.
 			BufferedImage image = getPlayerHead(playerName);
+
+			// Resize.
+			image = getScaledImage(image, 16, 16);
 
 			// Convert.
 			java.util.List<String> convertedImage = convertImage(image, Symbol.FULL_BLOCK);
