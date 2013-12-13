@@ -102,7 +102,7 @@ public class Images
 			double distance = getColorDistance(chatColor, color);
 			if(nearestDistance == -1.0 || distance < nearestDistance)
 			{
-				nearestColor = color;
+				nearestColor = chatColor;
 				nearestDistance = distance;
 			}
 		}
@@ -120,7 +120,7 @@ public class Images
 			double distance = getColorDistance(dyeColor, color);
 			if(nearestDistance == -1.0 || distance < nearestDistance)
 			{
-				nearestColor = color;
+				nearestColor = dyeColor;
 				nearestDistance = distance;
 			}
 		}
@@ -176,9 +176,7 @@ public class Images
 				DyeColor color = getDyeColor(new Color(image.getRGB(j, i)));
 
 				// Make new selection.
-				Bukkit.broadcastMessage(color.name()); // TODO Remove
 				schematic.add(new Selection(j, width - i, 0, new BlockData(Material.WOOL, color.getWoolData())));
-
 			}
 		}
 
