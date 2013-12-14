@@ -1,4 +1,0 @@
-name: CensoredLib
-main: com.censoredsoftware.censoredlib.CensoredLibPlugin
-version: ${project.version}
-authors: [_Alex, HmmmQuestionMark]
