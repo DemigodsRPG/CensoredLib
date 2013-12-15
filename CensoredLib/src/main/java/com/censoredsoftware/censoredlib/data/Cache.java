@@ -20,7 +20,7 @@ public class Cache
 {
 	private static ConcurrentMap<UUID, TimedData> cache = Maps.newConcurrentMap();
 	private static CacheFile file;
-	private static Integer task;
+	private static Integer task, timed;
 
 	public static void load(Plugin plugin)
 	{
@@ -35,11 +35,22 @@ public class Cache
 				file.saveToFile();
 			}
 		}, 20, 300 * 20);
+
+		timed = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				// Timed
+				updateCachedData();
+			}
+		}, 0, 1);
 	}
 
 	public static void unload()
 	{
 		Bukkit.getScheduler().cancelTask(task);
+        Bukkit.getScheduler().cancelTask(timed);
 		file.saveToFile();
 	}
 
@@ -143,6 +154,22 @@ public class Cache
 	public static Object getTimedValue(String key, String subKey)
 	{
 		return find(key, subKey).getData();
+	}
+
+    /**
+     * Updates all timed data.
+     */
+	public static void updateCachedData()
+	{
+		for(TimedData data : Collections2.filter(getAll(), new Predicate<TimedData>()
+		{
+			@Override
+			public boolean apply(TimedData data)
+			{
+				return data.getExpiration() <= System.currentTimeMillis();
+			}
+		}))
+			delete(data);
 	}
 
 	private static class CacheFile extends ConfigFile<UUID, TimedData>
