@@ -19,7 +19,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 
-public class WorldEdits implements Listener
+public class WorldGuards implements Listener
 {
 	private static boolean ENABLED;
 
@@ -58,7 +58,7 @@ public class WorldEdits implements Listener
 			ENABLED = false;
 		}
 
-		Bukkit.getPluginManager().registerEvents(new WorldEdits(), CensoredLibPlugin.PLUGIN);
+		Bukkit.getPluginManager().registerEvents(new WorldGuards(), CensoredLibPlugin.PLUGIN);
 	}
 
 	public static boolean canWorldGuard()
