@@ -46,6 +46,7 @@
                                     <include>org.eclipse.jetty:jetty-http</include>
                                     <include>org.eclipse.jetty:jetty-server</include>
                                     <include>org.eclipse.jetty:jetty-servlet</include>
+                                    <include>org.eclipse.jetty:jetty-security</include>
                                     <include>org.eclipse.jetty:jetty-continuation</include>
                                     <include>org.eclipse.jetty:jetty-webapp</include>
                                     <include>org.eclipse.jetty:jetty-xml</include>
