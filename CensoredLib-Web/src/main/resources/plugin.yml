@@ -1,4 +1,4 @@
-name: CensoredLib
+name: CensoredLib-Web
 main: com.censoredsoftware.censoredlib.web.CensoredLibWebPlugin
 version: ${parent.version}
 authors: [_Alex, HmmmQuestionMark]
