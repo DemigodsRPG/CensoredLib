@@ -1,4 +1,5 @@
 name: CensoredLib
 main: com.censoredsoftware.censoredlib.CensoredLibPlugin
 version: ${parent.version}
+softdepend: [WorldEdit, WorldGuard]
 authors: [_Alex, HmmmQuestionMark]
