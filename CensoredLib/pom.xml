@@ -44,6 +44,7 @@
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.directwebremoting:dwr</include>
                                     <include>com.google.code.gson:gson</include>
+                                    <include>org.jdbi:jdbi</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

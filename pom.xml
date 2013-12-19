@@ -165,7 +165,12 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.mojang</groupId>
+            <groupId>org.jdbi</groupId>
+            <artifactId>jdbi</artifactId>
+            <version>2.51</version>
+        </dependency>
+        <dependency>
+        <groupId>com.mojang</groupId>
             <artifactId>AccountsClient</artifactId>
             <version>latest</version>
             <scope>compile</scope>
