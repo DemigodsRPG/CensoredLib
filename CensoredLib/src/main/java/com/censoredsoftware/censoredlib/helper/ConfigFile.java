@@ -31,7 +31,14 @@ public abstract class ConfigFile<ID, DATA extends ConfigurationSerializable>
 		final FileConfiguration data = Util.getData(getSavePath(), getSaveFile());
 		ConcurrentHashMap<ID, DATA> map = new ConcurrentHashMap<ID, DATA>();
 		for(String stringId : data.getKeys(false))
-			map.put(convertFromString(stringId), create(convertFromString(stringId), data.getConfigurationSection(stringId)));
+		{
+			try
+			{
+				map.put(convertFromString(stringId), create(convertFromString(stringId), data.getConfigurationSection(stringId)));
+			}
+			catch(Throwable ignored)
+			{}
+		}
 		return map;
 	}
 

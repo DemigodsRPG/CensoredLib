@@ -1,6 +1,7 @@
 package com.censoredsoftware.censoredlib;
 
 import com.censoredsoftware.censoredlib.data.Cache;
+import com.censoredsoftware.censoredlib.util.WorldGuards;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +33,9 @@ public class CensoredLibPlugin extends JavaPlugin
 	{
 		// Unload cache
 		Cache.unload();
+
+		// Save WorldGuard Cache
+		WorldGuards.saveCurrentCache();
 
 		// Unload anything else
 		HandlerList.unregisterAll(this);

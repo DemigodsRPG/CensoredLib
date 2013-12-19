@@ -1,6 +1,7 @@
 package com.censoredsoftware.censoredlib.util;
 
 import com.censoredsoftware.censoredlib.CensoredLibPlugin;
+import com.censoredsoftware.censoredlib.helper.ConfigFile;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.*;
@@ -13,6 +14,9 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,14 +29,33 @@ import org.bukkit.plugin.Plugin;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * Custom flags will not require reflection in WorldGuard 6+, until then we'll use it.
+ */
 public class WorldGuards implements Listener
 {
 	private static boolean ENABLED;
+	private static CustomFlagRegionCache cacheFile = new CustomFlagRegionCache();
 	private static ConcurrentMap<String, Flag<?>> flags = Maps.newConcurrentMap();
 	private static ConcurrentMap<String, ProtoFlag> protoFlags = Maps.newConcurrentMap();
 	private static ConcurrentMap<String, ProtoPVPListener> protoPVPListeners = Maps.newConcurrentMap();
+
+	static void callOnEnable()
+	{
+		cacheFile.loadToData();
+		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
+			cacheFile.injectData(world);
+	}
+
+	public static void saveCurrentCache()
+	{
+		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
+			cacheFile.scrapeData(world);
+		cacheFile.saveToFile();
+	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	void onPluginEnable(PluginEnableEvent event)
@@ -40,9 +63,13 @@ public class WorldGuards implements Listener
 		if(ENABLED || !event.getPlugin().getName().equals("WorldGuard")) return;
 		try
 		{
-			ENABLED = !(event.getPlugin() instanceof WorldGuardPlugin);
-			if(ENABLED) for(Flag<?> flag : flags.values())
-				registerFlag(flag);
+			ENABLED = event.getPlugin() instanceof WorldGuardPlugin;
+			if(ENABLED)
+			{
+				for(Flag<?> flag : flags.values())
+					registerFlag(flag);
+				callOnEnable();
+			}
 		}
 		catch(Throwable ignored)
 		{}
@@ -54,7 +81,8 @@ public class WorldGuards implements Listener
 		if(!ENABLED || event.getPlugin().getName().equals("WorldGuard")) return;
 		try
 		{
-			ENABLED = event.getPlugin() instanceof WorldGuardPlugin;
+            saveCurrentCache();
+            ENABLED = false;
 		}
 		catch(Throwable ignored)
 		{}
@@ -77,14 +105,15 @@ public class WorldGuards implements Listener
 			public void run()
 			{
 				Bukkit.getPluginManager().registerEvents(new WorldGuards(), CensoredLibPlugin.PLUGIN);
+                callOnEnable();
 			}
 		}, 40);
 		Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
 		{
-			@Override
-			public void run()
-			{
-				// process proto-flags
+ @Override
+        public void run()
+        {
+            // process proto-flags
 				Iterator<ProtoFlag> protoFlagIterator = protoFlags.values().iterator();
 				while(canWorldGuard() && protoFlagIterator.hasNext())
 				{
@@ -99,14 +128,23 @@ public class WorldGuards implements Listener
 
 				// process proto-listeners
 				Iterator<ProtoPVPListener> protoPVPListenerIterator = protoPVPListeners.values().iterator();
-				while(canWorldGuard() && protoPVPListenerIterator.hasNext())
-				{
+            while(canWorldGuard() && protoPVPListenerIterator.hasNext())
+            {
 					ProtoPVPListener queued = protoPVPListenerIterator.next();
 					queued.register();
 					protoPVPListeners.remove(queued.plugin.getName());
 				}
 			}
 		}, 0, 5);
+		Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				// save the cache
+				saveCurrentCache();
+			}
+		}, 60, 240);
 	}
 
 	public static boolean canWorldGuard()
@@ -255,12 +293,10 @@ public class WorldGuards implements Listener
 		return Status.SUCCESS;
 	}
 
-	public static void setWhenToOverridePVP(Plugin plugin, Predicate<EntityDamageByEntityEvent> predicate)
+	public static void setWhenToOverridePVP(Plugin plugin, Predicate<EntityDamageByEntityEvent> checkPVP)
 	{
-		if(!canWorldGuard())
-		{
-			protoPVPListeners.put(plugin.getName(), new ProtoPVPListener(plugin, predicate));
-		}
+		if(!canWorldGuard()) protoPVPListeners.put(plugin.getName(), new ProtoPVPListener(plugin, checkPVP));
+        else new WorldGuardPVPListener(plugin, checkPVP);
 	}
 
 	static class ProtoFlag
@@ -385,6 +421,152 @@ public class WorldGuards implements Listener
 		Flag<?> convert(ProtoFlag protoFlag)
 		{
 			return convert.apply(protoFlag);
+		}
+	}
+
+    static class RegionCustomFlags implements ConfigurationSerializable
+    {
+        String regionId;
+        String world;
+        Map<String, Object> flags;
+
+        RegionCustomFlags(ProtectedRegion region, World world)
+        {
+            try
+            {
+                regionId = region.getId();
+                this.world = world.getName();
+				this.flags = Maps.newHashMap();
+				for(Flag flag : region.getFlags().keySet())
+					if(WorldGuards.flags.containsKey(flag.getName())) this.flags.put(flag.getName(), flag.marshal(region.getFlag(flag)));
+			}
+			catch(Throwable ignored)
+			{}
+			if(!isEmpty()) addToCache();
+		}
+
+		RegionCustomFlags(String regionId, ConfigurationSection conf)
+		{
+			this.regionId = regionId;
+			world = conf.getString("world");
+			flags = conf.getConfigurationSection("flags").getValues(false);
+		}
+
+		boolean isEmpty()
+		{
+			return flags.isEmpty();
+		}
+
+		Map<Flag<?>, Object> getFlags()
+		{
+			Map<Flag<?>, Object> map = Maps.newHashMap();
+			for(String flagId : flags.keySet())
+			{
+				Flag<?> found = getCreatedFlag(flagId);
+				if(found != null) map.put(found, getValue(found));
+			}
+			return map;
+		}
+
+		Object getValue(Flag flag)
+		{
+			try
+			{
+				return flag.unmarshal(flags.get(flag.getName()));
+			}
+			catch(Throwable ignored)
+			{}
+			return null;
+		}
+
+		ProtectedRegion injectIntoRegion(ProtectedRegion region)
+		{
+			Map<Flag<?>, Object> map = Maps.newHashMap(region.getFlags());
+			map.putAll(getFlags());
+			region.setFlags(map);
+			return region;
+		}
+
+		@Override
+		public Map<String, Object> serialize()
+		{
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("world", world);
+			map.put("flags", flags);
+			return map;
+		}
+
+		void addToCache()
+		{
+			CustomFlagRegionCache.cache.put(regionId, this);
+		}
+	}
+
+	static class CustomFlagRegionCache extends ConfigFile<String, RegionCustomFlags>
+	{
+		static ConcurrentMap<String, RegionCustomFlags> cache = Maps.newConcurrentMap();
+
+		@Override
+		public RegionCustomFlags create(String s, ConfigurationSection conf)
+		{
+			return new RegionCustomFlags(s, conf);
+		}
+
+		@Override
+		public ConcurrentMap<String, RegionCustomFlags> getLoadedData()
+		{
+			return cache;
+		}
+
+		@Override
+		public String getSavePath()
+		{
+			return CensoredLibPlugin.SAVE_PATH;
+		}
+
+		@Override
+		public String getSaveFile()
+		{
+			return "wgCache.yml";
+		}
+
+		@Override
+		public Map<String, Object> serialize(String s)
+		{
+			return cache.get(s).serialize();
+		}
+
+		@Override
+		public String convertFromString(String stringId)
+		{
+			return stringId;
+		}
+
+		@Override
+		public void loadToData()
+		{
+			cache = loadFromFile();
+		}
+
+		protected void scrapeData(World world)
+		{
+			for(Map.Entry<String, ProtectedRegion> entry : WorldGuardPlugin.inst().getRegionManager(world).getRegions().entrySet())
+			{
+				if(Iterables.any(entry.getValue().getFlags().keySet(), new Predicate<Flag<?>>()
+				{
+					@Override
+					public boolean apply(Flag<?> flag)
+					{
+						return flags.containsKey(flag.getName());
+					}
+				})) new RegionCustomFlags(entry.getValue(), world);
+			}
+		}
+
+		protected void injectData(World world)
+		{
+			for(Map.Entry<String, ProtectedRegion> entry : WorldGuardPlugin.inst().getRegionManager(world).getRegions().entrySet())
+				if(cache.containsKey(entry.getKey())) cache.get(entry.getKey()).injectIntoRegion(entry.getValue());
 		}
 	}
 }
