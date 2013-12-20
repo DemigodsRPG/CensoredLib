@@ -99,7 +99,7 @@ public class WorldGuards implements Listener
 			ENABLED = false;
 		}
 
-		Bukkit.getScheduler().scheduleAsyncDelayedTask(CensoredLibPlugin.PLUGIN, new Runnable()
+		if(CensoredLibPlugin.PLUGIN.isEnabled()) Bukkit.getScheduler().scheduleAsyncDelayedTask(CensoredLibPlugin.PLUGIN, new Runnable()
 		{
 			@Override
 			public void run()
@@ -108,7 +108,7 @@ public class WorldGuards implements Listener
                 callOnEnable();
 			}
 		}, 40);
-		Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
+		if(CensoredLibPlugin.PLUGIN.isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
 		{
  @Override
         public void run()
@@ -136,9 +136,9 @@ public class WorldGuards implements Listener
 				}
 			}
 		}, 0, 5);
-		Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
+		if(CensoredLibPlugin.PLUGIN.isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
 		{
-			@Override
+	@Override
 			public void run()
 			{
 				// save the cache
