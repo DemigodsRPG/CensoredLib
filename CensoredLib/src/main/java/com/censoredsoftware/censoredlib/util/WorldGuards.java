@@ -543,7 +543,7 @@ public class WorldGuards implements Listener
 		@Override
 		public String getSavePath()
 		{
-			return WorldGuardPlugin.inst().getDataFolder() + "/worlds/" + world + "/";
+			return CensoredLibPlugin.PLUGIN.getDataFolder().getPath().replace("CensoredLib", "WorldGuard") + "/worlds/" + world + "/";
 		}
 
 		@Override
