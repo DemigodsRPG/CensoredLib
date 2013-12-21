@@ -288,6 +288,7 @@ public class WorldGuards implements Listener
 		}
 		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
 		{
+			if(!cacheFiles.containsKey(world.getName())) cacheFiles.put(world.getName(), new CustomFlagRegionCache(world));
 			cacheFiles.get(world.getName()).scrapeData(world);
             cacheFiles.get(world.getName()).injectData(world);
 		}
