@@ -38,23 +38,30 @@ import java.util.concurrent.ConcurrentMap;
 public class WorldGuards implements Listener
 {
 	private static boolean ENABLED;
-	private static CustomFlagRegionCache cacheFile = new CustomFlagRegionCache();
+	private static ConcurrentMap<String, CustomFlagRegionCache> cacheFiles = Maps.newConcurrentMap();
 	private static ConcurrentMap<String, Flag<?>> flags = Maps.newConcurrentMap();
 	private static ConcurrentMap<String, ProtoFlag> protoFlags = Maps.newConcurrentMap();
 	private static ConcurrentMap<String, ProtoPVPListener> protoPVPListeners = Maps.newConcurrentMap();
 
 	static void callOnEnable()
 	{
-		cacheFile.loadToData();
-		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
-			cacheFile.injectData(world);
+		for(World world : Bukkit.getWorlds())
+		{
+			CustomFlagRegionCache cacheFile = new CustomFlagRegionCache(world);
+			cacheFile.loadToData();
+			if(canWorldGuard()) cacheFile.injectData(world);
+		}
 	}
 
 	public static void saveCurrentCache()
 	{
-		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
-			cacheFile.scrapeData(world);
-		cacheFile.saveToFile();
+		for(World world : Bukkit.getWorlds())
+		{
+			if(!cacheFiles.containsKey(world.getName())) cacheFiles.put(world.getName(), new CustomFlagRegionCache(world));
+			CustomFlagRegionCache cacheFile = cacheFiles.get(world.getName());
+			if(canWorldGuard()) cacheFile.scrapeData(world);
+			cacheFiles.get(world.getName()).saveToFile();
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -110,10 +117,10 @@ public class WorldGuards implements Listener
 		}, 40);
 		if(CensoredLibPlugin.PLUGIN.isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
 		{
- @Override
-        public void run()
-        {
-            // process proto-flags
+            @Override
+            public void run()
+            {
+				// process proto-flags
 				Iterator<ProtoFlag> protoFlagIterator = protoFlags.values().iterator();
 				while(canWorldGuard() && protoFlagIterator.hasNext())
 				{
@@ -128,8 +135,8 @@ public class WorldGuards implements Listener
 
 				// process proto-listeners
 				Iterator<ProtoPVPListener> protoPVPListenerIterator = protoPVPListeners.values().iterator();
-            while(canWorldGuard() && protoPVPListenerIterator.hasNext())
-            {
+				while(canWorldGuard() && protoPVPListenerIterator.hasNext())
+				{
 					ProtoPVPListener queued = protoPVPListenerIterator.next();
 					queued.register();
 					protoPVPListeners.remove(queued.plugin.getName());
@@ -281,8 +288,8 @@ public class WorldGuards implements Listener
 		}
 		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
 		{
-			cacheFile.scrapeData(world);
-			cacheFile.injectData(world);
+			cacheFiles.get(world.getName()).scrapeData(world);
+            cacheFiles.get(world.getName()).injectData(world);
 		}
 		return Status.SUCCESS;
 	}
@@ -290,7 +297,7 @@ public class WorldGuards implements Listener
 	public static void setWhenToOverridePVP(Plugin plugin, Predicate<EntityDamageByEntityEvent> checkPVP)
 	{
 		if(!canWorldGuard()) protoPVPListeners.put(plugin.getName(), new ProtoPVPListener(plugin, checkPVP));
-        else new WorldGuardPVPListener(plugin, checkPVP);
+		else new WorldGuardPVPListener(plugin, checkPVP);
 	}
 
 	static class ProtoFlag
@@ -478,9 +485,9 @@ public class WorldGuards implements Listener
 
 		void preserveInvalidFlags()
 		{
-			if(cacheFile.getLoadedData().containsKey(regionId))
+			if(cacheFiles.get(world).getLoadedData().containsKey(regionId))
 			{
-				for(Map.Entry<String, Object> entry : cacheFile.getLoadedData().get(regionId).flags.entrySet())
+				for(Map.Entry<String, Object> entry : cacheFiles.get(world).getLoadedData().get(regionId).flags.entrySet())
 					if(getFlag(entry.getKey()) == null) this.flags.put(entry.getKey(), entry.getValue());
 			}
 		}
@@ -504,13 +511,22 @@ public class WorldGuards implements Listener
 
 		void addToCache()
 		{
-			CustomFlagRegionCache.cache.put(regionId, this);
+            CustomFlagRegionCache fdsafdafdsf = cacheFiles.get(world);
+            fdsafdafdsf.cache.put(regionId, this);
+            cacheFiles.put(world, fdsafdafdsf);
 		}
 	}
 
 	static class CustomFlagRegionCache extends ConfigFile<String, RegionCustomFlags>
 	{
-		static ConcurrentMap<String, RegionCustomFlags> cache = Maps.newConcurrentMap();
+		private ConcurrentMap<String, RegionCustomFlags> cache = Maps.newConcurrentMap();
+
+		private String world;
+
+		CustomFlagRegionCache(World world)
+		{
+			this.world = world.getName();
+		}
 
 		@Override
 		public RegionCustomFlags create(String s, ConfigurationSection conf)
@@ -527,13 +543,13 @@ public class WorldGuards implements Listener
 		@Override
 		public String getSavePath()
 		{
-			return CensoredLibPlugin.SAVE_PATH;
+			return WorldGuardPlugin.inst().getDataFolder() + "/worlds/" + world + "/";
 		}
 
 		@Override
 		public String getSaveFile()
 		{
-			return "wgCache.yml";
+			return "clib.yml";
 		}
 
 		@Override
@@ -552,6 +568,7 @@ public class WorldGuards implements Listener
 		public void loadToData()
 		{
 			cache = loadFromFile();
+			cacheFiles.put(world, this);
 		}
 
 		protected void scrapeData(World world)
