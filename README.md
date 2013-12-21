@@ -1,4 +1,4 @@
-![CensoredSoftware Logo](http://www.censoredsoftware.com/logo.png)
+![CensoredLib Logo](http://censoredsoftware.com/projects/censoredlib/logo.png)
 
 Overview
 ========
