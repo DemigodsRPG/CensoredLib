@@ -155,16 +155,7 @@ public class WorldGuards implements Listener
 	/**
 	 * @deprecated if you don't have WorldGuard installed this will error.
 	 */
-	public static Flag<?> getCreatedFlag(String id)
-	{
-		if(flags.containsKey(id)) return flags.get(id);
-		return null;
-	}
-
-	/**
-	 * @deprecated if you don't have WorldGuard installed this will error.
-	 */
-	public static Flag<?> getDefaultFlag(String id)
+	public static Flag<?> getFlag(String id)
 	{
 		return DefaultFlag.fuzzyMatchFlag(id);
 	}
@@ -201,7 +192,7 @@ public class WorldGuards implements Listener
 
 	public static boolean checkForCreatedFlagValue(final String flagId, final Object value, Location location)
 	{
-		if(getCreatedFlag(flagId) == null) throw new NullPointerException();
+		if(getFlag(flagId) == null) throw new NullPointerException();
 		return Iterators.any(WorldGuardPlugin.inst().getRegionManager(location.getWorld()).getApplicableRegions(location).iterator(), new Predicate<ProtectedRegion>()
 		{
 			@Override
@@ -209,15 +200,13 @@ public class WorldGuards implements Listener
 			{
 				try
 				{
-					Flag flag = getCreatedFlag(flagId);
+					Flag flag = getFlag(flagId);
 					if(flag == null) return false;
 					Object data = flag.marshal(region.getFlag(flag));
 					return data != null && data.equals(value);
 				}
 				catch(Throwable ignored)
-				{
-					ignored.printStackTrace(); // TODO Remove.
-				}
+				{}
 				return false;
 			}
 		});
@@ -289,6 +278,11 @@ public class WorldGuards implements Listener
 		catch(Exception error)
 		{
 			return Status.FAILED; // :(
+		}
+		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
+		{
+			cacheFile.scrapeData(world);
+			cacheFile.injectData(world);
 		}
 		return Status.SUCCESS;
 	}
@@ -437,6 +431,9 @@ public class WorldGuards implements Listener
                 regionId = region.getId();
                 this.world = world.getName();
 				this.flags = Maps.newHashMap();
+
+				preserveInvalidFlags();
+
 				for(Flag flag : region.getFlags().keySet())
 					if(WorldGuards.flags.containsKey(flag.getName())) this.flags.put(flag.getName(), flag.marshal(region.getFlag(flag)));
 			}
@@ -462,7 +459,7 @@ public class WorldGuards implements Listener
 			Map<Flag<?>, Object> map = Maps.newHashMap();
 			for(String flagId : flags.keySet())
 			{
-				Flag<?> found = getCreatedFlag(flagId);
+				Flag<?> found = getFlag(flagId);
 				if(found != null) map.put(found, getValue(found));
 			}
 			return map;
@@ -477,6 +474,15 @@ public class WorldGuards implements Listener
 			catch(Throwable ignored)
 			{}
 			return null;
+		}
+
+		void preserveInvalidFlags()
+		{
+			if(cacheFile.getLoadedData().containsKey(regionId))
+			{
+				for(Map.Entry<String, Object> entry : cacheFile.getLoadedData().get(regionId).flags.entrySet())
+					if(getFlag(entry.getKey()) == null) this.flags.put(entry.getKey(), entry.getValue());
+			}
 		}
 
 		ProtectedRegion injectIntoRegion(ProtectedRegion region)
