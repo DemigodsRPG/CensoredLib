@@ -1,15 +1,36 @@
-![CensoredSoftware Logo](http://www.censoredsoftware.com/logo.png)
+<img src="http://censoredsoftware.com/projects/censoredlib/logo.png">
 
-Overview
-========
+Details ![Details](http://censoredsoftware.com/assets/icons/details.png)
+=======
 
-This is the GitHub page for **CensoredLib**, a library created for use with our Bukkit/Spigot/Minecraft related projects.
+This is the GitHub page for **CensoredLib**, the library created for use with our Bukkit related projects.
+    
+Library ![Library](http://censoredsoftware.com/assets/icons/library.png)
+======= 
+**CensoredLib is a Bukkit plugin [library](https://en.wikipedia.org/wiki/Library_%28computing%29#Shared_libraries).**
 
-Installation
-============
+This plugin is not meant to be installed on its own, [check out the plugins that depend on CensoredLib](http://dev.bukkit.org/search/?scope=projects&search=CensoredLib).
 
-To install, simply place the CensoredLib.jar in to your plugins folder and run the server. That's it. Everything else is handled automatically.
+Download ![Download](http://censoredsoftware.com/assets/icons/download.png)
+======== 
 
+To install, unzip the latest **[CensoredLib.zip](http://dev.bukkit.org/bukkit-plugins/censoredlib/files/)** and place all required jar files (as specified by the refering plugin) in your plugins folder.
+
+Features and Config ![Config](http://censoredsoftware.com/assets/icons/config.png)
+=================== 
+
+CensoredLib allows plugins to do many things with minimal effort, including:
+
+  - TODO!
+
+...and much more!
+
+License ![License](http://censoredsoftware.com/assets/icons/license.png)
+=================== 
+
+CensoredLib is licensed under the [Artistic License 2.0](LICENSE.txt).
+
+All downloads are subject to said license unless otherwise noted.
 
 Contributing
 ============
