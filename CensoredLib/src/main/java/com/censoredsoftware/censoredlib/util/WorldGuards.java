@@ -450,10 +450,10 @@ public class WorldGuards implements Listener
 			if(!isEmpty()) addToCache();
 		}
 
-		RegionCustomFlags(String regionId, ConfigurationSection conf)
+		RegionCustomFlags(String regionId, String world, ConfigurationSection conf)
 		{
 			this.regionId = regionId;
-			world = conf.getString("world");
+			this.world = world;
 			flags = conf.getConfigurationSection("flags").getValues(false);
 		}
 
@@ -505,16 +505,15 @@ public class WorldGuards implements Listener
 		public Map<String, Object> serialize()
 		{
 			Map<String, Object> map = Maps.newHashMap();
-			map.put("world", world);
 			map.put("flags", flags);
 			return map;
 		}
 
 		void addToCache()
 		{
-            CustomFlagRegionCache fdsafdafdsf = cacheFiles.get(world);
-            fdsafdafdsf.cache.put(regionId, this);
-            cacheFiles.put(world, fdsafdafdsf);
+			CustomFlagRegionCache cacheFile = cacheFiles.get(world);
+			cacheFile.cache.put(regionId, this);
+			cacheFiles.put(world, cacheFile);
 		}
 	}
 
@@ -532,7 +531,7 @@ public class WorldGuards implements Listener
 		@Override
 		public RegionCustomFlags create(String s, ConfigurationSection conf)
 		{
-			return new RegionCustomFlags(s, conf);
+			return new RegionCustomFlags(s, world, conf);
 		}
 
 		@Override
