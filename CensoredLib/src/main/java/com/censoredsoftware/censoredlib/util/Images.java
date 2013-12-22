@@ -99,34 +99,34 @@ public class Images
 		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 15), new Color(44, 32, 19));
 
 		// SAND
-		blockColor.put(new MaterialData(Material.SAND), new Color(247, 233, 163));
-		blockColor.put(new MaterialData(Material.SANDSTONE), new Color(213, 201, 140));
+		blockColor.put(new MaterialData(Material.SAND, (byte) 0), new Color(247, 233, 163));
+		blockColor.put(new MaterialData(Material.SANDSTONE, (byte) 0), new Color(213, 201, 140));
 
 		// STONE
-		blockColor.put(new MaterialData(Material.STONE), new Color(144, 144, 144));
-		blockColor.put(new MaterialData(Material.SMOOTH_BRICK), new Color(117, 117, 117));
+		blockColor.put(new MaterialData(Material.STONE, (byte) 0), new Color(144, 144, 144));
+		blockColor.put(new MaterialData(Material.SMOOTH_BRICK, (byte) 0), new Color(117, 117, 117));
 
 		// REDSTONE
-		blockColor.put(new MaterialData(Material.REDSTONE_BLOCK), new Color(255, 0, 0));
+		blockColor.put(new MaterialData(Material.REDSTONE_BLOCK, (byte) 0), new Color(255, 0, 0));
 
 		// ICE
-		blockColor.put(new MaterialData(Material.PACKED_ICE), new Color(160, 160, 255));
-		blockColor.put(new MaterialData(Material.ICE), new Color(138, 138, 220));
+		blockColor.put(new MaterialData(Material.PACKED_ICE, (byte) 0), new Color(160, 160, 255));
+		blockColor.put(new MaterialData(Material.ICE, (byte) 0), new Color(138, 138, 220));
 
 		// DIRT
-		blockColor.put(new MaterialData(Material.DIRT), new Color(73, 58, 35));
+		blockColor.put(new MaterialData(Material.DIRT, (byte) 0), new Color(73, 58, 35));
 
 		// NETHER
-		blockColor.put(new MaterialData(Material.NETHER_BRICK), new Color(112, 2, 0));
+		blockColor.put(new MaterialData(Material.NETHER_BRICK, (byte) 0), new Color(112, 2, 0));
 
 		// OBSIDIAN
-		blockColor.put(new MaterialData(Material.OBSIDIAN), new Color(21, 20, 31));
+		blockColor.put(new MaterialData(Material.OBSIDIAN, (byte) 0), new Color(21, 20, 31));
 
 		// COAL
-		blockColor.put(new MaterialData(Material.COAL_BLOCK), new Color(12, 12, 12));
+		blockColor.put(new MaterialData(Material.COAL_BLOCK, (byte) 0), new Color(12, 12, 12));
 
 		// EMERALD
-		blockColor.put(new MaterialData(Material.EMERALD_BLOCK), new Color(0, 217, 58));
+		blockColor.put(new MaterialData(Material.EMERALD_BLOCK, (byte) 0), new Color(0, 217, 58));
 
 		BLOCK_COLOR = ImmutableBiMap.copyOf(blockColor);
 	}
@@ -139,7 +139,48 @@ public class Images
 		return getChatColor(color);
 	}
 
-	public static double getColorDistance(Color color1, Color color2)
+    public static double getColorDistance(Color c1, Color c2)
+    {
+        double rmean = ( c1.getRed() + c2.getRed() )/2;
+        int r = c1.getRed() - c2.getRed();
+        int g = c1.getGreen() - c2.getGreen();
+        int b = c1.getBlue() - c2.getBlue();
+        double weightR = 2 + rmean/256;
+        double weightG = 4.0;
+        double weightB = 2 + (255-rmean)/256;
+        return Math.sqrt(weightR*r*r + weightG*g*g + weightB*b*b);
+    }
+
+    public static Color computeAvgColor(BufferedImage image)
+    {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        long rTotal = 0;
+        long gTotal = 0;
+        long bTotal = 0;
+        int total = 0;
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                int rgb = image.getRGB(j, i);
+                if ((rgb >> 24 & 0xFF) != 0)
+                {
+                    rTotal += rgb >> 16 & 0xFF;
+                    gTotal += rgb >> 8 & 0xFF;
+                    bTotal += rgb & 0xFF;
+                    total++;
+                }
+            }
+        }
+
+        int r = Math.round(rTotal / total);
+        int g = Math.round(gTotal / total);
+        int b = Math.round(bTotal / total);
+        return new Color(r, g, b);
+    }
+
+	public static double getColorDistancOld(Color color1, Color color2)
 	{
 		return ColorLAB.fromColor(color1).distance(ColorLAB.fromColor(color2));
 	}
@@ -162,18 +203,18 @@ public class Images
 		return CHAT_COLOR.inverse().get(nearestColor);
 	}
 
-	public static MaterialData getMaterial(final Color color)
+	public static MaterialData getMaterial(Color average, final Color color)
 	{
-		Color nearestColor = new Color(255, 255, 255);
-		double nearestDistance = -1.0;
+		Color nearestColor = average;
+        double bestDistance = Double.MAX_VALUE;
 
-		for(Color dyeColor : BLOCK_COLOR.values())
+		for(Color theColor : BLOCK_COLOR.values())
 		{
-			double distance = getColorDistance(dyeColor, color);
-			if(nearestDistance == -1.0 || distance < nearestDistance)
+			double distance = getColorDistance(theColor, color);
+			if(distance < bestDistance)
 			{
-				nearestColor = dyeColor;
-				nearestDistance = distance;
+				nearestColor = theColor;
+                bestDistance = distance;
 			}
 		}
 
@@ -224,7 +265,7 @@ public class Images
 		if(schematics.containsKey(taskId)) schematics.remove(taskId);
 	}
 
-	public static int convertImageToSchematic(Plugin plugin, final BufferedImage image)
+	public static int convertImageToSchematic(Plugin plugin, final BufferedImage image, final int splitSize)
 	{
 		return lastTask = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
 		{
@@ -245,21 +286,28 @@ public class Images
 
 				int count = 0;
 
+                int progress = 0, total = width * height;
+
+                Color average = computeAvgColor(image);
+
 				// Iterate through the image, pixel by pixel.
 				for(int i = 0; i < height; i++)
 				{
 					for(int j = 0; j < width; j++)
 					{
-						if(count >= 16384)
+                        progress++;
+                        if(progress % 20 == 0) Bukkit.getLogger().info("Conversion progress: " + progress + " / " + total);
+						if(count >= splitSize)
 						{
+                            count = 0;
 							schematicSet.add(schematic);
 							schematic = new Schematic("", "", 0);
 						}
 						// Get the color for each pixel.
-						MaterialData material = getMaterial(new Color(image.getRGB(j, i)));
+						MaterialData material = getMaterial(average, new Color(image.getRGB(j, i)));
 
 						// Make new selection.
-						schematic.add(new Selection(j, 30, width - i, new BlockData(material.getItemType(), material.getData())));
+						schematic.add(new Selection(j, -10, i, new BlockData(material.getItemType(), material.getData())));
                         count++;
                     }
                 }
@@ -268,6 +316,8 @@ public class Images
 				schematicSet.add(schematic);
 
 				schematics.put(thisTask, schematicSet);
+
+                Bukkit.getLogger().info(" Done! ");
 			}
 		}, 40);
 	}
