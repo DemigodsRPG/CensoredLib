@@ -1,6 +1,6 @@
 package com.censoredsoftware.censoredlib.helper;
 
-import com.censoredsoftware.censoredlib.CensoredLibPlugin;
+import com.censoredsoftware.censoredlib.CensoredLib;
 import com.censoredsoftware.censoredlib.data.Cache;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
@@ -9,7 +9,7 @@ import org.bukkit.OfflinePlayer;
 
 public class MojangIdGrabber
 {
-	private static Cache cache = Cache.load(CensoredLibPlugin.PLUGIN, "mojangIds.yml");
+	private static Cache cache = Cache.load(CensoredLib.plugin(), "mojangIds.yml");
 	private static final String AGENT = "minecraft";
 	private static HttpProfileRepository repository = new HttpProfileRepository();
 

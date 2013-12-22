@@ -1,6 +1,6 @@
 package com.censoredsoftware.censoredlib.data;
 
-import com.censoredsoftware.censoredlib.CensoredLibPlugin;
+import com.censoredsoftware.censoredlib.CensoredLib;
 import com.censoredsoftware.censoredlib.helper.ConfigFile;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -201,7 +201,7 @@ public class Cache
 		@Override
 		public String getSavePath()
 		{
-			return CensoredLibPlugin.SAVE_PATH;
+			return CensoredLib.savePath();
 		}
 
 		@Override

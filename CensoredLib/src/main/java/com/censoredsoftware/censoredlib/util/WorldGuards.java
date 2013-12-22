@@ -1,6 +1,6 @@
 package com.censoredsoftware.censoredlib.util;
 
-import com.censoredsoftware.censoredlib.CensoredLibPlugin;
+import com.censoredsoftware.censoredlib.CensoredLib;
 import com.censoredsoftware.censoredlib.helper.ConfigFile;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -106,16 +106,16 @@ public class WorldGuards implements Listener
 			ENABLED = false;
 		}
 
-		if(CensoredLibPlugin.PLUGIN.isEnabled()) Bukkit.getScheduler().scheduleAsyncDelayedTask(CensoredLibPlugin.PLUGIN, new Runnable()
+		if(CensoredLib.plugin().isEnabled()) Bukkit.getScheduler().scheduleAsyncDelayedTask(CensoredLib.plugin(), new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				Bukkit.getPluginManager().registerEvents(new WorldGuards(), CensoredLibPlugin.PLUGIN);
+				Bukkit.getPluginManager().registerEvents(new WorldGuards(), CensoredLib.plugin());
                 callOnEnable();
 			}
 		}, 40);
-		if(CensoredLibPlugin.PLUGIN.isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
+		if(CensoredLib.plugin().isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLib.plugin(), new Runnable()
 		{
             @Override
             public void run()
@@ -143,9 +143,9 @@ public class WorldGuards implements Listener
 				}
 			}
 		}, 0, 5);
-		if(CensoredLibPlugin.PLUGIN.isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLibPlugin.PLUGIN, new Runnable()
+		if(CensoredLib.plugin().isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLib.plugin(), new Runnable()
 		{
-	@Override
+			@Override
 			public void run()
 			{
 				// save the cache
@@ -558,10 +558,10 @@ public class WorldGuards implements Listener
 		@Override
 		public String getSavePath()
 		{
-			return CensoredLibPlugin.PLUGIN.getDataFolder().getPath().replace("CensoredLib", "WorldGuard") + "/worlds/" + world + "/";
+			return CensoredLib.plugin().getDataFolder().getPath().replace("CensoredLib", "WorldGuard") + "/worlds/" + world + "/";
 		}
 
-		@Override
+	@Override
 		public String getSaveFile()
 		{
 			return "clib.yml";
