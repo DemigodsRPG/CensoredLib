@@ -127,8 +127,11 @@ public class Items
 		newItem2.setDurability(Short.parseShort("1"));
 
 		// Set enchantments
-		newItem1.getEnchantments().clear();
-		newItem2.getEnchantments().clear();
+		for(Enchantment enchantment : Enchantment.values())
+		{
+			newItem1.removeEnchantment(enchantment);
+			newItem2.removeEnchantment(enchantment);
+		}
 
 		// Return the boolean
 		return newItem1.equals(newItem2);
