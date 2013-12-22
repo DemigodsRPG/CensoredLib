@@ -232,7 +232,7 @@ public class ColoredStringBuilder
 
 	private boolean endsWithColor(String string, ChatColor color)
 	{
-		List<String> hasList = getCharSet(getLastColors(string), false);
+		List<String> hasList = getCharSet(getLastColor(string), false);
 		if(hasList.isEmpty()) return false;
 
 		hasList.removeAll(FORMATTING_CHARS);
@@ -246,7 +246,7 @@ public class ColoredStringBuilder
 
 	private boolean endsWithFormatting(String string)
 	{
-		List<String> hasList = getCharSet(getLastColors(string), true);
+		List<String> hasList = getCharSet(getLastColor(string), true);
 		if(hasList.isEmpty()) return false;
 
 		List<String> leftOvers = hasList;
@@ -266,7 +266,7 @@ public class ColoredStringBuilder
 		return list;
 	}
 
-	public static String getLastColors(String string)
+	public static String getLastColor(String string)
 	{
 		String result = "";
 		int colors = 0;

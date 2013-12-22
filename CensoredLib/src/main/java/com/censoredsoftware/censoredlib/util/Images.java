@@ -1,6 +1,7 @@
 package com.censoredsoftware.censoredlib.util;
 
 import com.censoredsoftware.censoredlib.data.Cache;
+import com.censoredsoftware.censoredlib.helper.ColorLAB;
 import com.censoredsoftware.censoredlib.language.Symbol;
 import com.censoredsoftware.censoredlib.schematic.BlockData;
 import com.censoredsoftware.censoredlib.schematic.Schematic;
@@ -134,16 +135,9 @@ public class Images
 		return getChatColor(color);
 	}
 
-	/**
-	 * @author CompuPhase (http://www.compuphase.com/cmetric.htm)
-	 */
 	public static double getColorDistance(Color color1, Color color2)
 	{
-		long rmean = ((long) color1.getRed() + (long) color2.getRed()) / 2;
-		long r = (long) color1.getRed() - (long) color2.getRed();
-		long g = (long) color1.getGreen() - (long) color2.getGreen();
-		long b = (long) color1.getBlue() - (long) color2.getBlue();
-		return Math.sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8));
+		return ColorLAB.fromColor(color1).distance(ColorLAB.fromColor(color2));
 	}
 
 	public static ChatColor getChatColor(final Color color)
