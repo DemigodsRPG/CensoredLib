@@ -19,6 +19,7 @@ import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.Plugin;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -27,6 +28,9 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Images
@@ -206,30 +210,61 @@ public class Images
 		return convertedImage;
 	}
 
-	public static Schematic convertImageToSchematic(BufferedImage image)
+	private static Map<Integer, List<Schematic>> schematics = Collections.synchronizedMap(new HashMap<Integer, List<Schematic>>());
+	private static int lastTask = -1;
+
+	public static List<Schematic> getConvertedSchematics(int taskId)
 	{
-		// Working list.
-		Schematic schematic = new Schematic("", "", 0);
+		if(!schematics.containsKey(taskId)) return null;
+		return schematics.get(taskId);
+	}
 
-		// Get the image's height and width.
-		int width = image.getWidth();
-		int height = image.getHeight();
-
-		// Iterate through the image, pixel by pixel.
-		for(int i = 0; i < height; i++)
+	public static int convertImageToSchematic(Plugin plugin, final BufferedImage image)
+	{
+		return lastTask = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
 		{
-			for(int j = 0; j < width; j++)
+			@Override
+			public void run()
 			{
-				// Get the color for each pixel.
-				MaterialData material = getMaterial(new Color(image.getRGB(j, i)));
+				int thisTask = lastTask;
+				lastTask = -1;
 
-				// Make new selection.
-				schematic.add(new Selection(j, 30, width - i, new BlockData(material.getItemType(), material.getData())));
+				List<Schematic> schematicSet = Lists.newArrayList();
+
+				// Working list.
+				Schematic schematic = new Schematic("", "", 0);
+
+				// Get the image's height and width.
+                int width = image.getWidth();
+				int height = image.getHeight();
+
+				int count = 0;
+
+				// Iterate through the image, pixel by pixel.
+				for(int i = 0; i < height; i++)
+         {
+					for(int j = 0; j < width; j++)
+					{
+						if(count >= 16384)
+						{
+							schematicSet.add(schematic);
+							schematic = new Schematic("", "", 0);
+						}
+						// Get the color for each pixel.
+						MaterialData material = getMaterial(new Color(image.getRGB(j, i)));
+
+						// Make new selection.
+						schematic.add(new Selection(j, 30, width - i, new BlockData(material.getItemType(), material.getData())));
+                        count++;
+                    }
+                }
+
+                // Add the last schematic, and then the list itself goes into the map
+				schematicSet.add(schematic);
+
+				schematics.put(thisTask, schematicSet);
 			}
-		}
-
-		// Return finalized list.
-		return schematic;
+		}, 40);
 	}
 
 	public static MapView sendMapImage(Player player, BufferedImage image)
