@@ -1,5 +1,6 @@
 package com.censoredsoftware.censoredlib.helper;
 
+import com.censoredsoftware.censoredlib.CensoredLibPlugin;
 import com.censoredsoftware.censoredlib.data.Cache;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
@@ -8,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 
 public class MojangIdGrabber
 {
+	private static Cache cache = Cache.load(CensoredLibPlugin.PLUGIN, "mojangIds.yml");
 	private static final String AGENT = "minecraft";
 	private static HttpProfileRepository repository = new HttpProfileRepository();
 
@@ -23,21 +25,21 @@ public class MojangIdGrabber
 		String playerName = player.getName();
 
 		// Check if we already know this Id, of if the name actually belongs to a player.
-		if(Cache.hasTimed(playerName, "mojangAccount")) return Cache.getTimedValue(playerName, "mojangAccount").toString();
-		if(Cache.hasTimed(playerName, "fakePlayer")) return null;
+		if(cache.hasTimed(playerName, "mojangAccount")) return cache.getTimedValue(playerName, "mojangAccount").toString();
+		if(cache.hasTimed(playerName, "fakePlayer")) return null;
 
 		// Get the Id from Mojang.
 		IdGetTask task = new IdGetTask(playerName);
 		task.run();
 		if(!task.getStatus())
 		{
-			Cache.saveTimed(playerName, "fakePlayer", true, 60);
+			cache.saveTimed(playerName, "fakePlayer", true, 60);
 			return null;
 		}
 		String id = task.getUUID();
 
 		// Put the player in the known Ids, and return the found Id.
-		Cache.saveTimedWeek(playerName, "mojangAccount", id);
+		cache.saveTimedWeek(playerName, "mojangAccount", id);
 		return id;
 	}
 

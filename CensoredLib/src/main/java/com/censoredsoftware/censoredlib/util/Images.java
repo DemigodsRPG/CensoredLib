@@ -1,7 +1,5 @@
 package com.censoredsoftware.censoredlib.util;
 
-import com.censoredsoftware.censoredlib.data.Cache;
-import com.censoredsoftware.censoredlib.helper.ColorLAB;
 import com.censoredsoftware.censoredlib.language.Symbol;
 import com.censoredsoftware.censoredlib.schematic.BlockData;
 import com.censoredsoftware.censoredlib.schematic.Schematic;
@@ -139,50 +137,45 @@ public class Images
 		return getChatColor(color);
 	}
 
-    public static double getColorDistance(Color c1, Color c2)
-    {
-        double rmean = ( c1.getRed() + c2.getRed() )/2;
-        int r = c1.getRed() - c2.getRed();
-        int g = c1.getGreen() - c2.getGreen();
-        int b = c1.getBlue() - c2.getBlue();
-        double weightR = 2 + rmean/256;
-        double weightG = 4.0;
-        double weightB = 2 + (255-rmean)/256;
-        return Math.sqrt(weightR*r*r + weightG*g*g + weightB*b*b);
-    }
-
-    public static Color computeAvgColor(BufferedImage image)
-    {
-        int width = image.getWidth();
-        int height = image.getHeight();
-        long rTotal = 0;
-        long gTotal = 0;
-        long bTotal = 0;
-        int total = 0;
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                int rgb = image.getRGB(j, i);
-                if ((rgb >> 24 & 0xFF) != 0)
-                {
-                    rTotal += rgb >> 16 & 0xFF;
-                    gTotal += rgb >> 8 & 0xFF;
-                    bTotal += rgb & 0xFF;
-                    total++;
-                }
-            }
-        }
-
-        int r = Math.round(rTotal / total);
-        int g = Math.round(gTotal / total);
-        int b = Math.round(bTotal / total);
-        return new Color(r, g, b);
-    }
-
-	public static double getColorDistancOld(Color color1, Color color2)
+	public static double getColorDistance(Color c1, Color c2)
 	{
-		return ColorLAB.fromColor(color1).distance(ColorLAB.fromColor(color2));
+		double rmean = (c1.getRed() + c2.getRed()) / 2;
+		int r = c1.getRed() - c2.getRed();
+		int g = c1.getGreen() - c2.getGreen();
+		int b = c1.getBlue() - c2.getBlue();
+		double weightR = 2 + rmean / 256;
+		double weightG = 4.0;
+		double weightB = 2 + (255 - rmean) / 256;
+		return Math.sqrt(weightR * r * r + weightG * g * g + weightB * b * b);
+	}
+
+	public static Color computeAvgColor(BufferedImage image)
+	{
+		int width = image.getWidth();
+		int height = image.getHeight();
+		long rTotal = 0;
+		long gTotal = 0;
+		long bTotal = 0;
+		int total = 0;
+		for(int i = 0; i < height; i++)
+		{
+			for(int j = 0; j < width; j++)
+			{
+				int rgb = image.getRGB(j, i);
+				if((rgb >> 24 & 0xFF) != 0)
+				{
+					rTotal += rgb >> 16 & 0xFF;
+					gTotal += rgb >> 8 & 0xFF;
+					bTotal += rgb & 0xFF;
+					total++;
+				}
+			}
+		}
+
+		int r = Math.round(rTotal / total);
+		int g = Math.round(gTotal / total);
+		int b = Math.round(bTotal / total);
+		return new Color(r, g, b);
 	}
 
 	public static ChatColor getChatColor(final Color color)
@@ -206,7 +199,7 @@ public class Images
 	public static MaterialData getMaterial(Color average, final Color color)
 	{
 		Color nearestColor = average;
-        double bestDistance = Double.MAX_VALUE;
+		double bestDistance = Double.MAX_VALUE;
 
 		for(Color theColor : BLOCK_COLOR.values())
 		{
@@ -214,7 +207,7 @@ public class Images
 			if(distance < bestDistance)
 			{
 				nearestColor = theColor;
-                bestDistance = distance;
+				bestDistance = distance;
 			}
 		}
 
@@ -281,25 +274,25 @@ public class Images
 				Schematic schematic = new Schematic("", "", 0);
 
 				// Get the image's height and width.
-                int width = image.getWidth();
+				int width = image.getWidth();
 				int height = image.getHeight();
 
 				int count = 0;
 
-                int progress = 0, total = width * height;
+				int progress = 0, total = width * height;
 
-                Color average = computeAvgColor(image);
+				Color average = computeAvgColor(image);
 
 				// Iterate through the image, pixel by pixel.
 				for(int i = 0; i < height; i++)
 				{
 					for(int j = 0; j < width; j++)
 					{
-                        progress++;
-                        if(progress % 20 == 0) Bukkit.getLogger().info("Conversion progress: " + progress + " / " + total);
+						progress++;
+						if(progress % 20 == 0) Bukkit.getLogger().info("Conversion progress: " + progress + " / " + total);
 						if(count >= splitSize)
 						{
-                            count = 0;
+							count = 0;
 							schematicSet.add(schematic);
 							schematic = new Schematic("", "", 0);
 						}
@@ -308,16 +301,16 @@ public class Images
 
 						// Make new selection.
 						schematic.add(new Selection(j, -10, i, new BlockData(material.getItemType(), material.getData())));
-                        count++;
-                    }
-                }
+						count++;
+					}
+				}
 
-                // Add the last schematic, and then the list itself goes into the map
+				// Add the last schematic, and then the list itself goes into the map
 				schematicSet.add(schematic);
 
 				schematics.put(thisTask, schematicSet);
 
-                Bukkit.getLogger().info(" Done! ");
+				Bukkit.getLogger().info(" Done! ");
 			}
 		}, 40);
 	}
@@ -390,14 +383,6 @@ public class Images
 		// Get the player's name.
 		String playerName = player.getName();
 
-		// Check if we already have this player's head.
-		if(Cache.hasTimed(playerName, ""))
-		{
-			Object data = Cache.getTimedValue(playerName, "playerHead");
-			if(data != null && data instanceof java.util.List) return (java.util.List<String>) data;
-			else Cache.remove(playerName, "playerHead");
-		}
-
 		try
 		{
 			// Find.
@@ -408,9 +393,6 @@ public class Images
 
 			// Convert.
 			java.util.List<String> convertedImage = convertImage(image, Symbol.FULL_BLOCK);
-
-			// Put the player's head in the cache.
-			Cache.saveTimedDay(playerName, "playerHead", convertedImage);
 
 			// Return the converted head.
 			return convertedImage;

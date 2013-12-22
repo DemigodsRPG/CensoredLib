@@ -18,11 +18,23 @@ import java.util.concurrent.ConcurrentMap;
 
 public class Cache
 {
-	private static ConcurrentMap<UUID, TimedData> cache = Maps.newConcurrentMap();
-	private static CacheFile file;
-	private static Integer task, timed;
+	private ConcurrentMap<UUID, TimedData> cache = Maps.newConcurrentMap();
+	private String fileName;
+	private CacheFile file;
+	private Integer task, timed;
 
-	public static void load(Plugin plugin)
+	private Cache()
+	{}
+
+	public static Cache load(Plugin plugin, String fileName)
+	{
+		Cache cache = new Cache();
+		cache.fileName = fileName;
+		cache.start(plugin);
+		return cache;
+	}
+
+	private void start(Plugin plugin)
 	{
 		file = (new CacheFile());
 		file.loadToData();
@@ -47,24 +59,24 @@ public class Cache
 		}, 0, 1);
 	}
 
-	public static void unload()
+	public void unload()
 	{
 		Bukkit.getScheduler().cancelTask(task);
-        Bukkit.getScheduler().cancelTask(timed);
+		Bukkit.getScheduler().cancelTask(timed);
 		file.saveToFile();
 	}
 
-	public static TimedData get(UUID id)
+	public TimedData get(UUID id)
 	{
 		return cache.get(id);
 	}
 
-	public static Set<TimedData> getAll()
+	public Set<TimedData> getAll()
 	{
 		return Sets.newHashSet(cache.values());
 	}
 
-	public static TimedData find(String key, String subKey)
+	public TimedData find(String key, String subKey)
 	{
 		if(findByKey(key) == null) return null;
 
@@ -74,7 +86,7 @@ public class Cache
 		return null;
 	}
 
-	public static Set<TimedData> findByKey(final String key)
+	public Set<TimedData> findByKey(final String key)
 	{
 		return Sets.newHashSet(Collections2.filter(getAll(), new Predicate<TimedData>()
 		{
@@ -86,17 +98,17 @@ public class Cache
 		}));
 	}
 
-	public static void delete(TimedData data)
+	public void delete(TimedData data)
 	{
 		cache.remove(data.getId());
 	}
 
-	public static void remove(String key, String subKey)
+	public void remove(String key, String subKey)
 	{
 		if(find(key, subKey) != null) delete(find(key, subKey));
 	}
 
-	public static void saveTimed(String key, String subKey, Object data, Integer seconds)
+	public void saveTimed(String key, String subKey, Object data, Integer seconds)
 	{
 		// Remove the data if it exists already
 		remove(key, subKey);
@@ -108,10 +120,10 @@ public class Cache
 		cache.setSubKey(subKey);
 		cache.setData(data.toString());
 		cache.setSeconds(seconds);
-		Cache.cache.put(cache.getId(), cache);
+		this.cache.put(cache.getId(), cache);
 	}
 
-	public static void saveTimedDay(String key, String subKey, Object data)
+	public void saveTimedDay(String key, String subKey, Object data)
 	{
 		// Remove the data if it exists already
 		remove(key, subKey);
@@ -123,10 +135,10 @@ public class Cache
 		cache.setSubKey(subKey);
 		cache.setData(data.toString());
 		cache.setHours(24);
-		Cache.cache.put(cache.getId(), cache);
+		this.cache.put(cache.getId(), cache);
 	}
 
-	public static void saveTimedWeek(String key, String subKey, Object data)
+	public void saveTimedWeek(String key, String subKey, Object data)
 	{
 		// Remove the data if it exists already
 		remove(key, subKey);
@@ -138,28 +150,28 @@ public class Cache
 		cache.setSubKey(subKey);
 		cache.setData(data.toString());
 		cache.setHours(168);
-		Cache.cache.put(cache.getId(), cache);
+		this.cache.put(cache.getId(), cache);
 	}
 
-	public static void removeTimed(String key, String subKey)
+	public void removeTimed(String key, String subKey)
 	{
 		remove(key, subKey);
 	}
 
-	public static boolean hasTimed(String key, String subKey)
+	public boolean hasTimed(String key, String subKey)
 	{
 		return find(key, subKey) != null;
 	}
 
-	public static Object getTimedValue(String key, String subKey)
+	public Object getTimedValue(String key, String subKey)
 	{
 		return find(key, subKey).getData();
 	}
 
-    /**
-     * Updates all timed data.
-     */
-	public static void updateCachedData()
+	/**
+	 * Updates all timed data.
+	 */
+	public void updateCachedData()
 	{
 		for(TimedData data : Collections2.filter(getAll(), new Predicate<TimedData>()
 		{
@@ -172,7 +184,7 @@ public class Cache
 			delete(data);
 	}
 
-	private static class CacheFile extends ConfigFile<UUID, TimedData>
+	class CacheFile extends ConfigFile<UUID, TimedData>
 	{
 		@Override
 		public TimedData create(UUID uuid, ConfigurationSection conf)
@@ -195,7 +207,7 @@ public class Cache
 		@Override
 		public String getSaveFile()
 		{
-			return "cache.yml";
+			return fileName;
 		}
 
 		@Override

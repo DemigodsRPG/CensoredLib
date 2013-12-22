@@ -3,10 +3,10 @@ package com.censoredsoftware.censoredlib.language;
 public enum Symbol
 {
 	// Misc
-	BLACK_SQUARE("⬛"), FULL_BLOCK("█"), HEAVY_HEART("❤"), DASH("―"), CAUTION("⚠"), MAIL("✉"), DEATH("☠"), WATCH("⌚"), HOURGLASS("⌛"), POINT_OF_INTEREST("⌘"),
+	BLACK_SQUARE("⬛"), FULL_BLOCK("█"), DASH("―"), CAUTION("⚠"), MAIL("✉"), DEATH("☠"), WATCH("⌚"), HOURGLASS("⌛"), POINT_OF_INTEREST("⌘"),
 
 	// Misc cont.
-	SUN("☀"), CLOUD("☁"), UNCHECKED_BOX("☐"), CHECKED_BOX("☑"), X_BOX("☒"), COFFEE("☕"), NO_ENTRY("⛔"), WHITE_FLAG("⚐"), BLACK_FLAG("⚑"),
+	SUN("☀"), CHECKED_BOX("☑"), X_BOX("☒"), COFFEE("☕"), NO_ENTRY("⛔"), BLACK_FLAG("⚑"),
 
 	// Math
 	ONE_THIRD("⅓"), TWO_THIRDS("⅔"), ONE_FIFTH("⅕"), TWO_FIFTHS("⅖"), THREE_FIFTHS("⅗"), FOUR_FIFTHS("⅘"),
