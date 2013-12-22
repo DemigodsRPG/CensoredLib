@@ -8,15 +8,18 @@ import com.censoredsoftware.censoredlib.schematic.Selection;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
+import org.bukkit.material.MaterialData;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -27,49 +30,100 @@ import java.util.Map;
 
 public class Images
 {
-	private static final ImmutableBiMap<ChatColor, Color> CHAT_COLOR_COLOR;
+	private static final ImmutableBiMap<ChatColor, Color> CHAT_COLOR;
 	static
 	{
 		Map<ChatColor, Color> chatColorColor = Maps.newHashMap();
-		chatColorColor.put(ChatColor.BLACK, Color.decode("#000000"));
-		chatColorColor.put(ChatColor.DARK_BLUE, Color.decode("#0000AA"));
-		chatColorColor.put(ChatColor.DARK_GREEN, Color.decode("#00AA00"));
-		chatColorColor.put(ChatColor.DARK_AQUA, Color.decode("#00AAAA"));
-		chatColorColor.put(ChatColor.DARK_RED, Color.decode("#AA0000"));
-		chatColorColor.put(ChatColor.DARK_PURPLE, Color.decode("#AA00AA"));
-		chatColorColor.put(ChatColor.GOLD, Color.decode("#FFAA00"));
-		chatColorColor.put(ChatColor.GRAY, Color.decode("#AAAAAA"));
-		chatColorColor.put(ChatColor.DARK_GRAY, Color.decode("#555555"));
-		chatColorColor.put(ChatColor.BLUE, Color.decode("#5555FF"));
-		chatColorColor.put(ChatColor.GREEN, Color.decode("#55FF55"));
-		chatColorColor.put(ChatColor.AQUA, Color.decode("#55FFFF"));
-		chatColorColor.put(ChatColor.RED, Color.decode("#FF5555"));
-		chatColorColor.put(ChatColor.LIGHT_PURPLE, Color.decode("#FF55FF"));
-		chatColorColor.put(ChatColor.YELLOW, Color.decode("#FFFF55"));
-		chatColorColor.put(ChatColor.WHITE, Color.decode("#FFFFFF"));
-		CHAT_COLOR_COLOR = ImmutableBiMap.copyOf(chatColorColor);
+		chatColorColor.put(ChatColor.BLACK, new Color(0, 0, 0));
+		chatColorColor.put(ChatColor.DARK_BLUE, new Color(0, 0, 170));
+		chatColorColor.put(ChatColor.DARK_GREEN, new Color(0, 170, 0));
+		chatColorColor.put(ChatColor.DARK_AQUA, new Color(0, 170, 170));
+		chatColorColor.put(ChatColor.DARK_RED, new Color(170, 0, 0));
+		chatColorColor.put(ChatColor.DARK_PURPLE, new Color(170, 0, 170));
+		chatColorColor.put(ChatColor.GOLD, new Color(255, 170, 0));
+		chatColorColor.put(ChatColor.GRAY, new Color(170, 170, 170));
+		chatColorColor.put(ChatColor.DARK_GRAY, new Color(85, 85, 85));
+		chatColorColor.put(ChatColor.BLUE, new Color(85, 85, 255));
+		chatColorColor.put(ChatColor.GREEN, new Color(85, 255, 85));
+		chatColorColor.put(ChatColor.AQUA, new Color(85, 255, 255));
+		chatColorColor.put(ChatColor.RED, new Color(255, 85, 85));
+		chatColorColor.put(ChatColor.LIGHT_PURPLE, new Color(255, 85, 255));
+		chatColorColor.put(ChatColor.YELLOW, new Color(255, 255, 85));
+		chatColorColor.put(ChatColor.WHITE, new Color(255, 255, 255));
+		CHAT_COLOR = ImmutableBiMap.copyOf(chatColorColor);
 	}
-	private static ImmutableBiMap<DyeColor, Color> DYE_COLOR_COLOR;
+	private static ImmutableBiMap<MaterialData, Color> BLOCK_COLOR;
 	static
 	{
-		Map<DyeColor, Color> dyeColorColor = Maps.newHashMap();
-		dyeColorColor.put(DyeColor.BLACK, Color.decode("#191919"));
-		dyeColorColor.put(DyeColor.BLUE, Color.decode("#334CB2"));
-		dyeColorColor.put(DyeColor.BROWN, Color.decode("#664C33"));
-		dyeColorColor.put(DyeColor.CYAN, Color.decode("#4C7F99"));
-		dyeColorColor.put(DyeColor.GRAY, Color.decode("#4C4C4C"));
-		dyeColorColor.put(DyeColor.GREEN, Color.decode("#667F33"));
-		dyeColorColor.put(DyeColor.LIGHT_BLUE, Color.decode("#6699D8"));
-		dyeColorColor.put(DyeColor.LIME, Color.decode("#7FCC19"));
-		dyeColorColor.put(DyeColor.MAGENTA, Color.decode("#B24CD8"));
-		dyeColorColor.put(DyeColor.ORANGE, Color.decode("#D87F33"));
-		dyeColorColor.put(DyeColor.PINK, Color.decode("#F27FA5"));
-		dyeColorColor.put(DyeColor.PURPLE, Color.decode("#7F3FB2"));
-		dyeColorColor.put(DyeColor.RED, Color.decode("#993333"));
-		dyeColorColor.put(DyeColor.SILVER, Color.decode("#999999"));
-		dyeColorColor.put(DyeColor.WHITE, Color.decode("#FFFFFF"));
-		dyeColorColor.put(DyeColor.YELLOW, Color.decode("#E5E533"));
-		DYE_COLOR_COLOR = ImmutableBiMap.copyOf(dyeColorColor);
+		Map<MaterialData, Color> blockColor = Maps.newHashMap();
+
+		// WOOL
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 0), new Color(238, 238, 238));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 1), new Color(213, 116, 50));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 2), new Color(168, 65, 177));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 3), new Color(113, 141, 201));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 4), new Color(193, 181, 45));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 5), new Color(66, 171, 55));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 6), new Color(203, 125, 146));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 7), new Color(72, 72, 72));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 8), new Color(127, 135, 135));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 9), new Color(39, 94, 117));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 10), new Color(120, 55, 173));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 11), new Color(39, 45, 116));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 12), new Color(74, 46, 29));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 13), new Color(36, 48, 19));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 14), new Color(153, 35, 38));
+		blockColor.put(new MaterialData(Material.WOOL, (byte) 15), new Color(25, 25, 25));
+
+		// HARD CLAY
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 0), new Color(221, 176, 152));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 1), new Color(185, 82, 36));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 2), new Color(163, 83, 98));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 3), new Color(121, 106, 129));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 4), new Color(206, 132, 35));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 5), new Color(102, 115, 58));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 6), new Color(179, 75, 73));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 7), new Color(64, 44, 39));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 8), new Color(141, 102, 88));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 9), new Color(80, 86, 82));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 10), new Color(124, 67, 79));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 11), new Color(77, 63, 86));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 12), new Color(83, 55, 39));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 13), new Color(73, 82, 46));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 14), new Color(166, 61, 46));
+		blockColor.put(new MaterialData(Material.HARD_CLAY, (byte) 15), new Color(44, 32, 19));
+
+		// SAND
+		blockColor.put(new MaterialData(Material.SAND), new Color(247, 233, 163));
+		blockColor.put(new MaterialData(Material.SANDSTONE), new Color(213, 201, 140));
+
+		// STONE
+		blockColor.put(new MaterialData(Material.STONE), new Color(144, 144, 144));
+		blockColor.put(new MaterialData(Material.SMOOTH_BRICK), new Color(117, 117, 117));
+
+		// REDSTONE
+		blockColor.put(new MaterialData(Material.REDSTONE_BLOCK), new Color(255, 0, 0));
+
+		// ICE
+		blockColor.put(new MaterialData(Material.PACKED_ICE), new Color(160, 160, 255));
+		blockColor.put(new MaterialData(Material.ICE), new Color(138, 138, 220));
+
+		// DIRT
+		blockColor.put(new MaterialData(Material.DIRT), new Color(73, 58, 35));
+
+		// NETHER
+		blockColor.put(new MaterialData(Material.NETHER_BRICK), new Color(112, 2, 0));
+
+		// OBSIDIAN
+		blockColor.put(new MaterialData(Material.OBSIDIAN), new Color(21, 20, 31));
+
+		// COAL
+		blockColor.put(new MaterialData(Material.COAL_BLOCK), new Color(12, 12, 12));
+
+		// EMERALD
+		blockColor.put(new MaterialData(Material.EMERALD_BLOCK), new Color(0, 217, 58));
+
+		BLOCK_COLOR = ImmutableBiMap.copyOf(blockColor);
 	}
 
 	/**
@@ -97,7 +151,7 @@ public class Images
 		Color nearestColor = Color.decode("#FFFFFF");
 		double nearestDistance = -1.0;
 
-		for(Color chatColor : CHAT_COLOR_COLOR.values())
+		for(Color chatColor : CHAT_COLOR.values())
 		{
 			double distance = getColorDistance(chatColor, color);
 			if(nearestDistance == -1.0 || distance < nearestDistance)
@@ -107,15 +161,15 @@ public class Images
 			}
 		}
 
-		return CHAT_COLOR_COLOR.inverse().get(nearestColor);
+		return CHAT_COLOR.inverse().get(nearestColor);
 	}
 
-	public static DyeColor getDyeColor(final Color color)
+	public static MaterialData getMaterial(final Color color)
 	{
-		Color nearestColor = Color.decode("#FFFFFF");
+		Color nearestColor = new Color(255, 255, 255);
 		double nearestDistance = -1.0;
 
-		for(Color dyeColor : DYE_COLOR_COLOR.values())
+		for(Color dyeColor : BLOCK_COLOR.values())
 		{
 			double distance = getColorDistance(dyeColor, color);
 			if(nearestDistance == -1.0 || distance < nearestDistance)
@@ -125,7 +179,7 @@ public class Images
 			}
 		}
 
-		return DYE_COLOR_COLOR.inverse().get(nearestColor);
+		return BLOCK_COLOR.inverse().get(nearestColor);
 	}
 
 	public static java.util.List<String> convertImage(BufferedImage image, Symbol symbol)
@@ -173,10 +227,10 @@ public class Images
 			for(int j = 0; j < width; j++)
 			{
 				// Get the color for each pixel.
-				DyeColor color = getDyeColor(new Color(image.getRGB(j, i)));
+				MaterialData material = getMaterial(new Color(image.getRGB(j, i)));
 
 				// Make new selection.
-				schematic.add(new Selection(j, width - i, 0, new BlockData(Material.WOOL, color.getWoolData())));
+				schematic.add(new Selection(30, width - i, j, new BlockData(material.getItemType(), material.getData())));
 			}
 		}
 
