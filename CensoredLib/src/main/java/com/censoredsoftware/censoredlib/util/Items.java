@@ -125,6 +125,6 @@ public class Items
 		newItem2.setItemMeta(item2.getItemMeta());
 
 		// Return the boolean
-		return newItem1.equals(newItem2);
+		return Items.areEqual(newItem1, newItem2);
 	}
 }
