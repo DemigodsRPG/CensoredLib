@@ -219,6 +219,11 @@ public class Images
 		return schematics.get(taskId);
 	}
 
+	public static void removeSchematicList(int taskId)
+	{
+		if(schematics.containsKey(taskId)) schematics.remove(taskId);
+	}
+
 	public static int convertImageToSchematic(Plugin plugin, final BufferedImage image)
 	{
 		return lastTask = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
@@ -242,7 +247,7 @@ public class Images
 
 				// Iterate through the image, pixel by pixel.
 				for(int i = 0; i < height; i++)
-         {
+				{
 					for(int j = 0; j < width; j++)
 					{
 						if(count >= 16384)
