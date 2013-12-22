@@ -230,7 +230,7 @@ public class Images
 				MaterialData material = getMaterial(new Color(image.getRGB(j, i)));
 
 				// Make new selection.
-				schematic.add(new Selection(30, width - i, j, new BlockData(material.getItemType(), material.getData())));
+				schematic.add(new Selection(j, 30, width - i, new BlockData(material.getItemType(), material.getData())));
 			}
 		}
 
