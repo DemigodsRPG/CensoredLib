@@ -49,7 +49,7 @@ public class WorldGuards implements Listener
 		{
 			CustomFlagRegionCache cacheFile = new CustomFlagRegionCache(world);
 			cacheFile.loadToData();
-			if(canWorldGuard()) cacheFile.injectData(world);
+			if(canWorldGuard()) cacheFile.injectData();
 		}
 	}
 
@@ -59,8 +59,8 @@ public class WorldGuards implements Listener
 		{
 			if(!cacheFiles.containsKey(world.getName())) cacheFiles.put(world.getName(), new CustomFlagRegionCache(world));
 			CustomFlagRegionCache cacheFile = cacheFiles.get(world.getName());
-			if(canWorldGuard()) cacheFile.scrapeData(world);
-			cacheFiles.get(world.getName()).saveToFile();
+			if(canWorldGuard()) cacheFile.scrapeData();
+			cacheFile.saveToFile();
 		}
 	}
 
@@ -179,7 +179,30 @@ public class WorldGuards implements Listener
 		});
 	}
 
-	public static boolean checkForFlagValue(final Flag flag, final Object value, Location location)
+	public static boolean checkForFlag(final Flag flag, Location location)
+	{
+		return Iterators.any(WorldGuardPlugin.inst().getRegionManager(location.getWorld()).getApplicableRegions(location).iterator(), new Predicate<ProtectedRegion>()
+		{
+			@Override
+			public boolean apply(ProtectedRegion region)
+			{
+				try
+				{
+					return region.getFlags().containsKey(flag);
+				}
+				catch(Throwable ignored)
+				{}
+				return false;
+			}
+		});
+	}
+
+	public static boolean checkStateFlagAllows(final StateFlag flag, Location location)
+	{
+		return WorldGuardPlugin.inst().getGlobalRegionManager().allows(flag, location);
+	}
+
+	public static boolean checkForFlagValue(final Flag flag, final String value, Location location)
 	{
 		return Iterators.any(WorldGuardPlugin.inst().getRegionManager(location.getWorld()).getApplicableRegions(location).iterator(), new Predicate<ProtectedRegion>()
 		{
@@ -226,7 +249,7 @@ public class WorldGuards implements Listener
 
 	public static boolean canPVP(Location location)
 	{
-		return checkForFlagValue(DefaultFlag.PVP, "allow", location);
+        return checkStateFlagAllows(DefaultFlag.PVP, location);
 	}
 
 	public static Status createFlag(String type, String id, Object value, String regionGroup)
@@ -289,8 +312,8 @@ public class WorldGuards implements Listener
 		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
 		{
 			if(!cacheFiles.containsKey(world.getName())) cacheFiles.put(world.getName(), new CustomFlagRegionCache(world));
-			cacheFiles.get(world.getName()).scrapeData(world);
-            cacheFiles.get(world.getName()).injectData(world);
+			cacheFiles.get(world.getName()).scrapeData();
+            cacheFiles.get(world.getName()).injectData();
 		}
 		return Status.SUCCESS;
 	}
@@ -447,7 +470,6 @@ public class WorldGuards implements Listener
 			}
 			catch(Throwable ignored)
 			{}
-			if(!isEmpty()) addToCache();
 		}
 
 		RegionCustomFlags(String regionId, String world, ConfigurationSection conf)
@@ -473,7 +495,7 @@ public class WorldGuards implements Listener
 			return map;
 		}
 
-		Object getValue(Flag flag)
+		Object getValue(Flag<? extends Object> flag)
 		{
 			try
 			{
@@ -507,13 +529,6 @@ public class WorldGuards implements Listener
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("flags", flags);
 			return map;
-		}
-
-		void addToCache()
-		{
-			CustomFlagRegionCache cacheFile = cacheFiles.get(world);
-			cacheFile.cache.put(regionId, this);
-			cacheFiles.put(world, cacheFile);
 		}
 	}
 
@@ -571,8 +586,9 @@ public class WorldGuards implements Listener
 			cacheFiles.put(world, this);
 		}
 
-		protected void scrapeData(World world)
+		protected void scrapeData()
 		{
+            World world = Bukkit.getWorld(this.world);
 			for(Map.Entry<String, ProtectedRegion> entry : WorldGuardPlugin.inst().getRegionManager(world).getRegions().entrySet())
 			{
 				if(Iterables.any(entry.getValue().getFlags().keySet(), new Predicate<Flag<?>>()
@@ -582,13 +598,13 @@ public class WorldGuards implements Listener
 					{
 						return flags.containsKey(flag.getName());
 					}
-				})) new RegionCustomFlags(entry.getValue(), world);
+				})) cache.put(entry.getKey(), new RegionCustomFlags(entry.getValue(), world));
 			}
 		}
 
-		protected void injectData(World world)
+		protected void injectData()
 		{
-			for(Map.Entry<String, ProtectedRegion> entry : WorldGuardPlugin.inst().getRegionManager(world).getRegions().entrySet())
+			for(Map.Entry<String, ProtectedRegion> entry : WorldGuardPlugin.inst().getRegionManager(Bukkit.getWorld(world)).getRegions().entrySet())
 				if(cache.containsKey(entry.getKey())) cache.get(entry.getKey()).injectIntoRegion(entry.getValue());
 		}
 	}
