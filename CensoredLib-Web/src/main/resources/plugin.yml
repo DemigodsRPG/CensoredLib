@@ -1,4 +1,5 @@
 name: CensoredLib-Web
+description: A library for web-related features used in Censored Software's Bukkit/Spigot/Minecraft related projects.
 main: com.censoredsoftware.censoredlib.web.CensoredLibWebPlugin
 version: ${parent.version}
 authors: [_Alex, HmmmQuestionMark]
