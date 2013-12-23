@@ -1,0 +1,11 @@
+com.censoredsoftware.censoredlib
+com.censoredsoftware.censoredlib.data
+com.censoredsoftware.censoredlib.data.inventory
+com.censoredsoftware.censoredlib.data.location
+com.censoredsoftware.censoredlib.data.player
+com.censoredsoftware.censoredlib.exception
+com.censoredsoftware.censoredlib.helper
+com.censoredsoftware.censoredlib.language
+com.censoredsoftware.censoredlib.schematic
+com.censoredsoftware.censoredlib.trigger
+com.censoredsoftware.censoredlib.util
