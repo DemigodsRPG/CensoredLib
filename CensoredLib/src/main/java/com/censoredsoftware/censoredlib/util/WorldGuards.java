@@ -49,17 +49,20 @@ public class WorldGuards implements Listener
 		{
 			CustomFlagRegionCache cacheFile = new CustomFlagRegionCache(world);
 			cacheFile.loadToData();
-			if(canWorldGuard()) cacheFile.injectData();
+			if(worldGuardEnabled()) cacheFile.injectData();
 		}
 	}
 
+	/**
+	 * Save the current cache of WorldGuard related data.
+	 */
 	public static void saveCurrentCache()
 	{
 		for(World world : Bukkit.getWorlds())
 		{
 			if(!cacheFiles.containsKey(world.getName())) cacheFiles.put(world.getName(), new CustomFlagRegionCache(world));
 			CustomFlagRegionCache cacheFile = cacheFiles.get(world.getName());
-			if(canWorldGuard()) cacheFile.scrapeData();
+			if(worldGuardEnabled()) cacheFile.scrapeData();
 			cacheFile.saveToFile();
 		}
 	}
@@ -122,9 +125,9 @@ public class WorldGuards implements Listener
             {
 				// process proto-flags
 				Iterator<ProtoFlag> protoFlagIterator = protoFlags.values().iterator();
-				while(canWorldGuard() && protoFlagIterator.hasNext())
+				while(worldGuardEnabled() && protoFlagIterator.hasNext())
 				{
-					ProtoFlag queued = protoFlagIterator.next();
+		ProtoFlag queued = protoFlagIterator.next();
 					Flag<?> flag = queued.create();
 					if(flag != null)
 					{
@@ -135,7 +138,7 @@ public class WorldGuards implements Listener
 
 				// process proto-listeners
 				Iterator<ProtoPVPListener> protoPVPListenerIterator = protoPVPListeners.values().iterator();
-				while(canWorldGuard() && protoPVPListenerIterator.hasNext())
+				while(worldGuardEnabled() && protoPVPListenerIterator.hasNext())
 				{
 					ProtoPVPListener queued = protoPVPListenerIterator.next();
 					queued.register();
@@ -154,19 +157,30 @@ public class WorldGuards implements Listener
 		}, 60, 240);
 	}
 
-	public static boolean canWorldGuard()
+    /**
+	 * @return WorldGuard is enabled.
+	 */
+	public static boolean worldGuardEnabled()
 	{
 		return ENABLED;
 	}
 
 	/**
-	 * @deprecated if you don't have WorldGuard installed this will error.
+	 * @param id The name of a WorldGuard flag.
+	 * @deprecated If you don't have WorldGuard installed this will error.
 	 */
 	public static Flag<?> getFlag(String id)
 	{
 		return DefaultFlag.fuzzyMatchFlag(id);
 	}
 
+    /**
+	 * Check that a ProtectedRegion exists at a Location.
+	 * 
+	 * @param name The name of the region.
+	 * @param location The location being checked.
+	 * @return The region does exist at the provided location.
+	 */
 	public static boolean checkForRegion(final String name, Location location)
 	{
 		return Iterators.any(WorldGuardPlugin.inst().getRegionManager(location.getWorld()).getApplicableRegions(location).iterator(), new Predicate<ProtectedRegion>()
@@ -179,6 +193,13 @@ public class WorldGuards implements Listener
 		});
 	}
 
+    /**
+	 * Check for a flag at a given location.
+	 * 
+	 * @param flag The flag being checked.
+	 * @param location The location being checked.
+	 * @return The flag does exist at the provided location.
+	 */
 	public static boolean checkForFlag(final Flag flag, Location location)
 	{
 		return Iterators.any(WorldGuardPlugin.inst().getRegionManager(location.getWorld()).getApplicableRegions(location).iterator(), new Predicate<ProtectedRegion>()
@@ -197,11 +218,26 @@ public class WorldGuards implements Listener
 		});
 	}
 
+    /**
+	 * Check if a StateFlag is enabled at a given location.
+	 * 
+	 * @param flag The flag being checked.
+	 * @param location The location being checked.
+	 * @return The flag is enabled.
+	 */
 	public static boolean checkStateFlagAllows(final StateFlag flag, Location location)
 	{
 		return WorldGuardPlugin.inst().getGlobalRegionManager().allows(flag, location);
 	}
 
+    /**
+	 * Check for a flag-value at a given location.
+	 * 
+	 * @param flag The flag being checked.
+	 * @param value The value (marshalled) as a String.
+	 * @param location The location being checked.
+	 * @return The flag-value does exist at the provided location.
+	 */
 	public static boolean checkForFlagValue(final Flag flag, final String value, Location location)
 	{
 		return Iterators.any(WorldGuardPlugin.inst().getRegionManager(location.getWorld()).getApplicableRegions(location).iterator(), new Predicate<ProtectedRegion>()
@@ -220,41 +256,38 @@ public class WorldGuards implements Listener
 		});
 	}
 
-	public static boolean checkForCreatedFlagValue(final String flagId, final Object value, Location location)
-	{
-		if(getFlag(flagId) == null) throw new NullPointerException();
-		return Iterators.any(WorldGuardPlugin.inst().getRegionManager(location.getWorld()).getApplicableRegions(location).iterator(), new Predicate<ProtectedRegion>()
-		{
-			@Override
-			public boolean apply(ProtectedRegion region)
-			{
-				try
-				{
-					Flag flag = getFlag(flagId);
-					if(flag == null) return false;
-					Object data = flag.marshal(region.getFlag(flag));
-					return data != null && data.equals(value);
-				}
-				catch(Throwable ignored)
-				{}
-				return false;
-			}
-		});
-	}
-
+    /**
+	 * @param player Given player.
+	 * @param location Given location.
+	 * @return The player can build here.
+	 */
 	public static boolean canBuild(Player player, Location location)
 	{
 		return WorldGuardPlugin.inst().canBuild(player, location);
 	}
 
+    /**
+	 * @param location Given location.
+	 * @return PVP is allowed here.
+	 */
 	public static boolean canPVP(Location location)
 	{
-        return checkStateFlagAllows(DefaultFlag.PVP, location);
+		return checkStateFlagAllows(DefaultFlag.PVP, location);
 	}
 
+    /**
+	 * Create a custom flag for WorldGuard.
+	 * 
+	 * @param type The type of flag.
+	 * @param id The name/id of the flag.
+	 * @param value The default value of the flag.
+	 * @param regionGroup The default region-group of the flag.
+	 * @deprecated Currently only supports 'STATE' flags.
+	 * @return The creation status.
+	 */
 	public static Status createFlag(String type, String id, Object value, String regionGroup)
 	{
-		if(!canWorldGuard())
+		if(!worldGuardEnabled())
 		{
 			protoFlags.put(id, new ProtoFlag(type, id, value, regionGroup, false));
 			return Status.IN_QUEUE;
@@ -269,9 +302,15 @@ public class WorldGuards implements Listener
 		return Status.FAILED;
 	}
 
+    /**
+	 * Register a created flag with WorldGuard.
+	 * 
+	 * @param id The name/id of the previously created flag.
+	 * @return The registration status.
+	 */
 	public static Status registerCreatedFlag(String id)
 	{
-		if(!canWorldGuard())
+		if(!worldGuardEnabled())
 		{
 			if(protoFlags.containsKey(id))
 			{
@@ -285,6 +324,12 @@ public class WorldGuards implements Listener
 		return Status.DOES_NOT_EXIST;
 	}
 
+    /**
+	 * Register a flag with WorldGuard.
+	 * 
+	 * @param flag The flag to be registered.
+	 * @return The registration status.
+	 */
 	private static Status registerFlag(final Flag<?> flag)
 	{
 		if(Iterables.any(Sets.newHashSet(DefaultFlag.getFlags()), new Predicate<Flag<?>>()
@@ -309,7 +354,7 @@ public class WorldGuards implements Listener
 		{
 			return Status.FAILED; // :(
 		}
-		if(canWorldGuard()) for(World world : Bukkit.getWorlds())
+		if(worldGuardEnabled()) for(World world : Bukkit.getWorlds())
 		{
 			if(!cacheFiles.containsKey(world.getName())) cacheFiles.put(world.getName(), new CustomFlagRegionCache(world));
 			cacheFiles.get(world.getName()).scrapeData();
@@ -320,7 +365,7 @@ public class WorldGuards implements Listener
 
 	public static void setWhenToOverridePVP(Plugin plugin, Predicate<EntityDamageByEntityEvent> checkPVP)
 	{
-		if(!canWorldGuard()) protoPVPListeners.put(plugin.getName(), new ProtoPVPListener(plugin, checkPVP));
+		if(!worldGuardEnabled()) protoPVPListeners.put(plugin.getName(), new ProtoPVPListener(plugin, checkPVP));
 		else new WorldGuardPVPListener(plugin, checkPVP);
 	}
 

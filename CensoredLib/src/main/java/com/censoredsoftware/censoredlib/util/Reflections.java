@@ -5,6 +5,12 @@ import java.lang.reflect.Modifier;
 
 public class Reflections
 {
+	/**
+	 * Set a static value.
+	 * 
+	 * @param field The field to manipulate.
+	 * @param value The value being set.
+	 */
 	public static void setStaticValue(Field field, Object value)
 	{
 		try
@@ -19,6 +25,13 @@ public class Reflections
 		{}
 	}
 
+	/**
+	 * Set a private value.
+	 * 
+	 * @param instance The object being manipulated.
+	 * @param name The name of the field being manipulated.
+	 * @param value The value being set.
+	 */
 	public static void setPrivateValue(Object instance, String name, Object value)
 	{
 		try
@@ -31,6 +44,13 @@ public class Reflections
 		{}
 	}
 
+	/**
+	 * Get a private value.
+	 * 
+	 * @param instance The object being manipulated.
+	 * @param name The name of the field being manipulated.
+	 * @return The value from the manipulated field.
+	 */
 	public static Object getPrivateValue(Object instance, String name)
 	{
 		try

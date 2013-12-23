@@ -33,7 +33,10 @@ import java.util.Map;
 
 public class Images
 {
-	private static final ImmutableBiMap<ChatColor, Color> CHAT_COLOR;
+	/**
+	 * Linking ChatColor objects to the corresponding Color.
+	 */
+	public static final ImmutableBiMap<ChatColor, Color> CHAT_COLOR;
 	static
 	{
 		Map<ChatColor, Color> chatColorColor = Maps.newHashMap();
@@ -55,7 +58,11 @@ public class Images
 		chatColorColor.put(ChatColor.WHITE, new Color(255, 255, 255));
 		CHAT_COLOR = ImmutableBiMap.copyOf(chatColorColor);
 	}
-	private static ImmutableBiMap<MaterialData, Color> BLOCK_COLOR;
+
+	/**
+	 * Linking block materials to their corresponding Color.
+	 */
+	public static ImmutableBiMap<MaterialData, Color> BLOCK_COLOR;
 	static
 	{
 		Map<MaterialData, Color> blockColor = Maps.newHashMap();
@@ -130,13 +137,12 @@ public class Images
 	}
 
 	/**
-	 * @deprecated
+	 * Color distance formula.
+	 * 
+	 * @param c1 Color one.
+	 * @param c2 Color two.
+	 * @return The 'distance' between the two colors.
 	 */
-	public static ChatColor fromColor(Color color)
-	{
-		return getChatColor(color);
-	}
-
 	public static double getColorDistance(Color c1, Color c2)
 	{
 		double rmean = (c1.getRed() + c2.getRed()) / 2;
@@ -149,53 +155,36 @@ public class Images
 		return Math.sqrt(weightR * r * r + weightG * g * g + weightB * b * b);
 	}
 
-	public static Color computeAvgColor(BufferedImage image)
-	{
-		int width = image.getWidth();
-		int height = image.getHeight();
-		long rTotal = 0;
-		long gTotal = 0;
-		long bTotal = 0;
-		int total = 0;
-		for(int i = 0; i < height; i++)
-		{
-			for(int j = 0; j < width; j++)
-			{
-				int rgb = image.getRGB(j, i);
-				if((rgb >> 24 & 0xFF) != 0)
-				{
-					rTotal += rgb >> 16 & 0xFF;
-					gTotal += rgb >> 8 & 0xFF;
-					bTotal += rgb & 0xFF;
-					total++;
-				}
-			}
-		}
-
-		int r = Math.round(rTotal / total);
-		int g = Math.round(gTotal / total);
-		int b = Math.round(bTotal / total);
-		return new Color(r, g, b);
-	}
-
+	/**
+	 * Get a ChatColor that is best related to a given Color.
+	 * 
+	 * @param color Color to be matched.
+	 * @return Best ChatColor found.
+	 */
 	public static ChatColor getChatColor(final Color color)
 	{
-		Color nearestColor = Color.decode("#FFFFFF");
-		double nearestDistance = -1.0;
+		Color nearestColor = Color.WHITE;
+		double bestDistance = Double.MAX_VALUE;
 
 		for(Color chatColor : CHAT_COLOR.values())
 		{
 			double distance = getColorDistance(chatColor, color);
-			if(nearestDistance == -1.0 || distance < nearestDistance)
+			if(distance < bestDistance)
 			{
 				nearestColor = chatColor;
-				nearestDistance = distance;
+				bestDistance = distance;
 			}
 		}
 
 		return CHAT_COLOR.inverse().get(nearestColor);
 	}
 
+	/**
+	 * Get MaterialData that is best related to a given Color.
+	 * 
+	 * @param color Color to be matched.
+	 * @return Best MaterialData found.
+	 */
 	public static MaterialData getMaterial(Color average, final Color color)
 	{
 		Color nearestColor = average;
@@ -214,6 +203,13 @@ public class Images
 		return BLOCK_COLOR.inverse().get(nearestColor);
 	}
 
+	/**
+	 * Convert an image a list of String objects.
+	 * 
+	 * @param image The image to be converted.
+	 * @param symbol The symbol being used by the string.
+	 * @return The converted list.
+	 */
 	public static java.util.List<String> convertImage(BufferedImage image, Symbol symbol)
 	{
 		// Working list.
@@ -247,17 +243,36 @@ public class Images
 	private static Map<Integer, List<Schematic>> schematics = Collections.synchronizedMap(new HashMap<Integer, List<Schematic>>());
 	private static int lastTask = -1;
 
+	/**
+	 * Get the list of schematics created from the task with a certain id.
+	 * 
+	 * @param taskId The mentioned task id.
+	 * @return The list of schematics.
+	 */
 	public static List<Schematic> getConvertedSchematics(int taskId)
 	{
 		if(!schematics.containsKey(taskId)) return null;
 		return schematics.get(taskId);
 	}
 
+	/**
+	 * Remove the schematic list associated with a certain task id.
+	 * 
+	 * @param taskId The mentioned task id.
+	 */
 	public static void removeSchematicList(int taskId)
 	{
 		if(schematics.containsKey(taskId)) schematics.remove(taskId);
 	}
 
+	/**
+	 * Convert an image to a schematic.
+	 * 
+	 * @param plugin The plugin requesting this conversion.
+	 * @param image The image to be converted.
+	 * @param splitSize the max size of each schematic
+	 * @return the async task id integer
+	 */
 	public static int convertImageToSchematic(Plugin plugin, final BufferedImage image, final int splitSize)
 	{
 		return lastTask = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
@@ -281,7 +296,7 @@ public class Images
 
 				int progress = 0, total = width * height;
 
-				Color average = computeAvgColor(image);
+				Color average = Color.WHITE;
 
 				// Iterate through the image, pixel by pixel.
 				for(int i = 0; i < height; i++)
@@ -315,16 +330,22 @@ public class Images
 		}, 40);
 	}
 
+	/**
+	 * Send an image to a player, in the form of an in-game Map.
+	 * 
+	 * @param player The player to receive the map.
+	 * @param image The image to be converted.
+	 * @return The MapView the player receives.
+	 */
 	public static MapView sendMapImage(Player player, BufferedImage image)
 	{
 		MapView map = Bukkit.createMap(player.getWorld());
 		map = ImageRenderer.applyToMap(map, image);
 		player.sendMap(map);
-
 		return map;
 	}
 
-	public static class ImageRenderer extends MapRenderer
+	static class ImageRenderer extends MapRenderer
 	{
 		private BufferedImage image;
 
@@ -339,7 +360,7 @@ public class Images
 			mapCanvas.drawImage(0, 0, image);
 		}
 
-		public static MapView applyToMap(MapView map, BufferedImage image)
+		static MapView applyToMap(MapView map, BufferedImage image)
 		{
 			for(MapRenderer renderer : map.getRenderers())
 				map.removeRenderer(renderer);
@@ -350,6 +371,13 @@ public class Images
 		}
 	}
 
+	/**
+	 * Retrieve the image of a player's head.
+	 * 
+	 * @param playerName The player who owns the head.
+	 * @return The mentioned image.
+	 * @throws NullPointerException
+	 */
 	public static BufferedImage getPlayerHead(String playerName) throws NullPointerException
 	{
 		try
@@ -378,6 +406,13 @@ public class Images
 		return null;
 	}
 
+	/**
+	 * Retrieve the image of a player's head and make it suitable for chat.
+	 * 
+	 * @param player The player who owns the head.
+	 * @return A list of strings to be sent in order to a player.
+	 * @throws NullPointerException
+	 */
 	public static java.util.List<String> getPlayerHead(OfflinePlayer player) throws NullPointerException
 	{
 		// Get the player's name.
@@ -389,7 +424,7 @@ public class Images
 			BufferedImage image = getPlayerHead(playerName);
 
 			// Resize.
-			image = getScaledImage(image, 16, 16);
+			image = scaleImage(image, 16, 16);
 
 			// Convert.
 			java.util.List<String> convertedImage = convertImage(image, Symbol.FULL_BLOCK);
@@ -408,9 +443,15 @@ public class Images
 	}
 
 	/**
-	 * @author Jörn Horstmann (http://stackoverflow.com/a/3967988)
+	 * Scale an image.
+	 * 
+	 * @param image The image to manipulate.
+	 * @param width The desired width.
+	 * @param height The desired height.
+	 * @return The new image.
+	 * @throws IOException
 	 */
-	public static BufferedImage getScaledImage(BufferedImage image, int width, int height) throws IOException
+	public static BufferedImage scaleImage(BufferedImage image, int width, int height) throws IOException
 	{
 		int imageWidth = image.getWidth();
 		int imageHeight = image.getHeight();
@@ -421,14 +462,5 @@ public class Images
 		AffineTransformOp bilinearScaleOp = new AffineTransformOp(scaleTransform, AffineTransformOp.TYPE_BILINEAR);
 
 		return bilinearScaleOp.filter(image, new BufferedImage(width, height, image.getType()));
-	}
-
-	public static BufferedImage getGrayscaleImage(BufferedImage image)
-	{
-		BufferedImage gray = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
-		Graphics g = image.getGraphics();
-		g.drawImage(image, 0, 0, null);
-		g.dispose();
-		return gray;
 	}
 }

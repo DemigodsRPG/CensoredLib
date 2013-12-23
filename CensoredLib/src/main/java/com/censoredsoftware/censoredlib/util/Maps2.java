@@ -6,6 +6,13 @@ import java.util.*;
 
 public class Maps2
 {
+	/**
+	 * Sort a Map from smallest to largest, or in <code>reverse</code>.
+	 * 
+	 * @param map The Map object to be sorted.
+	 * @param reverse Reverse the ordering.
+	 * @return A sorted version of <code>map</code>.
+	 */
 	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map, boolean reverse)
 	{
 		List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
