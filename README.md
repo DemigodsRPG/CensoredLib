@@ -21,7 +21,7 @@ Features and Config
 
 CensoredLib allows plugins to do many things with minimal effort.
 
-Please read [the JavaDocs](https://censoredsoftware.github.io/CensoredLib/javadocs/) for more information.
+Please read [the JavaDocs](http://censoredsoftware.github.io/CensoredLib/javadocs/) for more information.
 
 License
 =======
