@@ -1,5 +1,10 @@
 package com.censoredsoftware.censoredlib.util;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -8,11 +13,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class Items
 {
@@ -119,10 +119,14 @@ public class Items
 	public static boolean areEqualIgnoreEnchantments(ItemStack item1, ItemStack item2)
 	{
 		// Create new items
-		ItemStack newItem1 = item1.getData().toItemStack(item1.getAmount());
-		newItem1.setItemMeta(item1.getItemMeta());
-		ItemStack newItem2 = item2.getData().toItemStack(item2.getAmount());
-		newItem2.setItemMeta(item2.getItemMeta());
+		ItemStack newItem1 = item1.clone();
+		ItemStack newItem2 = item2.clone();
+
+		for(Enchantment enchantment : Enchantment.values())
+		{
+			newItem1.removeEnchantment(enchantment);
+			newItem2.removeEnchantment(enchantment);
+		}
 
 		// Return the boolean
 		return Items.areEqual(newItem1, newItem2);
