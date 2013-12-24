@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>CensoredLib</module>
+        <module>CensoredLib-Core</module>
         <module>CensoredLib-Web</module>
     </modules>
 
@@ -72,7 +72,7 @@
             <url>http://repo.censoredsoftware.com</url>
         </repository>
         <repository>
-        <id>md_5-releases</id>
+            <id>md_5-releases</id>
             <url>http://repo.md-5.net/content/repositories/snapshots</url>
         </repository>
         <repository>
@@ -174,7 +174,7 @@
             <version>2.51</version>
         </dependency>
         <dependency>
-        <groupId>com.mojang</groupId>
+            <groupId>com.mojang</groupId>
             <artifactId>AccountsClient</artifactId>
             <version>latest</version>
             <scope>compile</scope>

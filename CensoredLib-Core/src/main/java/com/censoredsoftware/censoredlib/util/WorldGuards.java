@@ -91,8 +91,8 @@ public class WorldGuards implements Listener
 		if(!ENABLED || event.getPlugin().getName().equals("WorldGuard")) return;
 		try
 		{
-            saveCurrentCache();
-            ENABLED = false;
+			saveCurrentCache();
+			ENABLED = false;
 		}
 		catch(Throwable ignored)
 		{}
@@ -115,19 +115,19 @@ public class WorldGuards implements Listener
 			public void run()
 			{
 				Bukkit.getPluginManager().registerEvents(new WorldGuards(), CensoredLib.plugin());
-                callOnEnable();
+				callOnEnable();
 			}
 		}, 40);
 		if(CensoredLib.plugin().isEnabled()) Bukkit.getScheduler().scheduleAsyncRepeatingTask(CensoredLib.plugin(), new Runnable()
 		{
-            @Override
-            public void run()
-            {
+			@Override
+			public void run()
+			{
 				// process proto-flags
 				Iterator<ProtoFlag> protoFlagIterator = protoFlags.values().iterator();
 				while(worldGuardEnabled() && protoFlagIterator.hasNext())
 				{
-		ProtoFlag queued = protoFlagIterator.next();
+					ProtoFlag queued = protoFlagIterator.next();
 					Flag<?> flag = queued.create();
 					if(flag != null)
 					{
@@ -157,7 +157,7 @@ public class WorldGuards implements Listener
 		}, 60, 240);
 	}
 
-    /**
+	/**
 	 * @return WorldGuard is enabled.
 	 */
 	public static boolean worldGuardEnabled()
@@ -174,7 +174,7 @@ public class WorldGuards implements Listener
 		return DefaultFlag.fuzzyMatchFlag(id);
 	}
 
-    /**
+	/**
 	 * Check that a ProtectedRegion exists at a Location.
 	 * 
 	 * @param name The name of the region.
@@ -193,7 +193,7 @@ public class WorldGuards implements Listener
 		});
 	}
 
-    /**
+	/**
 	 * Check for a flag at a given location.
 	 * 
 	 * @param flag The flag being checked.
@@ -218,7 +218,7 @@ public class WorldGuards implements Listener
 		});
 	}
 
-    /**
+	/**
 	 * Check if a StateFlag is enabled at a given location.
 	 * 
 	 * @param flag The flag being checked.
@@ -230,7 +230,7 @@ public class WorldGuards implements Listener
 		return WorldGuardPlugin.inst().getGlobalRegionManager().allows(flag, location);
 	}
 
-    /**
+	/**
 	 * Check for a flag-value at a given location.
 	 * 
 	 * @param flag The flag being checked.
@@ -256,7 +256,7 @@ public class WorldGuards implements Listener
 		});
 	}
 
-    /**
+	/**
 	 * @param player Given player.
 	 * @param location Given location.
 	 * @return The player can build here.
@@ -266,7 +266,7 @@ public class WorldGuards implements Listener
 		return WorldGuardPlugin.inst().canBuild(player, location);
 	}
 
-    /**
+	/**
 	 * @param location Given location.
 	 * @return PVP is allowed here.
 	 */
@@ -275,7 +275,7 @@ public class WorldGuards implements Listener
 		return checkStateFlagAllows(DefaultFlag.PVP, location);
 	}
 
-    /**
+	/**
 	 * Create a custom flag for WorldGuard.
 	 * 
 	 * @param type The type of flag.
@@ -302,7 +302,7 @@ public class WorldGuards implements Listener
 		return Status.FAILED;
 	}
 
-    /**
+	/**
 	 * Register a created flag with WorldGuard.
 	 * 
 	 * @param id The name/id of the previously created flag.
@@ -324,7 +324,7 @@ public class WorldGuards implements Listener
 		return Status.DOES_NOT_EXIST;
 	}
 
-    /**
+	/**
 	 * Register a flag with WorldGuard.
 	 * 
 	 * @param flag The flag to be registered.
@@ -358,7 +358,7 @@ public class WorldGuards implements Listener
 		{
 			if(!cacheFiles.containsKey(world.getName())) cacheFiles.put(world.getName(), new CustomFlagRegionCache(world));
 			cacheFiles.get(world.getName()).scrapeData();
-            cacheFiles.get(world.getName()).injectData();
+			cacheFiles.get(world.getName()).injectData();
 		}
 		return Status.SUCCESS;
 	}
@@ -494,18 +494,18 @@ public class WorldGuards implements Listener
 		}
 	}
 
-    static class RegionCustomFlags implements ConfigurationSerializable
-    {
-        String regionId;
-        String world;
-        Map<String, Object> flags;
+	static class RegionCustomFlags implements ConfigurationSerializable
+	{
+		String regionId;
+		String world;
+		Map<String, Object> flags;
 
-        RegionCustomFlags(ProtectedRegion region, World world)
-        {
-            try
-            {
-                regionId = region.getId();
-                this.world = world.getName();
+		RegionCustomFlags(ProtectedRegion region, World world)
+		{
+			try
+			{
+				regionId = region.getId();
+				this.world = world.getName();
 				this.flags = Maps.newHashMap();
 
 				preserveInvalidFlags();
@@ -606,7 +606,7 @@ public class WorldGuards implements Listener
 			return CensoredLib.plugin().getDataFolder().getPath().replace("CensoredLib", "WorldGuard") + "/worlds/" + world + "/";
 		}
 
-	@Override
+		@Override
 		public String getSaveFile()
 		{
 			return "clib.yml";
@@ -633,7 +633,7 @@ public class WorldGuards implements Listener
 
 		protected void scrapeData()
 		{
-            World world = Bukkit.getWorld(this.world);
+			World world = Bukkit.getWorld(this.world);
 			for(Map.Entry<String, ProtectedRegion> entry : WorldGuardPlugin.inst().getRegionManager(world).getRegions().entrySet())
 			{
 				if(Iterables.any(entry.getValue().getFlags().keySet(), new Predicate<Flag<?>>()

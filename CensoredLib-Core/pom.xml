@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>CensoredLib Core</name>
-    <artifactId>CensoredLib</artifactId>
+    <artifactId>CensoredLib-Core</artifactId>
 
     <build>
         <finalName>CensoredLib</finalName>
