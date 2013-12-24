@@ -19,11 +19,9 @@ To install, unzip the latest **[CensoredLib.zip](http://dev.bukkit.org/bukkit-pl
 Features and Config
 =================== 
 
-CensoredLib allows plugins to do many things with minimal effort, including:
+CensoredLib allows plugins to do many things with minimal effort.
 
-  - TODO!
-
-...and much more!
+Please read [the JavaDocs](https://censoredsoftware.github.io/CensoredLib/javadocs/) for more information.
 
 License
 =======
