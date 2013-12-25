@@ -13,7 +13,10 @@ public class CensoredLibPlugin extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
+		// Init
 		CensoredLib.init();
+
+		message("enabled");
 	}
 
 	/**
@@ -28,5 +31,20 @@ public class CensoredLibPlugin extends JavaPlugin
 		// Unload anything else
 		HandlerList.unregisterAll(this);
 		Bukkit.getScheduler().cancelTasks(this);
+
+		message("disabled");
+	}
+
+	private void message(String status)
+	{
+		getLogger().severe("  ");
+		getLogger().severe("             888        d8b   888");
+		getLogger().severe("             888              888");
+		getLogger().severe("   .d8888b   888        888   88888b.");
+		getLogger().severe("  d88P\"      888        888   888 \"88b");
+		getLogger().severe("  Y88b.      888        888   888 d88P");
+		getLogger().severe("   \"Y8888P   88888888   888   88888P\"");
+		getLogger().severe("  ");
+		getLogger().info(" ...version " + getDescription().getVersion().replaceAll("SNAPSHOT", "S") + " has " + status + " successfully!");
 	}
 }

@@ -94,6 +94,7 @@
             <type>jar</type>
             <optional>false</optional>
         </dependency>
+        <!-- MCStats -->
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>
             <artifactId>metrics-lite</artifactId>
@@ -107,6 +108,7 @@
             <scope>compile</scope>
             <optional>false</optional>
         </dependency>
+        <!-- WorldGuard -->
         <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldguard</artifactId>
@@ -168,11 +170,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Database Stuff -->
         <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi</artifactId>
             <version>2.51</version>
         </dependency>
+        <!-- Mojang Accounts -->
         <dependency>
             <groupId>com.mojang</groupId>
             <artifactId>AccountsClient</artifactId>

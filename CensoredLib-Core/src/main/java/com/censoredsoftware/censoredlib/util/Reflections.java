@@ -1,6 +1,7 @@
 package com.censoredsoftware.censoredlib.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class Reflections
@@ -62,5 +63,19 @@ public class Reflections
 		catch(Throwable ignored)
 		{}
 		return null;
+	}
+
+	public static <T, V> V getPrivateMethod(Class<T> clazz, String methodName, T instance, Object... args)
+	{
+		V value = null;
+		try
+		{
+			Method method = clazz.getDeclaredMethod(methodName);
+			method.setAccessible(true);
+			value = (V) method.invoke(instance, args);
+		}
+		catch(Throwable ignored)
+		{}
+		return value;
 	}
 }
