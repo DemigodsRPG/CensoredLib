@@ -54,7 +54,7 @@ public abstract class CEnderInventory implements ConfigurationSerializable
 
 	public void setItems(org.bukkit.inventory.Inventory inventory)
 	{
-		if(this.items == null) this.items = new String[27];
+		if(this.items == null) this.items = new String[26];
 		for(int i = 0; i < 27; i++)
 		{
 			if(inventory.getItem(i) == null) this.items[i] = create(new ItemStack(Material.AIR)).getId().toString();
