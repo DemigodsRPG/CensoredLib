@@ -30,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.7.1</version>
+                <version>2.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -40,16 +40,6 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>javax.servlet:servlet-api</include>
-                                    <include>org.eclipse.jetty:jetty-util</include>
-                                    <include>org.eclipse.jetty:jetty-io</include>
-                                    <include>org.eclipse.jetty:jetty-http</include>
-                                    <include>org.eclipse.jetty:jetty-server</include>
-                                    <include>org.eclipse.jetty:jetty-servlet</include>
-                                    <include>org.eclipse.jetty:jetty-security</include>
-                                    <include>org.eclipse.jetty:jetty-continuation</include>
-                                    <include>org.eclipse.jetty:jetty-webapp</include>
-                                    <include>org.eclipse.jetty:jetty-xml</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

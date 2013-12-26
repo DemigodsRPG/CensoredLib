@@ -33,9 +33,9 @@
 
     <properties> <!-- It is important to keep up to date manually. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spigot.version>1.7.2-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.7.2-R0.2-SNAPSHOT</spigot.version>
         <mcstats.version>R7</mcstats.version>
-        <jettyVersion>8.1.14.v20131031</jettyVersion>
+        <!-- <nettyVersion>5.0.0.Alpha1</nettyVersion> -->
         <worldguard.version>5.8.1-SNAPSHOT</worldguard.version>
     </properties>
 
@@ -86,8 +86,15 @@
     </repositories>
 
     <dependencies>
+        <!-- Scala -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.10.3</version>
+        </dependency>
+        <!-- Spigot (Bukkit) API -->
+        <dependency>
+        <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot.version}</version>
             <scope>compile</scope>
@@ -184,58 +191,20 @@
             <scope>compile</scope>
             <optional>false</optional>
         </dependency>
-        <!-- Servlet API -->
+        <!-- Netty
+            Mojang provides:
+            - io.netty-util
+            - io.netty-handler
+            - io.netty-channel
+            - io.netty-buffer
+            - io.netty-bootstrap
+            We must provide all else (that we end up using) in the shaded jar.
+
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>3.0-alpha-1</version>
-        </dependency>
-        <!-- Jetty -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-util</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-io</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-http</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-continuation</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-security</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-xml</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${nettyVersion}</version>
+        </dependency> -->
     </dependencies>
 
     <build>

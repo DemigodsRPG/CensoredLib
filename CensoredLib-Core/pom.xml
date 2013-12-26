@@ -30,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.7.1</version>
+                <version>2.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -40,6 +40,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
+                                    <include>org.scala-lang:scala-library</include>
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.directwebremoting:dwr</include>
