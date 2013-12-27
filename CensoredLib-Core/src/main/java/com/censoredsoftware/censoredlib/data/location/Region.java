@@ -73,6 +73,34 @@ public class Region
 		return Objects.equal(this, object);
 	}
 
+	public class X implements Comparable<X>
+	{
+		@Override
+		public int compareTo(X regionX)
+		{
+			return x() == regionX.x() ? 0 : (x() > regionX.x() ? 1 : -1);
+		}
+
+		protected int x()
+		{
+			return getX();
+		}
+	}
+
+	public class Z implements Comparable<Z>
+	{
+		@Override
+		public int compareTo(Z regionZ)
+		{
+			return z() == regionZ.z() ? 0 : (z() > regionZ.z() ? 1 : -1);
+		}
+
+		protected int z()
+		{
+			return getZ();
+		}
+	}
+
 	public static class Util
 	{
 		public static Region getRegion(Location location)
