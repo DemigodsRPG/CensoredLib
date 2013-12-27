@@ -2,6 +2,7 @@ package com.censoredsoftware.censoredlib.data;
 
 import com.censoredsoftware.censoredlib.CensoredLib;
 import com.censoredsoftware.censoredlib.helper.ConfigFile;
+import com.censoredsoftware.censoredlib.util.Threads;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
@@ -21,7 +22,8 @@ public class Cache
 	private ConcurrentMap<UUID, TimedData> cache = Maps.newConcurrentMap();
 	private String fileName;
 	private CacheFile file;
-	private Integer task, timed;
+	private Integer task;
+	private UUID timed;
 
 	private Cache()
 	{}
@@ -48,21 +50,21 @@ public class Cache
 			}
 		}, 20, 300 * 20);
 
-		timed = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, new BukkitRunnable()
+		timed = Threads.newTimedTask(new Threads.CensoredRunnable()
 		{
 			@Override
-			public void run()
+			public void runIt()
 			{
 				// Timed
 				updateCachedData();
 			}
-		}, 0, 1);
+		}, 0, 50);
 	}
 
 	public void unload()
 	{
 		Bukkit.getScheduler().cancelTask(task);
-		Bukkit.getScheduler().cancelTask(timed);
+		Threads.getTimedTask(timed).cancel();
 		file.saveToFile();
 	}
 

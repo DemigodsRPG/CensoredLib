@@ -9,9 +9,15 @@ import org.bukkit.OfflinePlayer;
 
 public class MojangIdGrabber
 {
-	private static Cache cache = Cache.load(CensoredLib.plugin(), "mojangIds.yml");
 	private static final String AGENT = "minecraft";
-	private static HttpProfileRepository repository = new HttpProfileRepository();
+	private static HttpProfileRepository repository;
+	private static Cache CACHE;
+
+	static
+	{
+		repository = new HttpProfileRepository();
+		CACHE = Cache.load(CensoredLib.plugin(), "mojangIds.yml");
+	}
 
 	/**
 	 * This method requires an OfflinePlayer as an extra step to prevent just passing in random String names.
@@ -25,21 +31,21 @@ public class MojangIdGrabber
 		String playerName = player.getName();
 
 		// Check if we already know this Id, of if the name actually belongs to a player.
-		if(cache.hasTimed(playerName, "mojangAccount")) return cache.getTimedValue(playerName, "mojangAccount").toString();
-		if(cache.hasTimed(playerName, "fakePlayer")) return null;
+		if(CACHE.hasTimed(playerName, "mojangAccount")) return CACHE.getTimedValue(playerName, "mojangAccount").toString();
+		if(CACHE.hasTimed(playerName, "fakePlayer")) return null;
 
 		// Get the Id from Mojang.
 		IdGetTask task = new IdGetTask(playerName);
 		task.run();
 		if(!task.getStatus())
 		{
-			cache.saveTimed(playerName, "fakePlayer", true, 60);
+			CACHE.saveTimed(playerName, "fakePlayer", true, 60);
 			return null;
 		}
 		String id = task.getUUID();
 
 		// Put the player in the known Ids, and return the found Id.
-		cache.saveTimedWeek(playerName, "mojangAccount", id);
+		CACHE.saveTimedWeek(playerName, "mojangAccount", id);
 		return id;
 	}
 
