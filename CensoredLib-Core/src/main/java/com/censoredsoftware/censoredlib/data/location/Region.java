@@ -85,6 +85,11 @@ public class Region
 		{
 			return getX();
 		}
+
+		public Region getRegion()
+		{
+			return Region.this;
+		}
 	}
 
 	public class Z implements Comparable<Z>
@@ -98,6 +103,12 @@ public class Region
 		protected int z()
 		{
 			return getZ();
+		}
+
+
+		public Region getRegion()
+		{
+			return Region.this;
 		}
 	}
 
