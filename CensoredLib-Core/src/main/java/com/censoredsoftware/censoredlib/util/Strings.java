@@ -3,6 +3,7 @@ package com.censoredsoftware.censoredlib.util;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
+import org.atteo.evo.inflector.English;
 import org.bukkit.ChatColor;
 
 import java.util.Collection;
@@ -81,6 +82,11 @@ public class Strings
 		else if(value < Math.ceil(0.66 * max) && value > Math.ceil(0.33 * max)) color = ChatColor.YELLOW;
 		if(value > Math.ceil(0.66 * max)) color = ChatColor.GREEN;
 		return color;
+	}
+
+	public static String plural(String word, int count)
+	{
+		return English.plural(word, count);
 	}
 
 	/**
