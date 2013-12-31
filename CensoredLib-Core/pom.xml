@@ -42,6 +42,7 @@
                                 <includes>
                                     <include>org.scala-lang:scala-library</include>
                                     <include>org.mcstats.bukkit:metrics-lite</include>
+                                    <include>org.atteo:evo-inflector</include>
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.jdbi:jdbi</include>
                                 </includes>
@@ -50,6 +51,10 @@
                                 <relocation>
                                     <pattern>org.mcstats</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.org.mcstats</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.atteo</pattern>
+                                    <shadedPattern>com.censoredsoftware.shaded.org.atteo</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.mojang</pattern>
@@ -95,7 +100,7 @@
                 </configuration>
             </plugin>
             <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>

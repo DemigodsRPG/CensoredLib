@@ -81,7 +81,7 @@ public class WorldGuards implements Listener
 				callOnEnable();
 			}
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 	}
 
@@ -94,7 +94,7 @@ public class WorldGuards implements Listener
 			saveCurrentCache();
 			ENABLED = false;
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 	}
 
@@ -104,7 +104,7 @@ public class WorldGuards implements Listener
 		{
 			ENABLED = Bukkit.getPluginManager().getPlugin("WorldGuard") instanceof WorldGuardPlugin;
 		}
-		catch(Throwable error)
+		catch(Exception error)
 		{
 			ENABLED = false;
 		}
@@ -211,7 +211,7 @@ public class WorldGuards implements Listener
 				{
 					return region.getFlags().containsKey(flag);
 				}
-				catch(Throwable ignored)
+				catch(Exception ignored)
 				{}
 				return false;
 			}
@@ -249,7 +249,7 @@ public class WorldGuards implements Listener
 				{
 					return flag.marshal(region.getFlag(flag)).equals(value);
 				}
-				catch(Throwable ignored)
+				catch(Exception ignored)
 				{}
 				return false;
 			}
@@ -297,7 +297,7 @@ public class WorldGuards implements Listener
 			flags.put(id, new StateFlag(id, Boolean.valueOf(value.toString()), RegionGroup.valueOf(regionGroup.toUpperCase())));
 			return Status.SUCCESS;
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 		return Status.FAILED;
 	}
@@ -419,7 +419,7 @@ public class WorldGuards implements Listener
 				if(flag != null && register) registerFlag(flag);
 				return flag;
 			}
-			catch(Throwable ignored)
+			catch(Exception ignored)
 			{}
 			return null;
 		}
@@ -475,7 +475,7 @@ public class WorldGuards implements Listener
 				{
 					return new StateFlag(protoFlag.getId(), Boolean.valueOf(protoFlag.getValue().toString()), RegionGroup.valueOf(protoFlag.getRegionGroup().toUpperCase()));
 				}
-				catch(Throwable ignored)
+				catch(Exception ignored)
 				{}
 				return null;
 			}
@@ -513,7 +513,7 @@ public class WorldGuards implements Listener
 				for(Flag flag : region.getFlags().keySet())
 					if(WorldGuards.flags.containsKey(flag.getName())) this.flags.put(flag.getName(), flag.marshal(region.getFlag(flag)));
 			}
-			catch(Throwable ignored)
+			catch(Exception ignored)
 			{}
 		}
 
@@ -546,7 +546,7 @@ public class WorldGuards implements Listener
 			{
 				return flag.unmarshal(flags.get(flag.getName()));
 			}
-			catch(Throwable ignored)
+			catch(Exception ignored)
 			{}
 			return null;
 		}

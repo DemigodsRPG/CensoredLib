@@ -447,7 +447,7 @@ public class Selection
 			if(args.length != 4) return null;
 			return new Selection(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Material.valueOf(args[3]));
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 		return null;
 	}

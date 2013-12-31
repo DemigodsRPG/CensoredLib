@@ -262,7 +262,7 @@ public class CLocation implements ConfigurationSerializable
 				location.setYaw(Float.valueOf(args[5]));
 				return location.toLocation();
 			}
-			catch(Throwable ignored)
+			catch(Exception ignored)
 			{}
 			return null;
 		}

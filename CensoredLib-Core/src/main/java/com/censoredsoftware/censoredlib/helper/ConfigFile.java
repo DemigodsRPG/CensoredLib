@@ -36,7 +36,7 @@ public abstract class ConfigFile<ID, DATA extends ConfigurationSerializable>
 			{
 				map.put(convertFromString(stringId), create(convertFromString(stringId), data.getConfigurationSection(stringId)));
 			}
-			catch(Throwable ignored)
+			catch(Exception ignored)
 			{}
 		}
 		return map;

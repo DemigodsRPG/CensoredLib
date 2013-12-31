@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.mojang:AccountsClient:latest">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/mojang/AccountsClient/latest/AccountsClient-latest.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/mojang/AccountsClient/latest/AccountsClient-latest-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/mojang/AccountsClient/latest/AccountsClient-latest-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

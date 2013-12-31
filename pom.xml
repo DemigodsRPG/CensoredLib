@@ -94,7 +94,7 @@
         </dependency>
         <!-- Spigot (Bukkit) API -->
         <dependency>
-        <groupId>org.spigotmc</groupId>
+            <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot.version}</version>
             <scope>compile</scope>
@@ -114,6 +114,12 @@
             </exclusions>
             <scope>compile</scope>
             <optional>false</optional>
+        </dependency>
+        <!-- English Inflector -->
+        <dependency>
+            <groupId>org.atteo</groupId>
+            <artifactId>evo-inflector</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <!-- WorldGuard -->
         <dependency>

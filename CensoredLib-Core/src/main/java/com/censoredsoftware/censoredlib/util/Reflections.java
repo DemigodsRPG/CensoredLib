@@ -22,7 +22,7 @@ public class Reflections
 			modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 			field.set(null, value);
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 	}
 
@@ -41,7 +41,7 @@ public class Reflections
 			field.setAccessible(true);
 			field.set(instance, value);
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 	}
 
@@ -60,7 +60,7 @@ public class Reflections
 			field.setAccessible(true);
 			return field.get(instance);
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 		return null;
 	}
@@ -74,7 +74,7 @@ public class Reflections
 			method.setAccessible(true);
 			value = (V) method.invoke(instance, args);
 		}
-		catch(Throwable ignored)
+		catch(Exception ignored)
 		{}
 		return value;
 	}

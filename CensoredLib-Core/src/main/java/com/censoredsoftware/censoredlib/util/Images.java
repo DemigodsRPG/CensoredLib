@@ -224,7 +224,7 @@ public class Images
 
 			return finalImage;
 		}
-		catch(Throwable errored)
+		catch(Exception errored)
 		{
 			errored.printStackTrace();
 			Bukkit.getServer().getLogger().warning("[CensoredLib] " + "Something went wrong during an image conversion process.");
@@ -259,7 +259,7 @@ public class Images
 			// Return the converted head.
 			return convertedImage;
 		}
-		catch(Throwable errored)
+		catch(Exception errored)
 		{
 			errored.printStackTrace();
 			Bukkit.getServer().getLogger().warning("[CensoredLib] " + "Something went wrong during an image conversion process.");
