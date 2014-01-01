@@ -36,7 +36,7 @@ public class Selection
 		this.cuboid = false;
 		this.exclude = false;
 		this.excludeSelection = false;
-		this.blockData = Lists.newArrayList(new BlockData(Material.AIR));
+		this.blockData = Lists.newArrayList();
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Selection
 		this.cuboid = true;
 		this.exclude = false;
 		this.excludeSelection = false;
-		this.blockData = Lists.newArrayList(new BlockData(Material.AIR));
+		this.blockData = Lists.newArrayList();
 	}
 
 	/**
@@ -373,6 +373,7 @@ public class Selection
 	 */
 	public void generate(Location reference)
 	{
+		if(blockData.isEmpty()) return;
 		for(Location location : getBlockLocations(reference))
 		{
 			BlockData data = getStructureBlockData();
