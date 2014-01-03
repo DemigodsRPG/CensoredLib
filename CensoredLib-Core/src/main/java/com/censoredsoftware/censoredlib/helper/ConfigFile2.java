@@ -10,7 +10,7 @@ import java.util.Map;
 
 public abstract class ConfigFile2 implements ConfigurationSerializable
 {
-	public abstract void unserialize(ConfigurationSection conf);
+	public abstract ConfigFile2 unserialize(ConfigurationSection conf);
 
 	public abstract String getSavePath();
 
@@ -18,10 +18,11 @@ public abstract class ConfigFile2 implements ConfigurationSerializable
 
 	public abstract Map<String, Object> serialize();
 
-	public void loadFromFile()
+	public ConfigFile2 loadFromFile()
 	{
 		FileConfiguration fileData = getData();
-		if(fileData != null) unserialize(fileData);
+		if(fileData != null) return unserialize(fileData);
+		return null;
 	}
 
 	public FileConfiguration getData()
@@ -49,6 +50,28 @@ public abstract class ConfigFile2 implements ConfigurationSerializable
 			{}
 		}
 		saveDefaultFile(dataFile);
+	}
+
+	public boolean saveToFile()
+	{
+		FileConfiguration saveFile = getData();
+
+		for(Map.Entry<String, Object> entry : serialize().entrySet())
+			saveFile.set(entry.getKey(), entry.getValue());
+
+		return saveFile(getSavePath(), getSaveFile(), saveFile);
+	}
+
+	public static boolean saveFile(String path, String resource, FileConfiguration conf)
+	{
+		try
+		{
+			conf.save(path + resource);
+			return true;
+		}
+		catch(Exception ignored)
+		{}
+		return false;
 	}
 
 	private boolean saveDefaultFile(File dataFile)
