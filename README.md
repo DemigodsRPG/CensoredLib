@@ -40,3 +40,7 @@ Developers
 ==========
 
 CensoredLib is being developed by The CensoredLib Team, defined in [**AUTHORS.md**](AUTHORS.md).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/CensoredSoftware/censoredlib/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
