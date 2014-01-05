@@ -41,13 +41,17 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.scala-lang:scala-library</include>
+                                    <include>org.mapdb:mapdb</include>
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>org.atteo:evo-inflector</include>
                                     <include>com.mojang:AccountsClient</include>
-                                    <include>org.jdbi:jdbi</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
+                                <relocation>
+                                    <pattern>org.mapdb</pattern>
+                                    <shadedPattern>com.censoredsoftware.shaded.org.mapdb</shadedPattern>
+                                </relocation>
                                 <relocation>
                                     <pattern>org.mcstats</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.org.mcstats</shadedPattern>
@@ -59,10 +63,6 @@
                                 <relocation>
                                     <pattern>com.mojang</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.com.mojang</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.skife.jdbi</pattern>
-                                    <shadedPattern>com.censoredsoftware.shaded.org.skife.jdbi</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

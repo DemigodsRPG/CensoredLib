@@ -101,6 +101,12 @@
             <type>jar</type>
             <optional>false</optional>
         </dependency>
+        <!-- MapDB -->
+        <dependency>
+            <groupId>org.mapdb</groupId>
+            <artifactId>mapdb</artifactId>
+            <version>0.9.8</version>
+        </dependency>
         <!-- MCStats -->
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>
@@ -182,12 +188,6 @@
                     <artifactId>junit</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <!-- Database Stuff -->
-        <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi</artifactId>
-            <version>2.51</version>
         </dependency>
         <!-- Mojang Accounts -->
         <dependency>

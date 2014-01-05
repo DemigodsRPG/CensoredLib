@@ -13,6 +13,9 @@ public class CensoredLibPlugin extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
+		// TODO Submit pull request to Bukkit/Spigot about this:
+		Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+
 		// Init
 		CensoredLib.init();
 
