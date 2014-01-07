@@ -1,13 +1,14 @@
 package com.censoredsoftware.censoredlib.data.player;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Map;
-import java.util.UUID;
+import com.google.common.collect.Maps;
 
 public abstract class SavedPotion implements ConfigurationSerializable
 {

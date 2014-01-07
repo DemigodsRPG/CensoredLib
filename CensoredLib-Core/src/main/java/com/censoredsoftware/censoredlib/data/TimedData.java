@@ -1,12 +1,13 @@
 package com.censoredsoftware.censoredlib.data;
 
-import com.google.common.base.Objects;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
+import com.google.common.base.Objects;
 
 public class TimedData implements ConfigurationSerializable
 {

@@ -1,14 +1,15 @@
 package com.censoredsoftware.censoredlib.helper;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 public abstract class ConfigFile3<ID, DATA>
 {

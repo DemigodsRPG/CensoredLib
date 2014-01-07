@@ -1,12 +1,12 @@
 package com.censoredsoftware.censoredlib.helper;
 
+import java.io.File;
+import java.util.Map;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-
-import java.io.File;
-import java.util.Map;
 
 public abstract class ConfigFile2 implements ConfigurationSerializable
 {

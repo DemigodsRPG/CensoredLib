@@ -1,11 +1,12 @@
 package com.censoredsoftware.censoredlib.schematic;
 
-import com.google.common.collect.Sets;
+import java.util.ArrayList;
+import java.util.Set;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
 
-import java.util.ArrayList;
-import java.util.Set;
+import com.google.common.collect.Sets;
 
 public class Schematic extends ArrayList<Selection>
 {

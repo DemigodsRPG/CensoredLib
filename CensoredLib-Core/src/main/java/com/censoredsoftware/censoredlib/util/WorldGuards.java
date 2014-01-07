@@ -1,17 +1,11 @@
 package com.censoredsoftware.censoredlib.util;
 
-import com.censoredsoftware.censoredlib.CensoredLib;
-import com.censoredsoftware.censoredlib.helper.ConfigFile;
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.*;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.events.DisallowedPVPEvent;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.RegionGroup;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import java.lang.reflect.Field;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,11 +20,18 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
+import com.censoredsoftware.censoredlib.CensoredLib;
+import com.censoredsoftware.censoredlib.helper.ConfigFile;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.*;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.events.DisallowedPVPEvent;
+import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.RegionGroup;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 /**
  * Custom flags will not require reflection in WorldGuard 6+, until then we'll use it.

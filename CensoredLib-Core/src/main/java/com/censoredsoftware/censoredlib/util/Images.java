@@ -1,10 +1,18 @@
 package com.censoredsoftware.censoredlib.util;
 
-import com.censoredsoftware.censoredlib.language.Symbol;
-import com.censoredsoftware.censoredlib.schematic.BlockData;
-import com.censoredsoftware.censoredlib.schematic.Schematic;
-import com.censoredsoftware.censoredlib.schematic.Selection;
-import com.google.common.collect.Lists;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -16,17 +24,11 @@ import org.bukkit.map.MapView;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.censoredsoftware.censoredlib.language.Symbol;
+import com.censoredsoftware.censoredlib.schematic.BlockData;
+import com.censoredsoftware.censoredlib.schematic.Schematic;
+import com.censoredsoftware.censoredlib.schematic.Selection;
+import com.google.common.collect.Lists;
 
 public class Images
 {

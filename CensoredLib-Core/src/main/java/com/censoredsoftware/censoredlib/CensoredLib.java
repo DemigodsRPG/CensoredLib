@@ -46,13 +46,13 @@ public class CensoredLib
 
 	static void init()
 	{
-        // Commands
+		// Commands
 		new MainCommands();
 
 		// Update
 		if(canUpdate()) update();
 
-        // Permissions
+		// Permissions
 		loadPermissions(true);
 	}
 
@@ -81,9 +81,9 @@ public class CensoredLib
 		return false;
 	}
 
-    private static void loadPermissions(boolean load)
-    {
-        // Plugin manager
+	private static void loadPermissions(boolean load)
+	{
+		// Plugin manager
 		PluginManager manager = Bukkit.getPluginManager();
 
 		// Define permissions

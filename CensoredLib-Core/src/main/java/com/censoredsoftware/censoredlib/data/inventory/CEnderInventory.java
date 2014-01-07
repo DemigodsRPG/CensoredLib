@@ -1,7 +1,9 @@
 package com.censoredsoftware.censoredlib.data.inventory;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -9,9 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public abstract class CEnderInventory implements ConfigurationSerializable
 {

@@ -1,17 +1,18 @@
 package com.censoredsoftware.censoredlib.helper;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public abstract class WrappedCommand implements TabExecutor
 {

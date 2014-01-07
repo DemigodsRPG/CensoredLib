@@ -1,10 +1,11 @@
 package com.censoredsoftware.censoredlib.schematic;
 
-import com.censoredsoftware.censoredlib.exception.BlockDataException;
-import org.bukkit.Material;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bukkit.Material;
+
+import com.censoredsoftware.censoredlib.exception.BlockDataException;
 
 public class BlockData
 {

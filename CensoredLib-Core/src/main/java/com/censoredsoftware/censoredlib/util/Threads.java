@@ -1,15 +1,16 @@
 package com.censoredsoftware.censoredlib.util;
 
-import com.censoredsoftware.censoredlib.trigger.Trigger;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.*;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+
+import com.censoredsoftware.censoredlib.trigger.Trigger;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Create and manage Threads easily with this helpful Util.
