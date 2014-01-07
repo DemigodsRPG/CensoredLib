@@ -3,6 +3,10 @@ package com.censoredsoftware.censoredlib.helper;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+/**
+ * @deprecated FIXME This class is out of date.
+ */
+@Deprecated
 public class QuitReasonHandler extends Handler
 {
 	public static QuitReason latestQuit = QuitReason.QUITTING;

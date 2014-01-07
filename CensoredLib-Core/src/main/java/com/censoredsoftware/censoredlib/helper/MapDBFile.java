@@ -36,9 +36,10 @@ public class MapDBFile
 		name = fileName;
 		path = filePath;
 
-		new File(path).mkdirs();
+		File pathFile = new File(path);
+		if(!pathFile.exists()) pathFile.mkdirs();
 
-		data = DBMaker.newFileDB(new File(path + name)).snapshotEnable().closeOnJvmShutdown().make();
+		data = DBMaker.newFileDB(new File(path + name)).closeOnJvmShutdown().make();
 
 		string = data.createHashMap("string").makeOrGet();
 		number = data.createHashMap("number").makeOrGet();
@@ -225,11 +226,6 @@ public class MapDBFile
 	public final void compact()
 	{
 		data.compact();
-	}
-
-	public final DB snapshot()
-	{
-		return data.snapshot();
 	}
 
 	public final void close()
