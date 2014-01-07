@@ -1,7 +1,7 @@
 package com.censoredsoftware.censoredlib.data.location;
 
-import com.censoredsoftware.censoredlib.util.Randoms;
-import com.google.common.collect.Sets;
+import java.util.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -11,7 +11,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import java.util.*;
+import com.censoredsoftware.censoredlib.util.Randoms;
+import com.google.common.collect.Sets;
 
 public class CLocation implements ConfigurationSerializable
 {
@@ -228,9 +229,8 @@ public class CLocation implements ConfigurationSerializable
 		public static double distanceFlat(Location location1, Location location2)
 		{
 			if(!location1.getWorld().equals(location2.getWorld())) return 99999;
-			double Y = location1.getY();
 			Location location3 = location2.clone();
-			location3.setY(Y);
+			location3.setY(location1.getY());
 			return location1.distance(location3);
 		}
 

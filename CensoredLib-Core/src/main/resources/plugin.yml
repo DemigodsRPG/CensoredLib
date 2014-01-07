@@ -4,3 +4,7 @@ main: com.censoredsoftware.censoredlib.CensoredLibPlugin
 version: ${parent.version}
 softdepend: [WorldEdit, WorldGuard]
 authors: [_Alex, HmmmQuestionMark]
+commands:
+    repo:
+        usage: /repo [option] [args]
+        permission: censoredlib.basic

@@ -45,6 +45,8 @@
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>org.atteo:evo-inflector</include>
                                     <include>com.mojang:AccountsClient</include>
+                                    <include>org.eclipse.mylyn.github:org.eclipse.egit.github.core</include>
+                                    <include>com.google.code.gson:gson</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -63,6 +65,14 @@
                                 <relocation>
                                     <pattern>com.mojang</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.com.mojang</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.eclipse</pattern>
+                                    <shadedPattern>com.censoredsoftware.shaded.org.eclipse</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.code.gson</pattern>
+                                    <shadedPattern>com.censoredsoftware.shaded.com.google.code.gson</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

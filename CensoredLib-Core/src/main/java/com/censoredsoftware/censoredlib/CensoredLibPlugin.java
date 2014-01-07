@@ -1,11 +1,8 @@
 package com.censoredsoftware.censoredlib;
 
-import com.censoredsoftware.censoredlib.util.WorldGuards;
-import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.censoredsoftware.censoredlib.helper.CensoredJavaPlugin;
 
-public class CensoredLibPlugin extends JavaPlugin
+public class CensoredLibPlugin extends CensoredJavaPlugin
 {
 	/**
 	 * The Bukkit enable method.
@@ -28,12 +25,8 @@ public class CensoredLibPlugin extends JavaPlugin
 	@Override
 	public void onDisable()
 	{
-		// Save WorldGuard Cache
-		WorldGuards.saveCurrentCache();
-
-		// Unload anything else
-		HandlerList.unregisterAll(this);
-		Bukkit.getScheduler().cancelTasks(this);
+		// Uninitialize plugin
+		CensoredLib.uninit();
 
 		message("disabled");
 	}
