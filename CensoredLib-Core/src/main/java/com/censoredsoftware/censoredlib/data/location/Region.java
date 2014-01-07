@@ -1,8 +1,9 @@
 package com.censoredsoftware.censoredlib.data.location;
 
-import com.google.common.base.Objects;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+
+import com.google.common.base.Objects;
 
 public class Region
 {
@@ -104,7 +105,6 @@ public class Region
 		{
 			return getZ();
 		}
-
 
 		public Region getRegion()
 		{

@@ -1,12 +1,13 @@
 package com.censoredsoftware.censoredlib.helper;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.io.File;
+import java.util.concurrent.ConcurrentMap;
+
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
-import java.io.File;
-import java.util.concurrent.ConcurrentMap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Easy class for use with the MapDB library.

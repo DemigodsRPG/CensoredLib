@@ -1,11 +1,11 @@
 package com.censoredsoftware.censoredlib.data.inventory;
 
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Map;
-import java.util.UUID;
 
 public class CItemStack implements ConfigurationSerializable
 {

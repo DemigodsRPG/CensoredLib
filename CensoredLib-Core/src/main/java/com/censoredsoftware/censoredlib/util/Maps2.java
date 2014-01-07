@@ -1,8 +1,8 @@
 package com.censoredsoftware.censoredlib.util;
 
-import com.google.common.collect.Lists;
-
 import java.util.*;
+
+import com.google.common.collect.Lists;
 
 public class Maps2
 {

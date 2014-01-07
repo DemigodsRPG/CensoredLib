@@ -1,16 +1,17 @@
 package com.censoredsoftware.censoredlib.schematic;
 
-import com.censoredsoftware.censoredlib.util.Randoms;
-import com.google.common.base.Objects;
-import com.google.common.base.Predicate;
-import com.google.common.collect.*;
-import org.bukkit.Location;
-import org.bukkit.Material;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+
+import com.censoredsoftware.censoredlib.util.Randoms;
+import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.*;
 
 public class Selection
 {

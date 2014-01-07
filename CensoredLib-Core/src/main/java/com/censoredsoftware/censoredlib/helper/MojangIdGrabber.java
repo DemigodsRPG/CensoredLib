@@ -1,11 +1,12 @@
 package com.censoredsoftware.censoredlib.helper;
 
+import org.bukkit.OfflinePlayer;
+
 import com.censoredsoftware.censoredlib.CensoredLib;
 import com.censoredsoftware.censoredlib.data.Cache;
 import com.mojang.api.profiles.HttpProfileRepository;
 import com.mojang.api.profiles.Profile;
 import com.mojang.api.profiles.ProfileCriteria;
-import org.bukkit.OfflinePlayer;
 
 public class MojangIdGrabber
 {

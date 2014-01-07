@@ -1,13 +1,14 @@
 package com.censoredsoftware.censoredlib.util;
 
-import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Maps;
+import java.awt.*;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-import java.awt.*;
-import java.util.Map;
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Maps;
 
 public class Colors
 {
