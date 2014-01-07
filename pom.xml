@@ -10,7 +10,6 @@
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>CensoredLib-Core</module>
-        <module>CensoredLib-Web</module>
     </modules>
 
     <name>CensoredLib</name>
@@ -35,7 +34,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot.version>1.7.2-R0.2-SNAPSHOT</spigot.version>
         <mcstats.version>R7</mcstats.version>
-        <!-- <nettyVersion>5.0.0.Alpha1</nettyVersion> -->
         <worldguard.version>5.8.1-SNAPSHOT</worldguard.version>
     </properties>
 
@@ -209,20 +207,6 @@
             <scope>compile</scope>
             <optional>false</optional>
         </dependency>
-        <!-- Netty
-            Mojang provides:
-            - io.netty-util
-            - io.netty-handler
-            - io.netty-channel
-            - io.netty-buffer
-            - io.netty-bootstrap
-            We must provide all else (that we end up using) in the shaded jar.
-
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>${nettyVersion}</version>
-        </dependency> -->
     </dependencies>
 
     <build>
