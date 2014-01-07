@@ -64,8 +64,17 @@ public class MainCommands extends WrappedCommand
 			// First check for OAuth
 			if(oauthToken == null)
 			{
-				sender.sendMessage(ChatColor.RED + "You have not set a GitHub OAuth token or the token is invalid.");
-				sender.sendMessage(ChatColor.RED + "To do so, use " + ChatColor.YELLOW + "/repo setoauth <token>");
+				if(sender.hasPermission("censoredlib.admin"))
+				{
+					sender.sendMessage(ChatColor.RED + "You have not set a GitHub OAuth token or the token is invalid.");
+					sender.sendMessage(ChatColor.RED + "To do so, use " + ChatColor.YELLOW + "/repo setoauth <token>");
+				}
+				else
+				{
+					sender.sendMessage(ChatColor.RED + "An administrator has not set the necessary GitHub OAuth token.");
+					sender.sendMessage(ChatColor.RED + "Please advise one to do so.");
+				}
+
 				return true;
 			}
 
