@@ -40,7 +40,6 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>org.scala-lang:scala-library</include>
                                     <include>org.mapdb:mapdb</include>
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>org.atteo:evo-inflector</include>
