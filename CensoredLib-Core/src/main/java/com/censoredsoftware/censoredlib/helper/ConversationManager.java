@@ -4,7 +4,7 @@ import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-public interface WrappedConversation
+public interface ConversationManager
 {
 	public Listener getUniqueListener();
 

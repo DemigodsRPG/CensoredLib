@@ -1,16 +1,16 @@
 package com.censoredsoftware.censoredlib;
 
-import java.util.Set;
-
+import com.censoredsoftware.censoredlib.commands.MainCommands;
+import com.censoredsoftware.censoredlib.helper.CommandManager;
+import com.censoredsoftware.censoredlib.util.WorldGuards;
+import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 
-import com.censoredsoftware.censoredlib.commands.MainCommands;
-import com.censoredsoftware.censoredlib.util.WorldGuards;
-import com.google.common.collect.Sets;
+import java.util.Set;
 
 /**
  * The main class for the CensoredLib plugin.
@@ -19,6 +19,7 @@ import com.google.common.collect.Sets;
 public class CensoredLib
 {
 	private static final CensoredLibPlugin PLUGIN;
+	private static final CommandManager.Registry COMMAND_REGISTRY;
 	private static final String SAVE_PATH;
 
 	private CensoredLib()
@@ -27,6 +28,7 @@ public class CensoredLib
 	static
 	{
 		PLUGIN = (CensoredLibPlugin) Bukkit.getPluginManager().getPlugin("CensoredLib");
+		COMMAND_REGISTRY = new CommandManager.Registry(PLUGIN);
 		SAVE_PATH = PLUGIN.getDataFolder() + "/data/";
 
 		// Handle config and oauth
@@ -47,7 +49,7 @@ public class CensoredLib
 	static void init()
 	{
 		// Commands
-		new MainCommands();
+		COMMAND_REGISTRY.registerManager(new MainCommands());
 
 		// Update
 		if(canUpdate()) update();
