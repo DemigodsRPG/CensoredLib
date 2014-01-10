@@ -30,6 +30,21 @@ public abstract class CommandManager implements CommandExecutor
 		}
 
 		/**
+		 * Register some managers, and store the command names and aliases for future retrieval.
+		 * 
+		 * @param managers The manager being registered.
+		 */
+		public void registerNamesOnly(Collection<CommandManager> managers)
+		{
+			for(CommandManager manager : managers)
+			{
+				for(String command : manager.getCommandNames())
+					commandsAndAliases.add(command);
+				commandsAndAliases.addAll(manager.getAliases());
+			}
+		}
+
+		/**
 		 * Register a manager, and store the command names and aliases for future retrieval.
 		 * 
 		 * @param manager The manager being registered.
