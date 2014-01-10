@@ -38,7 +38,7 @@ public abstract class CommandManager implements CommandExecutor
 		{
 			for(String command : manager.getCommandNames())
 			{
-				plugin.getCommand(command).setExecutor(manager);
+				if(plugin.getCommand(command) != null) plugin.getCommand(command).setExecutor(manager);
 				commandsAndAliases.add(command);
 			}
 
