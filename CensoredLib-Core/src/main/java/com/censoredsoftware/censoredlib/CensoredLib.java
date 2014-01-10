@@ -1,6 +1,6 @@
 package com.censoredsoftware.censoredlib;
 
-import com.censoredsoftware.censoredlib.commands.MainCommands;
+import com.censoredsoftware.censoredlib.command.MainCommands;
 import com.censoredsoftware.censoredlib.helper.CommandManager;
 import com.censoredsoftware.censoredlib.util.WorldGuards;
 import com.google.common.collect.Sets;

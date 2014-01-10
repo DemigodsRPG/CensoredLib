@@ -1,4 +1,4 @@
-package com.censoredsoftware.censoredlib.commands;
+package com.censoredsoftware.censoredlib.command;
 
 import com.censoredsoftware.censoredlib.CensoredLib;
 import com.censoredsoftware.censoredlib.helper.CommandManager;
