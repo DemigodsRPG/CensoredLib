@@ -1,13 +1,12 @@
 package com.censoredsoftware.censoredlib.helper;
 
-import java.io.File;
-import java.util.concurrent.ConcurrentMap;
-
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Easy class for use with the MapDB library.
@@ -23,12 +22,12 @@ public class MapDBFile
 	private ConcurrentMap<String, String> string;
 	private ConcurrentMap<String, Number> number;
 	private ConcurrentMap<String, Boolean> bool;
-	private ConcurrentMap<String, ImmutableList<String>> stringList;
-	private ConcurrentMap<String, ImmutableList<Number>> numberList;
-	private ConcurrentMap<String, ImmutableList<Boolean>> boolList;
-	private ConcurrentMap<String, ImmutableMap<String, String>> stringMap;
-	private ConcurrentMap<String, ImmutableMap<String, Number>> numberMap;
-	private ConcurrentMap<String, ImmutableMap<String, Boolean>> boolMap;
+	private ConcurrentMap<String, List<String>> stringList;
+	private ConcurrentMap<String, List<Number>> numberList;
+	private ConcurrentMap<String, List<Boolean>> boolList;
+	private ConcurrentMap<String, Map<String, String>> stringMap;
+	private ConcurrentMap<String, Map<String, Number>> numberMap;
+	private ConcurrentMap<String, Map<String, Boolean>> boolMap;
 
 	// -- CONSTRUCTOR -- //
 
@@ -111,13 +110,13 @@ public class MapDBFile
 
 	// -- STRING LIST -- //
 
-	public ImmutableList<String> getStringList(String key)
+	public List<String> getStringList(String key)
 	{
 		if(stringList.containsKey(key)) return stringList.get(key);
 		return null;
 	}
 
-	public void setStringList(String key, ImmutableList<String> value)
+	public void setStringList(String key, List<String> value)
 	{
 		stringList.put(key, value);
 	}
@@ -129,13 +128,13 @@ public class MapDBFile
 
 	// -- NUMBER LIST -- //
 
-	public ImmutableList<Number> getNumberList(String key)
+	public List<Number> getNumberList(String key)
 	{
 		if(numberList.containsKey(key)) return numberList.get(key);
 		return null;
 	}
 
-	public void setNumberList(String key, ImmutableList<Number> value)
+	public void setNumberList(String key, List<Number> value)
 	{
 		numberList.put(key, value);
 	}
@@ -147,13 +146,13 @@ public class MapDBFile
 
 	// -- BOOL LIST -- //
 
-	public ImmutableList<Boolean> getBoolList(String key)
+	public List<Boolean> getBoolList(String key)
 	{
 		if(boolList.containsKey(key)) return boolList.get(key);
 		return null;
 	}
 
-	public void setBoolList(String key, ImmutableList<Boolean> value)
+	public void setBoolList(String key, List<Boolean> value)
 	{
 		boolList.put(key, value);
 	}
@@ -165,13 +164,13 @@ public class MapDBFile
 
 	// -- STRING MAP -- //
 
-	public ImmutableMap<String, String> getStringMap(String key)
+	public Map<String, String> getStringMap(String key)
 	{
 		if(stringMap.containsKey(key)) return stringMap.get(key);
 		return null;
 	}
 
-	public void setStringMap(String key, ImmutableMap<String, String> value)
+	public void setStringMap(String key, Map<String, String> value)
 	{
 		stringMap.put(key, value);
 	}
@@ -183,13 +182,13 @@ public class MapDBFile
 
 	// -- NUMBER MAP -- //
 
-	public ImmutableMap<String, Number> getNumberMap(String key)
+	public Map<String, Number> getNumberMap(String key)
 	{
 		if(numberMap.containsKey(key)) return numberMap.get(key);
 		return null;
 	}
 
-	public void setNumberMap(String key, ImmutableMap<String, Number> value)
+	public void setNumberMap(String key, Map<String, Number> value)
 	{
 		numberMap.put(key, value);
 	}
@@ -201,13 +200,13 @@ public class MapDBFile
 
 	// -- BOOL MAP -- //
 
-	public ImmutableMap<String, Boolean> getBoolMap(String key)
+	public Map<String, Boolean> getBoolMap(String key)
 	{
 		if(boolMap.containsKey(key)) return boolMap.get(key);
 		return null;
 	}
 
-	public void setBoolMap(String key, ImmutableMap<String, Boolean> value)
+	public void setBoolMap(String key, Map<String, Boolean> value)
 	{
 		boolMap.put(key, value);
 	}
