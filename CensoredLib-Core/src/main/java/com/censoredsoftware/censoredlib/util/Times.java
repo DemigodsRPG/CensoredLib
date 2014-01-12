@@ -1,6 +1,7 @@
 package com.censoredsoftware.censoredlib.util;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 
 public class Times
 {
@@ -12,7 +13,7 @@ public class Times
 	 */
 	public static double getSeconds(long time)
 	{
-		return (double) Math.abs((time - System.currentTimeMillis()) / 1000);
+		return (double) TimeUnit.MILLISECONDS.toSeconds(time - System.currentTimeMillis());
 	}
 
 	/**
@@ -23,7 +24,7 @@ public class Times
 	 */
 	public static double getMinutes(long time)
 	{
-		return (double) Math.abs((time - System.currentTimeMillis()) / 60000);
+		return (double) TimeUnit.MILLISECONDS.toMinutes(time - System.currentTimeMillis());
 	}
 
 	/**
@@ -34,7 +35,7 @@ public class Times
 	 */
 	public static double getHours(long time)
 	{
-		return (double) Math.abs((time - System.currentTimeMillis()) / 3600000);
+		return (double) TimeUnit.MILLISECONDS.toHours(time - System.currentTimeMillis());
 	}
 
 	/**
@@ -46,6 +47,7 @@ public class Times
 	 */
 	public static String getTimeTagged(long time, boolean round)
 	{
+
 		DecimalFormat format = round ? new DecimalFormat("#") : new DecimalFormat("#.##");
 		if(getHours(time) >= 1) return format.format(getHours(time)) + "h";
 		else if(Double.valueOf(format.format(getMinutes(time))) >= 1) return format.format(getMinutes(time)) + "m";
