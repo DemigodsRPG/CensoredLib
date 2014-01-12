@@ -36,7 +36,7 @@ public abstract class ConfigFile5<DATA>
 
 	public abstract String getSavePath();
 
-    public abstract String getSaveFile();
+	public abstract String getSaveFile();
 
 	public abstract DATA convertDataFromObject(Object data);
 
@@ -71,13 +71,13 @@ public abstract class ConfigFile5<DATA>
 		final Map<String, DATA> currentFile = loadFromFile();
 
 		for(String id : Collections2.filter(getLoadedData().keySet(), new Predicate<String>()
-        {
+		{
 			@Override
 			public boolean apply(String id)
 			{
 				return !currentFile.keySet().contains(id) || !currentFile.get(id).equals(getLoadedData().get(id));
-            }
-        }))
+			}
+		}))
 			saveFile.set(id, getLoadedData().get(id));
 
 		for(String id : Collections2.filter(currentFile.keySet(), new Predicate<String>()
@@ -91,7 +91,7 @@ public abstract class ConfigFile5<DATA>
 			saveFile.set(id, null);
 
 		return Util.saveFile(getSavePath(), getSaveFile(), saveFile) && saveTimesToFile();
-    }
+	}
 
 	public boolean saveTimesToFile()
 	{
@@ -101,7 +101,7 @@ public abstract class ConfigFile5<DATA>
 		for(String id : Collections2.filter(getLoadedData().keySet(), new Predicate<String>()
 		{
 			@Override
-       public boolean apply(String id)
+			public boolean apply(String id)
 			{
 				return !currentFile.keySet().contains(id) || !currentFile.get(id).equals(getLoadedData().get(id));
 			}
@@ -126,8 +126,8 @@ public abstract class ConfigFile5<DATA>
 	public static class Util
 	{
 		public static FileConfiguration getData(String path, String resource)
-        {
-            File dataFile = new File(path + resource);
+		{
+			File dataFile = new File(path + resource);
 			if(!(dataFile.exists())) createFile(path, resource);
 			return YamlConfiguration.loadConfiguration(dataFile);
 		}
@@ -136,15 +136,15 @@ public abstract class ConfigFile5<DATA>
 		{
 			File dataFile = new File(path + resource);
 			if(!dataFile.exists())
-        {
-                try
-                {
+			{
+				try
+				{
 					(new File(path)).mkdirs();
 					dataFile.createNewFile();
-               }
+				}
 				catch(Exception ignored)
-   {}
-            }
+				{}
+			}
 		}
 
 		public static boolean saveFile(String path, String resource, FileConfiguration conf)
