@@ -9,23 +9,18 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public abstract class ConfigFile5<DATA>
 {
-	public abstract ConcurrentMap<String, DATA> getLoadedData();
+	public abstract Map<String, DATA> getLoadedData();
 
-	public abstract ConcurrentMap<String, Long> getLoadedTimes();
+	public abstract Map<String, Long> getLoadedTimes();
 
-	public void syncDataMaps()
+	public void cleanTimedMaps()
 	{
 		for(Map.Entry<String, Long> entry : getLoadedTimes().entrySet())
 		{
-			if(!getLoadedData().containsKey(entry.getKey()))
-			{
-				getLoadedTimes().remove(entry.getKey());
-				continue;
-			}
+			if(!getLoadedData().containsKey(entry.getKey())) continue;
 			if(entry.getValue() < System.currentTimeMillis())
 			{
 				getLoadedData().remove(entry.getKey());
@@ -40,7 +35,7 @@ public abstract class ConfigFile5<DATA>
 
 	public abstract DATA convertDataFromObject(Object data);
 
-	public ConcurrentMap<String, DATA> loadFromFile()
+	public Map<String, DATA> loadFromFile()
 	{
 		final FileConfiguration data = Util.getData(getSavePath(), getSaveFile());
 		ConcurrentHashMap<String, DATA> map = new ConcurrentHashMap<>();
@@ -52,7 +47,7 @@ public abstract class ConfigFile5<DATA>
 		return map;
 	}
 
-	public ConcurrentMap<String, Long> loadTimesFromFile()
+	public Map<String, Long> loadTimesFromFile()
 	{
 		final FileConfiguration data = Util.getData(getSavePath(), getSaveFile() + ".t");
 		ConcurrentHashMap<String, Long> map = new ConcurrentHashMap<>();
