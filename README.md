@@ -26,7 +26,7 @@ Please read [the JavaDocs](http://censoredsoftware.github.io/CensoredLib/javadoc
 License
 =======
 
-CensoredLib is licensed under the [Artistic License 2.0](LICENSE.txt).
+CensoredLib is licensed under the [Apache License Version 2.0](LICENSE.txt).
 
 All downloads are subject to said license unless otherwise noted.
 

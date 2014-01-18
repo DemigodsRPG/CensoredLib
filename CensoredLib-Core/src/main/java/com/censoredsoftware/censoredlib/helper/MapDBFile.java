@@ -5,7 +5,6 @@ import org.mapdb.DBMaker;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -25,9 +24,6 @@ public class MapDBFile
 	private ConcurrentMap<String, List<String>> stringList;
 	private ConcurrentMap<String, List<Number>> numberList;
 	private ConcurrentMap<String, List<Boolean>> boolList;
-	private ConcurrentMap<String, Map<String, String>> stringMap;
-	private ConcurrentMap<String, Map<String, Number>> numberMap;
-	private ConcurrentMap<String, Map<String, Boolean>> boolMap;
 
 	// -- CONSTRUCTOR -- //
 
@@ -48,10 +44,6 @@ public class MapDBFile
 		stringList = data.createHashMap("stringList").makeOrGet();
 		numberList = data.createHashMap("numberList").makeOrGet();
 		boolList = data.createHashMap("boolList").makeOrGet();
-
-		stringMap = data.createHashMap("stringMap").makeOrGet();
-		numberMap = data.createHashMap("numberMap").makeOrGet();
-		boolMap = data.createHashMap("boolMap").makeOrGet();
 	}
 
 	// -- STRING -- //
@@ -162,60 +154,6 @@ public class MapDBFile
 		if(boolList.containsKey(key)) boolList.remove(key);
 	}
 
-	// -- STRING MAP -- //
-
-	public Map<String, String> getStringMap(String key)
-	{
-		if(stringMap.containsKey(key)) return stringMap.get(key);
-		return null;
-	}
-
-	public void setStringMap(String key, Map<String, String> value)
-	{
-		stringMap.put(key, value);
-	}
-
-	public void removeStringMap(String key)
-	{
-		if(stringMap.containsKey(key)) stringMap.remove(key);
-	}
-
-	// -- NUMBER MAP -- //
-
-	public Map<String, Number> getNumberMap(String key)
-	{
-		if(numberMap.containsKey(key)) return numberMap.get(key);
-		return null;
-	}
-
-	public void setNumberMap(String key, Map<String, Number> value)
-	{
-		numberMap.put(key, value);
-	}
-
-	public void removeNumberMap(String key)
-	{
-		if(numberMap.containsKey(key)) numberMap.remove(key);
-	}
-
-	// -- BOOL MAP -- //
-
-	public Map<String, Boolean> getBoolMap(String key)
-	{
-		if(boolMap.containsKey(key)) return boolMap.get(key);
-		return null;
-	}
-
-	public void setBoolMap(String key, Map<String, Boolean> value)
-	{
-		boolMap.put(key, value);
-	}
-
-	public void removeBoolMap(String key)
-	{
-		if(boolMap.containsKey(key)) boolMap.remove(key);
-	}
-
 	// -- MISC -- //
 
 	public final void save()
@@ -242,10 +180,6 @@ public class MapDBFile
 		stringList.clear();
 		numberList.clear();
 		boolList.clear();
-
-		stringMap.clear();
-		numberMap.clear();
-		boolMap.clear();
 	}
 
 	public boolean delete()
