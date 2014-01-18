@@ -33,7 +33,6 @@
     <properties> <!-- It is important to keep up to date manually. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot.version>1.7.2-R0.2-SNAPSHOT</spigot.version>
-        <barapi.version>3.0</barapi.version>
         <mcstats.version>R7</mcstats.version>
         <worldguard.version>5.8.1-SNAPSHOT</worldguard.version>
     </properties>
@@ -77,10 +76,6 @@
         <repository>
             <id>Plugin Metrics</id>
             <url>http://repo.mcstats.org/content/repositories/public</url>
-        </repository>
-        <repository>
-            <id>confuser-repo</id>
-            <url>http://ci.frostcast.net/plugin/repository/everything</url>
         </repository>
         <repository>
             <id>sk89q-repo</id>
@@ -129,12 +124,6 @@
             </exclusions>
             <scope>compile</scope>
             <optional>false</optional>
-        </dependency>
-        <!-- BarAPI -->
-        <dependency>
-            <groupId>me.confuser</groupId>
-            <artifactId>BarAPI</artifactId>
-            <version>${barapi.version}</version>
         </dependency>
         <!-- English Inflector -->
         <dependency>
