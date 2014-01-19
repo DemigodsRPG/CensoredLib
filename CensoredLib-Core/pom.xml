@@ -44,6 +44,7 @@
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>org.atteo:evo-inflector</include>
                                     <include>org.jgrapht:jgrapht-core</include>
+                                    <include>org.jgrapht:jgrapht-ext</include>
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.eclipse.mylyn.github:org.eclipse.egit.github.core</include>
                                     <include>com.google.code.gson:gson</include>
@@ -68,7 +69,7 @@
                                     <shadedPattern>com.censoredsoftware.shaded.org.jgrapht</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                <pattern>com.mojang</pattern>
+                                    <pattern>com.mojang</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.com.mojang</shadedPattern>
                                 </relocation>
                                 <relocation>
