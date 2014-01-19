@@ -43,9 +43,11 @@
                                     <include>org.mapdb:mapdb</include>
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>org.atteo:evo-inflector</include>
+                                    <include>org.jgrapht:jgrapht-core</include>
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.eclipse.mylyn.github:org.eclipse.egit.github.core</include>
                                     <include>com.google.code.gson:gson</include>
+                                    <include>com.thoughtworks.xstream:xstream</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -62,7 +64,11 @@
                                     <shadedPattern>com.censoredsoftware.shaded.org.atteo</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>com.mojang</pattern>
+                                    <pattern>org.jgrapht</pattern>
+                                    <shadedPattern>com.censoredsoftware.shaded.org.jgrapht</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                <pattern>com.mojang</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.com.mojang</shadedPattern>
                                 </relocation>
                                 <relocation>
@@ -72,6 +78,10 @@
                                 <relocation>
                                     <pattern>com.google.code.gson</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.com.google.code.gson</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.thoughtworks</pattern>
+                                    <shadedPattern>com.censoredsoftware.shaded.com.thoughtworks</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
