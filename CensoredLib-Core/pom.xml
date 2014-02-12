@@ -40,7 +40,6 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>org.mapdb:mapdb</include>
                                     <include>org.mcstats.bukkit:metrics-lite</include>
                                     <include>org.atteo:evo-inflector</include>
                                     <include>org.jgrapht:jgrapht-core</include>
@@ -48,14 +47,13 @@
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.eclipse.mylyn.github:org.eclipse.egit.github.core</include>
                                     <include>com.google.code.gson:gson</include>
-                                    <include>com.thoughtworks.xstream:xstream</include>
+                                    <include>com.squareup.dagger:dagger</include>
+                                    <include>com.squareup.javawriter:javawriter</include>
+                                    <include>com.squareup.otto:otto</include>
+                                    <include>javax.inject:javax.inject</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
-                                <relocation>
-                                    <pattern>org.mapdb</pattern>
-                                    <shadedPattern>com.censoredsoftware.shaded.org.mapdb</shadedPattern>
-                                </relocation>
                                 <relocation>
                                     <pattern>org.mcstats</pattern>
                                     <shadedPattern>com.censoredsoftware.shaded.org.mcstats</shadedPattern>
@@ -81,8 +79,8 @@
                                     <shadedPattern>com.censoredsoftware.shaded.com.google.code.gson</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>com.thoughtworks</pattern>
-                                    <shadedPattern>com.censoredsoftware.shaded.com.thoughtworks</shadedPattern>
+                                    <pattern>com.squareup</pattern>
+                                    <shadedPattern>com.censoredsoftware.shaded.com.squareup</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

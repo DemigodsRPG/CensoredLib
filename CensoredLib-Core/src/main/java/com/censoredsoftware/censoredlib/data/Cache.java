@@ -1,15 +1,5 @@
 package com.censoredsoftware.censoredlib.data;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.censoredsoftware.censoredlib.CensoredLib;
 import com.censoredsoftware.censoredlib.helper.ConfigFile;
 import com.censoredsoftware.censoredlib.util.Threads;
@@ -17,10 +7,19 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentMap;
 
 public class Cache
 {
-	private ConcurrentMap<UUID, TimedData> cache = Maps.newConcurrentMap();
+	private ConcurrentMap<UUID, LegacyTimedData> cache = Maps.newConcurrentMap();
 	private String fileName;
 	private CacheFile file;
 	private Integer task;
@@ -69,39 +68,39 @@ public class Cache
 		file.saveToFile();
 	}
 
-	public TimedData get(UUID id)
+	public LegacyTimedData get(UUID id)
 	{
 		return cache.get(id);
 	}
 
-	public Set<TimedData> getAll()
+	public Set<LegacyTimedData> getAll()
 	{
 		return Sets.newHashSet(cache.values());
 	}
 
-	public TimedData find(String key, String subKey)
+	public LegacyTimedData find(String key, String subKey)
 	{
 		if(findByKey(key) == null) return null;
 
-		for(TimedData data : findByKey(key))
+		for(LegacyTimedData data : findByKey(key))
 			if(data.getSubKey().equals(subKey)) return data;
 
 		return null;
 	}
 
-	public Set<TimedData> findByKey(final String key)
+	public Set<LegacyTimedData> findByKey(final String key)
 	{
-		return Sets.newHashSet(Collections2.filter(getAll(), new Predicate<TimedData>()
+		return Sets.newHashSet(Collections2.filter(getAll(), new Predicate<LegacyTimedData>()
 		{
 			@Override
-			public boolean apply(TimedData serverData)
+			public boolean apply(LegacyTimedData serverData)
 			{
 				return serverData.getKey().equals(key);
 			}
 		}));
 	}
 
-	public void delete(TimedData data)
+	public void delete(LegacyTimedData data)
 	{
 		cache.remove(data.getId());
 	}
@@ -117,7 +116,7 @@ public class Cache
 		remove(key, subKey);
 
 		// Create and save the timed data
-		TimedData cache = new TimedData();
+		LegacyTimedData cache = new LegacyTimedData();
 		cache.generateId();
 		cache.setKey(key);
 		cache.setSubKey(subKey);
@@ -132,7 +131,7 @@ public class Cache
 		remove(key, subKey);
 
 		// Create and save the timed data
-		TimedData cache = new TimedData();
+		LegacyTimedData cache = new LegacyTimedData();
 		cache.generateId();
 		cache.setKey(key);
 		cache.setSubKey(subKey);
@@ -147,7 +146,7 @@ public class Cache
 		remove(key, subKey);
 
 		// Create and save the timed data
-		TimedData cache = new TimedData();
+		LegacyTimedData cache = new LegacyTimedData();
 		cache.generateId();
 		cache.setKey(key);
 		cache.setSubKey(subKey);
@@ -176,10 +175,10 @@ public class Cache
 	 */
 	public void updateCachedData()
 	{
-		for(TimedData data : Collections2.filter(getAll(), new Predicate<TimedData>()
+		for(LegacyTimedData data : Collections2.filter(getAll(), new Predicate<LegacyTimedData>()
 		{
 			@Override
-			public boolean apply(TimedData data)
+			public boolean apply(LegacyTimedData data)
 			{
 				return data.getExpiration() <= System.currentTimeMillis();
 			}
@@ -187,16 +186,16 @@ public class Cache
 			delete(data);
 	}
 
-	class CacheFile extends ConfigFile<UUID, TimedData>
+	class CacheFile extends ConfigFile<UUID, LegacyTimedData>
 	{
 		@Override
-		public TimedData create(UUID uuid, ConfigurationSection conf)
+		public LegacyTimedData create(UUID uuid, ConfigurationSection conf)
 		{
-			return new TimedData(uuid, conf);
+			return new LegacyTimedData(uuid, conf);
 		}
 
 		@Override
-		public ConcurrentMap<UUID, TimedData> getLoadedData()
+		public ConcurrentMap<UUID, LegacyTimedData> getLoadedData()
 		{
 			return cache;
 		}

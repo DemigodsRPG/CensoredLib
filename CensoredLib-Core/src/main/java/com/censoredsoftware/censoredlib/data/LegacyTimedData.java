@@ -1,32 +1,37 @@
 package com.censoredsoftware.censoredlib.data;
 
+import com.google.common.base.Objects;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-
-import com.google.common.base.Objects;
-
-public class ServerData implements ConfigurationSerializable
+/**
+ * @deprecated Old.
+ */
+@Deprecated
+public class LegacyTimedData implements ConfigurationSerializable
 {
 	private UUID id;
 	private String key;
 	private String subKey;
 	private String data;
 	private String type;
+	private long expiration;
 
-	public ServerData()
+	public LegacyTimedData()
 	{}
 
-	public ServerData(UUID id, ConfigurationSection conf)
+	public LegacyTimedData(UUID id, ConfigurationSection conf)
 	{
 		this.id = id;
 		key = conf.getString("key");
 		subKey = conf.getString("subKey");
 		data = conf.getString("data");
 		type = conf.getString("type");
+		expiration = conf.getLong("expiration");
 	}
 
 	@Override
@@ -37,6 +42,7 @@ public class ServerData implements ConfigurationSerializable
 		map.put("subKey", subKey);
 		map.put("data", data);
 		map.put("type", type);
+		map.put("expiration", expiration);
 		return map;
 	}
 
@@ -61,6 +67,21 @@ public class ServerData implements ConfigurationSerializable
 		this.type = data.getClass().getName();
 	}
 
+	public void setSeconds(Integer seconds)
+	{
+		this.expiration = System.currentTimeMillis() + (seconds * 1000);
+	}
+
+	public void setMinutes(Integer minutes)
+	{
+		this.expiration = System.currentTimeMillis() + (minutes * 60000);
+	}
+
+	public void setHours(Integer hours)
+	{
+		this.expiration = System.currentTimeMillis() + (hours * 3600000);
+	}
+
 	public UUID getId()
 	{
 		return this.id;
@@ -80,8 +101,13 @@ public class ServerData implements ConfigurationSerializable
 	{
 		if(this.type.equalsIgnoreCase("string")) return this.data;
 		if(this.type.equalsIgnoreCase("integer")) return Integer.parseInt(this.data);
-		if(this.type.equalsIgnoreCase("boolean")) return java.lang.Boolean.parseBoolean(this.data);
+		if(this.type.equalsIgnoreCase("boolean")) return Boolean.parseBoolean(this.data);
 		return this.data;
+	}
+
+	public long getExpiration()
+	{
+		return this.expiration;
 	}
 
 	@Override
@@ -89,7 +115,7 @@ public class ServerData implements ConfigurationSerializable
 	{
 		if(this == obj) return true;
 		if(obj == null || getClass() != obj.getClass()) return false;
-		final ServerData other = (ServerData) obj;
+		final LegacyTimedData other = (LegacyTimedData) obj;
 		return Objects.equal(this.id, other.id) && Objects.equal(this.key, other.key) && Objects.equal(this.subKey, other.subKey) && Objects.equal(this.data, other.data);
 	}
 
@@ -103,11 +129,5 @@ public class ServerData implements ConfigurationSerializable
 	public String toString()
 	{
 		return Objects.toStringHelper(this).add("id", this.id).add("key", this.key).add("subkey", this.subKey).add("data", this.data).toString();
-	}
-
-	@Override
-	public Object clone() throws CloneNotSupportedException
-	{
-		throw new CloneNotSupportedException();
 	}
 }
