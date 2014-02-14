@@ -189,7 +189,7 @@ public class Cache
 	class CacheFile extends ConfigFile<UUID, LegacyTimedData>
 	{
 		@Override
-		public LegacyTimedData create(UUID uuid, ConfigurationSection conf)
+		public LegacyTimedData create(UUID uuid, ConfigurationSection conf, String... args)
 		{
 			return new LegacyTimedData(uuid, conf);
 		}
