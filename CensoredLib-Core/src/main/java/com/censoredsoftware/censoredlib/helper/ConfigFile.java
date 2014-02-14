@@ -1,21 +1,20 @@
 package com.censoredsoftware.censoredlib.helper;
 
-import java.io.File;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
+import java.io.File;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public abstract class ConfigFile<ID, DATA extends ConfigurationSerializable>
 {
-	public abstract DATA create(ID id, ConfigurationSection conf);
+	public abstract DATA create(ID id, ConfigurationSection conf, String... args);
 
 	public abstract ConcurrentMap<ID, DATA> getLoadedData();
 
