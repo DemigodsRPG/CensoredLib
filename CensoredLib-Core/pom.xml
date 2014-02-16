@@ -47,10 +47,6 @@
                                     <include>com.mojang:AccountsClient</include>
                                     <include>org.eclipse.mylyn.github:org.eclipse.egit.github.core</include>
                                     <include>com.google.code.gson:gson</include>
-                                    <include>com.squareup.dagger:dagger</include>
-                                    <include>com.squareup.javawriter:javawriter</include>
-                                    <include>com.squareup.otto:otto</include>
-                                    <include>javax.inject:javax.inject</include>
                                 </includes>
                             </artifactSet>
                             <relocations>

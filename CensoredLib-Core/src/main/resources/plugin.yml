@@ -1,6 +1,6 @@
 name: CensoredLib
 description: A library created for use with Censored Software's Bukkit/Spigot/Minecraft related projects.
-main: com.censoredsoftware.censoredlib.CensoredLibPlugin
+main: com.censoredsoftware.plugin.CensoredLibPlugin
 version: ${parent.version}
 softdepend: [WorldEdit, WorldGuard]
 authors: [_Alex, HmmmQuestionMark]

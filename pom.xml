@@ -32,7 +32,7 @@
 
     <properties> <!-- It is important to keep up to date manually. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spigot.version>1.7.2-R0.2-SNAPSHOT</spigot.version>
+        <spigot.version>1.7.2-R0.4-SNAPSHOT</spigot.version>
         <mcstats.version>R7</mcstats.version>
         <worldguard.version>5.8.1-SNAPSHOT</worldguard.version>
         <otto.version>1.3.4</otto.version>
@@ -207,18 +207,6 @@
             <version>latest</version>
             <scope>compile</scope>
             <optional>false</optional>
-        </dependency>
-        <!-- Otto -->
-        <dependency>
-            <groupId>com.squareup</groupId>
-            <artifactId>otto</artifactId>
-            <version>${otto.version}</version>
-        </dependency>
-        <!-- javax.inject -->
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
         </dependency>
     </dependencies>
 
