@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <V> The type of value.
  */
 @SuppressWarnings("unchecked")
-public abstract class UniformConfigurationYamlFile<K extends Comparable, V> implements YamlFile, YamlConvertible
+public abstract class UniformConfigurationYamlFile<K extends Comparable, V> extends YamlConvertible implements YamlFile
 {
 	/**
 	 * Get the ConfigurationSection being held in the child class.

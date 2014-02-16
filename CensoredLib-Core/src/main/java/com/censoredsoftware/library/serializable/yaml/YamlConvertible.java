@@ -2,24 +2,25 @@ package com.censoredsoftware.library.serializable.yaml;
 
 /**
  * A yaml file that has convertible key-value types.
+ * 
+ * @param <K> Key type.
+ * @param <V> Value type.
  */
-public interface YamlConvertible
+public abstract class YamlConvertible<K, V>
 {
 	/**
 	 * Convert a key from a string.
 	 * 
 	 * @param stringKey The provided string.
-	 * @param <K> Key type.
 	 * @return The converted key.
 	 */
-	<K> K keyFromString(String stringKey);
+	public abstract K keyFromString(String stringKey);
 
 	/**
 	 * Convert to a value from a number of objects representing the data.
 	 * 
 	 * @param data The provided data objects.
-	 * @param <V> Value type.
 	 * @return The converted value.
 	 */
-	<V> V valueFromData(Object... data);
+	public abstract V valueFromData(Object... data);
 }

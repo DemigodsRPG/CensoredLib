@@ -65,6 +65,7 @@ public class Reflections
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T, V> V getPrivateMethod(Class<T> clazz, String methodName, T instance, Object... args)
 	{
 		V value = null;

@@ -1,18 +1,18 @@
 package com.censoredsoftware.library.schematic;
 
+import com.censoredsoftware.library.util.Randoms;
+import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-
-import com.censoredsoftware.library.util.Randoms;
-import com.google.common.base.Objects;
-import com.google.common.base.Predicate;
-import com.google.common.collect.*;
-
+@SuppressWarnings("deprecation")
 public class Selection
 {
 	private int X, Y, Z, XX, YY, ZZ;
@@ -432,8 +432,7 @@ public class Selection
 	@Override
 	public boolean equals(Object object)
 	{
-		if(object instanceof Selection) return Objects.equal(this, object);
-		return false;
+		return object instanceof Selection && Objects.equal(this, object);
 	}
 
 	public String nonCuboidSingleBlockDataToString()
