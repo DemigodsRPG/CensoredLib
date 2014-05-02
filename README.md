@@ -1,6 +1,6 @@
 ![CensoredLib](http://censoredsoftware.com/projects/censoredlib/logo.png "CensoredLib Logo")
 
-Details
+Details [![Build Status](https://travis-ci.org/CensoredSoftware/CensoredLib.svg?branch=master)](https://travis-ci.org/CensoredSoftware/CensoredLib)
 =======
 
 This is the GitHub page for **CensoredLib**, the library created for use with our Bukkit related projects.
@@ -40,7 +40,3 @@ Developers
 ==========
 
 CensoredLib is being developed by The CensoredLib Team, defined in [**AUTHORS.md**](AUTHORS.md).
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/CensoredSoftware/censoredlib/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
