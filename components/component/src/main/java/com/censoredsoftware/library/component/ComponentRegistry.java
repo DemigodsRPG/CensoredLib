@@ -51,7 +51,10 @@ public final class ComponentRegistry
 			{
 				e.printStackTrace();
 			}
-			METHOD_LOAD_ORDER.remove(order, orderedMethod);
+			finally
+			{
+				METHOD_LOAD_ORDER.remove(order, orderedMethod);
+			}
 		}
 	}
 
