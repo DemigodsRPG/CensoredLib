@@ -10,6 +10,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>components/util</module>
+        <module>components/error</module>
         <module>components/messages</module>
         <module>components/component</module>
         <module>components/mc-id-provider</module>
