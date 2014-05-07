@@ -70,6 +70,7 @@ public abstract class TieredStringConvertableGenericYamlFile<K extends Comparabl
 			}
 			catch(Exception ignored)
 			{
+				ignored.printStackTrace();
 			}
 		}
 		return map;
