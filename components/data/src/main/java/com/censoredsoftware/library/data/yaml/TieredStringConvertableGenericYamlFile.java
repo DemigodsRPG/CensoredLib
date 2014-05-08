@@ -70,6 +70,7 @@ public abstract class TieredStringConvertableGenericYamlFile<K, V extends DataSe
 			}
 			catch(Exception ignored)
 			{
+				ignored.printStackTrace();
 			}
 		}
 		return map;
