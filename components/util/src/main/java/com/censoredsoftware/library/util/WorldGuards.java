@@ -516,7 +516,7 @@ public class WorldGuards implements Listener
 		}
 	}
 
-	static class RegionCustomFlags implements DataSerializable
+	static class RegionCustomFlags implements DataSerializable<String>
 	{
 		String regionId;
 		String world;
@@ -590,6 +590,12 @@ public class WorldGuards implements Listener
 			map.putAll(getFlags());
 			region.setFlags(map);
 			return region;
+		}
+
+		@Override
+		public String getId()
+		{
+			return regionId;
 		}
 
 		@Override
