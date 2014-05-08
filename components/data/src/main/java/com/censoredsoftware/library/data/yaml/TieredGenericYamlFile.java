@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <V> Value type.
  */
 @SuppressWarnings({ "unchecked", "SuspiciousMethodCalls" })
-public abstract class TieredGenericYamlFile<K extends Comparable, V extends DataSerializable> extends YamlConvertible implements YamlFile
+public abstract class TieredGenericYamlFile<K, V extends DataSerializable> extends YamlConvertible implements YamlFile
 {
 	/**
 	 * Serialize the data for a specific key (from the loaded data).
