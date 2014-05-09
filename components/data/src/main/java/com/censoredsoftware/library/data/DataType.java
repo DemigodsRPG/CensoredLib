@@ -34,7 +34,7 @@ public interface DataType
 	 *
 	 * @return The id type.
 	 */
-	DefaultIdType getIdType();
+	IdType getIdType();
 
 	/**
 	 * The abbreviation associated with this data type.
