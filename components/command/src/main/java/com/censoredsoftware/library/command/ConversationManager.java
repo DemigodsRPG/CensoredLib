@@ -17,6 +17,8 @@
 package com.censoredsoftware.library.command;
 
 import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
@@ -25,4 +27,12 @@ public interface ConversationManager
 	public Listener getUniqueListener();
 
 	public Conversation startMenu(Player player);
+
+	// Can't touch this. Naaaaaa na-na-na.. Ba-dum, ba-dum.
+	public static interface Category extends Prompt
+	{
+		public String getChatName(ConversationContext context);
+
+		public boolean canUse(ConversationContext context);
+	}
 }
