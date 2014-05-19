@@ -93,11 +93,4 @@ public abstract class UniformConfigurationYamlFile<K, V> extends YamlConvertible
 		// Save the config!
 		return YamlFileUtil.saveFile(getDirectoryPath(), getFullFileName(), currentFile);
 	}
-
-	@Override
-	public final V valueFromData(Object... data)
-	{
-		if(data == null || data.length < 1) return null;
-		return valueFromData(data[0]);
-	}
 }

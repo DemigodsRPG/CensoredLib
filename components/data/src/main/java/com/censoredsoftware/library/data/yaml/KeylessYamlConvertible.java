@@ -19,7 +19,7 @@ package com.censoredsoftware.library.data.yaml;
 /**
  * Convenience abstract class for all YamlConvertible child classes that don't use a key-value system.
  */
-public abstract class KeylessYamlConvertible<V> extends YamlConvertible<Object, V>
+public abstract class KeylessYamlConvertible extends YamlConvertible<Object>
 {
 	@Override
 	public Comparable keyFromString(String string)

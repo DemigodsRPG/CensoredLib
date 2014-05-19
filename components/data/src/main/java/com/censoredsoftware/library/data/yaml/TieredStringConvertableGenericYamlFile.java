@@ -44,7 +44,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <V> Value type.
  */
 @SuppressWarnings({ "unchecked", "SuspiciousMethodCalls" })
-public abstract class TieredStringConvertableGenericYamlFile<K, V extends DataSerializable> extends YamlConvertible implements YamlFile
+public abstract class TieredStringConvertableGenericYamlFile<K, V extends DataSerializable> extends YamlConvertible<K> implements YamlFile
 {
 	/**
 	 * Serialize the data for a specific key (from the loaded data).
@@ -82,7 +82,7 @@ public abstract class TieredStringConvertableGenericYamlFile<K, V extends DataSe
 		{
 			try
 			{
-				map.put((K) keyFromString(stringId), valueFromData(keyFromString(stringId), data.getConfigurationSection(stringId)));
+				map.put((K) keyFromString(stringId), valueFromData(stringId, data.getConfigurationSection(stringId)));
 			}
 			catch(Exception ignored)
 			{
@@ -123,12 +123,5 @@ public abstract class TieredStringConvertableGenericYamlFile<K, V extends DataSe
 
 		// Save the file!
 		return YamlFileUtil.saveFile(getDirectoryPath(), getFullFileName(), currentFile);
-	}
-
-	@Override
-	public final V valueFromData(Object... data)
-	{
-		if(data == null || data.length < 3 || !String.class.isInstance(data[0]) || !ConfigurationSection.class.isInstance(data[1])) return null;
-		return valueFromData((String) data[0], (ConfigurationSection) data[1]);
 	}
 }

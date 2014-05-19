@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <V> Value type.
  * @param <I> Interface for value (can match value).
  */
-public class DataProvidedYamlFile<K, V extends DataSerializable<K>, I> extends YamlConvertible implements YamlFile
+public class DataProvidedYamlFile<K, V extends DataSerializable<K>, I> extends YamlConvertible<K> implements YamlFile
 {
 	private final String name;
 	private final String fileName, fileType, savePath;
@@ -169,7 +169,7 @@ public class DataProvidedYamlFile<K, V extends DataSerializable<K>, I> extends Y
 		{
 			try
 			{
-				map.put((K) keyFromString(stringId), valueFromData(keyFromString(stringId), data.getConfigurationSection(stringId)));
+				map.put(keyFromString(stringId), valueFromData(stringId, data.getConfigurationSection(stringId)));
 			}
 			catch(Exception ignored)
 			{
@@ -208,11 +208,5 @@ public class DataProvidedYamlFile<K, V extends DataSerializable<K>, I> extends Y
 
 		// Save the file!
 		return YamlFileUtil.saveFile(getDirectoryPath(), getFullFileName(), currentFile);
-	}
-
-	public final I valueFromData(Object... data)
-	{
-		if(data == null || data.length < 3 || !String.class.isInstance(data[0]) || !ConfigurationSection.class.isInstance(data[1])) return null;
-		return valueFromData((String) data[0], (ConfigurationSection) data[1]);
 	}
 }
