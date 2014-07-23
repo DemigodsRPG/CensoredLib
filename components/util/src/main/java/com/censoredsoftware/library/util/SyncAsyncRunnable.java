@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package com.censoredsoftware.library.schematic;
+package com.censoredsoftware.library.util;
 
-public class BlockDataException extends IllegalArgumentException
-{
-	public BlockDataException()
-	{
-		super("Odds must be between 1 and 100.");
-	}
+public interface SyncAsyncRunnable {
+    void runSync();
+
+    void runAsync();
 }

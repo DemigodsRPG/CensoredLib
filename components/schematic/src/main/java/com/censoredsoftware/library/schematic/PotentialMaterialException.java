@@ -14,24 +14,10 @@
  * limitations under the License.
  */
 
-package com.censoredsoftware.library.util;
+package com.censoredsoftware.library.schematic;
 
-import com.censoredsoftware.library.messages.CommonSymbol;
-
-public class Titles
-{
-	/**
-	 * Returns a formatted title ready for the chat.
-	 *
-	 * @param title the title to format
-	 * @return the formatted title
-	 */
-	public static String chatTitle(String title)
-	{
-		int total = 86;
-		String chatTitle = " " + CommonSymbol.RIGHTWARD_ARROW + " " + title + " ";
-		for(int i = 0; i < (total - chatTitle.length()); i++)
-			chatTitle += "-";
-		return chatTitle;
-	}
+public class PotentialMaterialException extends IllegalArgumentException {
+    public PotentialMaterialException() {
+        super("Odds must be between 1 and 100.");
+    }
 }
