@@ -19,8 +19,6 @@ package com.censoredsoftware.library.schematic;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.*;
-import org.bukkit.Location;
-import org.bukkit.Material;
 
 import java.util.*;
 
@@ -81,7 +79,7 @@ public class Selection {
      * @param Z        The relative Z coordinate of the schematic from the reference location.
      * @param material The StoaMaterialData objects of this schematic.
      */
-    public Selection(int X, int Y, int Z, Material material) {
+    public Selection(int X, int Y, int Z, String material) {
         this.X = this.XX = X;
         this.Y = this.YY = Y;
         this.Z = this.ZZ = Z;
@@ -100,9 +98,9 @@ public class Selection {
      * @param XX       The second relative X coordinate of the schematic from the reference location, creating a cuboid.
      * @param YY       The second relative Y coordinate of the schematic from the reference location, creating a cuboid.
      * @param ZZ       The second relative Z coordinate of the schematic from the reference location, creating a cuboid.
-     * @param material The StoaMaterialData objects of this schematic.
+     * @param material The MaterialData objects of this schematic.
      */
-    public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, Material material) {
+    public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, String material) {
         this.X = X;
         this.Y = Y;
         this.Z = Z;
@@ -123,7 +121,7 @@ public class Selection {
      * @param Z        The relative Z coordinate of the schematic from the reference location.
      * @param material The StoaMaterialData objects of this schematic.
      */
-    public Selection(int X, int Y, int Z, Material material, byte data) {
+    public Selection(int X, int Y, int Z, String material, byte data) {
         this.X = this.XX = X;
         this.Y = this.YY = Y;
         this.Z = this.ZZ = Z;
@@ -144,7 +142,7 @@ public class Selection {
      * @param ZZ       The second relative Z coordinate of the schematic from the reference location, creating a cuboid.
      * @param material The StoaMaterialData objects of this schematic.
      */
-    public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, Material material, byte data) {
+    public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, String material, byte data) {
         this.X = X;
         this.Y = Y;
         this.Z = Z;
@@ -242,48 +240,6 @@ public class Selection {
     }
 
     /**
-     * Constructor for a Selection (non-cuboid).
-     *
-     * @param X        The relative X coordinate of the schematic from the reference location.
-     * @param Y        The relative Y coordinate of the schematic from the reference location.
-     * @param Z        The relative Z coordinate of the schematic from the reference location.
-     * @param material The StoaMaterialData objects of this schematic.
-     */
-    public Selection(int X, int Y, int Z, PotentialMaterial.Preset material) {
-        this.X = this.XX = X;
-        this.Y = this.YY = Y;
-        this.Z = this.ZZ = Z;
-        this.cuboid = false;
-        this.exclude = false;
-        this.excludeSelection = false;
-        this.blockData = material.getData();
-    }
-
-    /**
-     * Constructor for a Selection (cuboid).
-     *
-     * @param X        The relative X coordinate of the schematic from the reference location.
-     * @param Y        The relative Y coordinate of the schematic from the reference location.
-     * @param Z        The relative Z coordinate of the schematic from the reference location.
-     * @param XX       The second relative X coordinate of the schematic from the reference location, creating a cuboid.
-     * @param YY       The second relative Y coordinate of the schematic from the reference location, creating a cuboid.
-     * @param ZZ       The second relative Z coordinate of the schematic from the reference location, creating a cuboid.
-     * @param material The StoaMaterialData objects of this schematic.
-     */
-    public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, PotentialMaterial.Preset material) {
-        this.X = X;
-        this.Y = Y;
-        this.Z = Z;
-        this.XX = XX;
-        this.YY = YY;
-        this.ZZ = ZZ;
-        this.cuboid = true;
-        this.exclude = false;
-        this.excludeSelection = false;
-        this.blockData = material.getData();
-    }
-
-    /**
      * Generates an integer with a value between <code>min</code> and <code>max</code>.
      *
      * @param min the minimum value of the integer.
@@ -294,16 +250,6 @@ public class Selection {
         return new Random().nextInt(max - min + 1) + min;
     }
 
-    public static Selection nonCuboidSingleStoaMaterialDataFromString(String string) {
-        try {
-            String[] args = string.split("~and~");
-            if (args.length != 4) return null;
-            return new Selection(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Material.valueOf(args[3]));
-        } catch (Exception ignored) {
-        }
-        return null;
-    }
-
     /**
      * Collect a cuboid of selections from the point of view of referenceA, centered around referenceB.
      *
@@ -312,16 +258,16 @@ public class Selection {
      * @param radius     Radius of cuboid.
      * @return List of Selections.
      */
-    public static List<Selection> getCuboid(Location referenceA, Location referenceB, int radius) {
+    public static List<Selection> getCuboid(Point referenceA, Point referenceB, int radius) {
         List<Selection> selections = Lists.newArrayList();
-        int X = referenceB.getBlockX() - radius, Y = referenceB.getBlockY() - radius, Z = referenceB.getBlockZ() - radius, XX = referenceB.getBlockX() + radius, YY = referenceB.getBlockY() + radius, ZZ = referenceB.getBlockZ() + radius;
-        int differenceX = referenceB.getBlockX() - referenceA.getBlockX();
-        int differenceY = referenceB.getBlockY() - referenceA.getBlockY();
-        int differenceZ = referenceB.getBlockZ() - referenceA.getBlockZ();
-        for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomains.integers()))
-            for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomains.integers()))
-                for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
-                    selections.add(new Selection(x + differenceX, y + differenceY, z + differenceZ, referenceA.getWorld().getBlockAt(x, y, z).getType()));
+        int X = referenceB.getX() - radius, Y = referenceB.getY() - radius, Z = referenceB.getZ() - radius, XX = referenceB.getX() + radius, YY = referenceB.getY() + radius, ZZ = referenceB.getZ() + radius;
+        int differenceX = referenceB.getX() - referenceA.getX();
+        int differenceY = referenceB.getY() - referenceA.getY();
+        int differenceZ = referenceB.getZ() - referenceA.getZ();
+        for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomain.integers()))
+            for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomain.integers()))
+                for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomain.integers()))
+                    selections.add(new Selection(x + differenceX, y + differenceY, z + differenceZ, referenceA.getWorld().getMaterialAt(x, y, z)));
         return selections;
     }
 
@@ -389,7 +335,7 @@ public class Selection {
      * @param reference The reference location.
      * @return A set of locations.
      */
-    public Set<Location> getBlockLocations(final Location reference) {
+    public Set<Point> getBlockLocations(final Point reference) {
         if (cuboid) {
             if (exclude) {
                 if (excludeSelection)
@@ -406,11 +352,11 @@ public class Selection {
      *
      * @param reference The reference Location.
      */
-    public void generate(Location reference) {
+    public void generate(Point reference) {
         if (blockData.isEmpty()) return;
-        for (Location location : getBlockLocations(reference)) {
+        for (Point location : getBlockLocations(reference)) {
             PotentialMaterial data = getStructureStoaMaterialData();
-            location.getBlock().setTypeIdAndData(data.getMaterial().getId(), data.getData(), data.getPhysics());
+            reference.getWorld().setPoint(location, data);
         }
     }
 
@@ -422,8 +368,8 @@ public class Selection {
      * @param Z Relative Z coordinate.
      * @return New relative location.
      */
-    public Location getLocation(Location reference, int X, int Y, int Z) {
-        return reference.clone().add(X, Y, Z);
+    public Point getLocation(Point reference, int X, int Y, int Z) {
+        return reference.add(X, Y, Z);
     }
 
     /**
@@ -438,8 +384,8 @@ public class Selection {
      * @param ZZ        The second relative Z coordinate.
      * @return The HashSet collection of a cuboid selection.
      */
-    public Set<Location> rangeLoop(final Location reference, final int X, final int XX, final int Y, final int YY, final int Z, final int ZZ) {
-        Set<Location> set = new HashSet<>();
+    public Set<Point> rangeLoop(final Point reference, final int X, final int XX, final int Y, final int YY, final int Z, final int ZZ) {
+        Set<Point> set = new HashSet<>();
         for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomains.integers()))
             for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomains.integers()))
                 for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
@@ -460,9 +406,5 @@ public class Selection {
     @Override
     public boolean equals(Object object) {
         return object instanceof Selection && Objects.equal(this, object);
-    }
-
-    public String nonCuboidSingleStoaMaterialDataToString() {
-        return X + "~and~" + Y + "~and~" + Z + "~and~" + blockData.get(0).getMaterial().name();
     }
 }

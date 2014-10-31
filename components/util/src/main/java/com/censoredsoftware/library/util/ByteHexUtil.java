@@ -1,9 +1,9 @@
 package com.censoredsoftware.library.util;
 
-public class BukkitObjectUtil {
+public class ByteHexUtil {
     private final static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    private BukkitObjectUtil() {
+    private ByteHexUtil() {
     }
 
     public static String byteArrayToHexString(byte[] b) {

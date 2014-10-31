@@ -16,13 +16,8 @@
 
 package com.censoredsoftware.library.schematic;
 
-import org.bukkit.Material;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class PotentialMaterial {
-    private Material material;
+    private String material;
     private byte data;
     private int odds;
     private boolean physics;
@@ -32,7 +27,7 @@ public class PotentialMaterial {
      *
      * @param material Material of the block.
      */
-    public PotentialMaterial(Material material) {
+    public PotentialMaterial(String material) {
         this.material = material;
         this.data = 0;
         this.odds = 100;
@@ -44,7 +39,7 @@ public class PotentialMaterial {
      *
      * @param material Material of the block.
      */
-    public PotentialMaterial(Material material, boolean physics) {
+    public PotentialMaterial(String material, boolean physics) {
         this.material = material;
         this.data = 0;
         this.odds = 100;
@@ -57,7 +52,7 @@ public class PotentialMaterial {
      * @param material Material of the block.
      * @param odds     The odds of this object being generated.
      */
-    public PotentialMaterial(Material material, int odds) {
+    public PotentialMaterial(String material, int odds) {
         if (odds == 0 || odds > 100) throw new PotentialMaterialException();
         this.material = material;
         this.data = 100;
@@ -71,7 +66,7 @@ public class PotentialMaterial {
      * @param material Material of the block.
      * @param odds     The odds of this object being generated.
      */
-    public PotentialMaterial(Material material, int odds, boolean physics) {
+    public PotentialMaterial(String material, int odds, boolean physics) {
         if (odds == 0 || odds > 100) throw new PotentialMaterialException();
         this.material = material;
         this.data = 100;
@@ -85,7 +80,7 @@ public class PotentialMaterial {
      * @param material Material of the block.
      * @param data     Byte data of the block.
      */
-    public PotentialMaterial(Material material, byte data) {
+    public PotentialMaterial(String material, byte data) {
         this.material = material;
         this.data = data;
         this.odds = 100;
@@ -98,7 +93,7 @@ public class PotentialMaterial {
      * @param material Material of the block.
      * @param data     Byte data of the block.
      */
-    public PotentialMaterial(Material material, byte data, boolean physics) {
+    public PotentialMaterial(String material, byte data, boolean physics) {
         this.material = material;
         this.data = data;
         this.odds = 100;
@@ -112,7 +107,7 @@ public class PotentialMaterial {
      * @param data     Byte data of the block.
      * @param odds     The odds of this object being generated.
      */
-    public PotentialMaterial(Material material, byte data, int odds) {
+    public PotentialMaterial(String material, byte data, int odds) {
         if (odds == 0 || odds > 100) throw new PotentialMaterialException();
         this.material = material;
         this.data = data;
@@ -127,7 +122,7 @@ public class PotentialMaterial {
      * @param data     Byte data of the block.
      * @param odds     The odds of this object being generated.
      */
-    public PotentialMaterial(Material material, byte data, int odds, boolean physics) {
+    public PotentialMaterial(String material, byte data, int odds, boolean physics) {
         if (odds == 0 || odds > 100) throw new PotentialMaterialException();
         this.material = material;
         this.data = data;
@@ -140,7 +135,7 @@ public class PotentialMaterial {
      *
      * @return A Material.
      */
-    public Material getMaterial() {
+    public String getMaterial() {
         return this.material;
     }
 
@@ -171,7 +166,7 @@ public class PotentialMaterial {
         return this.physics;
     }
 
-    public static enum Preset {
+    /*public static enum Preset {
         STONE_BRICK(new ArrayList<PotentialMaterial>(3) {
             {
                 add(new PotentialMaterial(Material.SMOOTH_BRICK, 80));
@@ -211,5 +206,5 @@ public class PotentialMaterial {
         public List<PotentialMaterial> getData() {
             return data;
         }
-    }
+    }*/
 }
