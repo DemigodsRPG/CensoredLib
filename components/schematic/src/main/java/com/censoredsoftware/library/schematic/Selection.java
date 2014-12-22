@@ -224,7 +224,7 @@ public class Selection {
      * @param XX        The second relative X coordinate of the schematic from the reference location, creating a cuboid.
      * @param YY        The second relative Y coordinate of the schematic from the reference location, creating a cuboid.
      * @param ZZ        The second relative Z coordinate of the schematic from the reference location, creating a cuboid.
-     * @param blockData The StoaMaterialData objects of this schematic.
+     * @param blockData The MaterialData objects of this schematic.
      */
     public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, List<PotentialMaterial> blockData) {
         this.X = X;
@@ -264,9 +264,9 @@ public class Selection {
         int differenceX = referenceB.getX() - referenceA.getX();
         int differenceY = referenceB.getY() - referenceA.getY();
         int differenceZ = referenceB.getZ() - referenceA.getZ();
-        for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomain.integers()))
-            for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomain.integers()))
-                for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomain.integers()))
+        for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomains.integers()))
+            for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomains.integers()))
+                for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
                     selections.add(new Selection(x + differenceX, y + differenceY, z + differenceZ, referenceA.getWorld().getMaterialAt(x, y, z)));
         return selections;
     }
