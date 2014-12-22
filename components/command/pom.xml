@@ -27,13 +27,26 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Easy Conversation and Command System</name>
+    <artifactId>command</artifactId>
+
+    <properties> <!-- It is important to keep up to date manually. -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spigot.version>1.8-R0.1-SNAPSHOT</spigot.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>spigot-releases</id>
+            <url>http://hub.spigotmc.org/nexus/content/repositories/public</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <!-- Spigot -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.7.10-R0.1-SNAPSHOT</version>
+            <version>${spigot.version}</version>
         </dependency>
     </dependencies>
-    <artifactId>command</artifactId>
-
 </project>
