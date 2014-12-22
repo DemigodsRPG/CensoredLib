@@ -18,7 +18,9 @@ package com.censoredsoftware.library.schematic;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
-import com.google.common.collect.*;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.util.*;
 
@@ -264,9 +266,9 @@ public class Selection {
         int differenceX = referenceB.getX() - referenceA.getX();
         int differenceY = referenceB.getY() - referenceA.getY();
         int differenceZ = referenceB.getZ() - referenceA.getZ();
-        for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomains.integers()))
-            for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomains.integers()))
-                for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
+        for (int x = (X < XX ? X : XX); x <= (X < XX ? XX : X); x++)
+            for (int y = (Y < YY ? Y : YY); y <= (Y < YY ? YY : Y); y++)
+                for (int z = (Z < ZZ ? Z : ZZ); z <= (Z < ZZ ? ZZ : Z); z++)
                     selections.add(new Selection(x + differenceX, y + differenceY, z + differenceZ, referenceA.getWorld().getMaterialAt(x, y, z)));
         return selections;
     }
@@ -386,9 +388,9 @@ public class Selection {
      */
     public Set<Point> rangeLoop(final Point reference, final int X, final int XX, final int Y, final int YY, final int Z, final int ZZ) {
         Set<Point> set = new HashSet<>();
-        for (int x : Ranges.closed(X < XX ? X : XX, X < XX ? XX : X).asSet(DiscreteDomains.integers()))
-            for (int y : Ranges.closed(Y < YY ? Y : YY, Y < YY ? YY : Y).asSet(DiscreteDomains.integers()))
-                for (int z : Ranges.closed(Z < ZZ ? Z : ZZ, Z < ZZ ? ZZ : Z).asSet(DiscreteDomains.integers()))
+        for (int x = (X < XX ? X : XX); x <= (X < XX ? XX : X); x++)
+            for (int y = (Y < YY ? Y : YY); y <= (Y < YY ? YY : Y); y++)
+                for (int z = (Z < ZZ ? Z : ZZ); z <= (Z < ZZ ? ZZ : Z); z++)
                     set.add(getLocation(reference, x, y, z));
         return set;
     }
