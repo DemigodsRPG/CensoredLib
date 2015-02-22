@@ -23,12 +23,13 @@ import java.util.jar.JarFile;
 
 public class ComponentLoader<T>
 {
-	private final JarFile jarFile;
+    private final ComponentRegistry registry;
+    private final JarFile jarFile;
 	private final Class<T> registeredComponentType;
 
-	ComponentLoader(JarFile jarFile, Class<T> registeredComponentType)
-	{
-		this.jarFile = jarFile;
+    ComponentLoader(ComponentRegistry registry, JarFile jarFile, Class<T> registeredComponentType) {
+        this.registry = registry;
+        this.jarFile = jarFile;
 		this.registeredComponentType = registeredComponentType;
 	}
 
@@ -61,8 +62,8 @@ public class ComponentLoader<T>
 					if(loadable != null)
 					{
 						LoadOrder loadOrder = loadable.loadOrder();
-						ComponentRegistry.registerMethodLoadOrder(loadOrder, method);
-					}
+                        registry.registerMethodLoadOrder(loadOrder, method);
+                    }
 				}
 			}
 			catch(Exception t)

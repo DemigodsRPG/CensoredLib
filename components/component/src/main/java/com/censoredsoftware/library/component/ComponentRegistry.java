@@ -30,8 +30,7 @@ import java.util.jar.JarFile;
 public final class ComponentRegistry
 {
 	@SuppressWarnings("unchecked")
-	private static final Multimap<LoadOrder, Method> METHOD_LOAD_ORDER = Multimaps.newMultimap((Map) new EnumMap<LoadOrder, HashSet<Method>>(LoadOrder.class), new Supplier<Collection<Method>>()
-	{
+    private final Multimap<LoadOrder, Method> METHOD_LOAD_ORDER = Multimaps.newMultimap((Map) new EnumMap<LoadOrder, HashSet<Method>>(LoadOrder.class), new Supplier<Collection<Method>>() {
 		@Override
 		public Set<Method> get()
 		{
@@ -39,23 +38,16 @@ public final class ComponentRegistry
 		}
 	});
 
-	private ComponentRegistry()
-	{
-	}
-
-	public static void register(File component) throws IOException
-	{
+    public void register(File component) throws IOException {
 		ClassPathHack.addFile(component);
 	}
 
-	public static void registerWithType(JarFile file, Class<?> clazz)
-	{
-		ComponentLoader<?> loader = new ComponentLoader<>(file, clazz);
-		loader.initializeComponentClass();
+    public void registerWithType(JarFile file, Class<?> clazz) {
+        ComponentLoader<?> loader = new ComponentLoader<>(this, file, clazz);
+        loader.initializeComponentClass();
 	}
 
-	public static void initMethodLoading(LoadOrder order)
-	{
+    public void initMethodLoading(LoadOrder order) {
 		Collection<Method> methodOrder = METHOD_LOAD_ORDER.get(order);
 		for(Method orderedMethod : methodOrder)
 		{
@@ -74,8 +66,7 @@ public final class ComponentRegistry
 		}
 	}
 
-	static void registerMethodLoadOrder(LoadOrder order, Method method)
-	{
+    void registerMethodLoadOrder(LoadOrder order, Method method) {
 		if(METHOD_LOAD_ORDER.containsValue(method)) return;
 		METHOD_LOAD_ORDER.put(order, method);
 	}
