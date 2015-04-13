@@ -1,4 +1,4 @@
-package com.censoredsoftware.bukkitutil;
+package com.censoredsoftware.library.bukkitutil;
 
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.io.BukkitObjectInputStream;

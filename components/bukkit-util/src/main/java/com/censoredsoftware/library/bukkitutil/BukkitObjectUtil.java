@@ -1,4 +1,4 @@
-package com.censoredsoftware.bukkitutil;
+package com.censoredsoftware.library.bukkitutil;
 
 public class BukkitObjectUtil {
     private final static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();

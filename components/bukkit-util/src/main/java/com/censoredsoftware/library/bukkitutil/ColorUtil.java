@@ -1,4 +1,4 @@
-package com.censoredsoftware.bukkitutil;
+package com.censoredsoftware.library.bukkitutil;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Maps;

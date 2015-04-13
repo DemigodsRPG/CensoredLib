@@ -1,4 +1,4 @@
-package com.censoredsoftware.bukkitutil;
+package com.censoredsoftware.library.bukkitutil;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

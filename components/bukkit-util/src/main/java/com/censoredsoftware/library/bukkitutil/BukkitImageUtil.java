@@ -1,4 +1,4 @@
-package com.censoredsoftware.bukkitutil;
+package com.censoredsoftware.library.bukkitutil;
 
 import com.censoredsoftware.library.util.ImageUtil;
 import com.google.common.collect.Lists;
