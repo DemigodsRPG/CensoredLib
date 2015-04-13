@@ -142,7 +142,8 @@ public class Selection {
      * @param XX       The second relative X coordinate of the schematic from the reference location, creating a cuboid.
      * @param YY       The second relative Y coordinate of the schematic from the reference location, creating a cuboid.
      * @param ZZ       The second relative Z coordinate of the schematic from the reference location, creating a cuboid.
-     * @param material The StoaMaterialData objects of this schematic.
+     * @param material The material id of this schematic.
+     * @param data     The material byte data of this schematic.
      */
     public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, String material, byte data) {
         this.X = X;
@@ -163,7 +164,7 @@ public class Selection {
      * @param X         The relative X coordinate of the schematic from the reference location.
      * @param Y         The relative Y coordinate of the schematic from the reference location.
      * @param Z         The relative Z coordinate of the schematic from the reference location.
-     * @param blockData The StoaMaterialData objects of this schematic.
+     * @param blockData The potential material of this schematic.
      */
     public Selection(int X, int Y, int Z, PotentialMaterial blockData) {
         this.X = this.XX = X;
@@ -184,7 +185,7 @@ public class Selection {
      * @param XX        The second relative X coordinate of the schematic from the reference location, creating a cuboid.
      * @param YY        The second relative Y coordinate of the schematic from the reference location, creating a cuboid.
      * @param ZZ        The second relative Z coordinate of the schematic from the reference location, creating a cuboid.
-     * @param blockData The StoaMaterialData objects of this schematic.
+     * @param blockData The potential material of this schematic.
      */
     public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, PotentialMaterial blockData) {
         this.X = X;
@@ -205,7 +206,7 @@ public class Selection {
      * @param X         The relative X coordinate of the schematic from the reference location.
      * @param Y         The relative Y coordinate of the schematic from the reference location.
      * @param Z         The relative Z coordinate of the schematic from the reference location.
-     * @param blockData The StoaMaterialData objects of this schematic.
+     * @param blockData The potential materials of this schematic.
      */
     public Selection(int X, int Y, int Z, List<PotentialMaterial> blockData) {
         this.X = this.XX = X;
@@ -226,7 +227,7 @@ public class Selection {
      * @param XX        The second relative X coordinate of the schematic from the reference location, creating a cuboid.
      * @param YY        The second relative Y coordinate of the schematic from the reference location, creating a cuboid.
      * @param ZZ        The second relative Z coordinate of the schematic from the reference location, creating a cuboid.
-     * @param blockData The MaterialData objects of this schematic.
+     * @param blockData The potential materials of this schematic.
      */
     public Selection(int X, int Y, int Z, int XX, int YY, int ZZ, List<PotentialMaterial> blockData) {
         this.X = X;
@@ -314,12 +315,11 @@ public class Selection {
 
     /**
      * Get the material of the object (a random material is chosen based on the configured odds).
-     * <p/>
-     * TODO This method needs work, I'm not sure this is the more efficient way to do what we want.
+     *
      *
      * @return A material.
      */
-    public PotentialMaterial getStructureStoaMaterialData() {
+    public PotentialMaterial getStructureMaterialData() {
         final int roll = generateIntRange(1, 100);
         Collection<PotentialMaterial> check = Collections2.filter(blockData, new Predicate<PotentialMaterial>() {
             @Override
@@ -327,7 +327,7 @@ public class Selection {
                 return blockData.getOdds() >= roll;
             }
         });
-        if (check.isEmpty()) return getStructureStoaMaterialData();
+        if (check.isEmpty()) return getStructureMaterialData();
         return Lists.newArrayList(check).get(generateIntRange(0, check.size() - 1));
     }
 
@@ -357,7 +357,7 @@ public class Selection {
     public void generate(Point reference) {
         if (blockData.isEmpty()) return;
         for (Point location : getBlockLocations(reference)) {
-            PotentialMaterial data = getStructureStoaMaterialData();
+            PotentialMaterial data = getStructureMaterialData();
             reference.getWorld().setPoint(location, data);
         }
     }
@@ -365,9 +365,10 @@ public class Selection {
     /**
      * Get a relative location, based on the <code>X</code>, <code>Y</code>, <code>Z</code> coordinates relative to the object's central location.
      *
-     * @param X Relative X coordinate.
-     * @param Y Relative Y coordinate.
-     * @param Z Relative Z coordinate.
+     * @param reference The reference point.
+     * @param X         Relative X coordinate.
+     * @param Y         Relative Y coordinate.
+     * @param Z         Relative Z coordinate.
      * @return New relative location.
      */
     public Point getLocation(Point reference, int X, int Y, int Z) {
