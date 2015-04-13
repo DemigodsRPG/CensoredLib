@@ -23,13 +23,14 @@
     <groupId>com.censoredsoftware.library</groupId>
     <artifactId>library</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <modules>
         <module>components/util</module>
         <module>components/error</module>
         <module>components/component</module>
         <module>components/command</module>
         <module>components/schematic</module>
+        <module>components/bukkit-util</module>
     </modules>
 
     <name>CensoredLib Parent Project</name>
@@ -107,16 +108,6 @@
     <build>
         <defaultGoal>clean install</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
-        <resources>
-            <resource>
-                <targetPath>.</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/resources/</directory>
-                <includes>
-                    <include>*.yml</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
