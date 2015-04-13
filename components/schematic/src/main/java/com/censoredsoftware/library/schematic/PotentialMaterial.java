@@ -38,6 +38,7 @@ public class PotentialMaterial {
      * Constructor for StoaMaterialData with only Material given.
      *
      * @param material Material of the block.
+     * @param physics  If physics is on.
      */
     public PotentialMaterial(String material, boolean physics) {
         this.material = material;
@@ -65,6 +66,7 @@ public class PotentialMaterial {
      *
      * @param material Material of the block.
      * @param odds     The odds of this object being generated.
+     * @param physics  If physics is on.
      */
     public PotentialMaterial(String material, int odds, boolean physics) {
         if (odds == 0 || odds > 100) throw new PotentialMaterialException();
@@ -92,6 +94,7 @@ public class PotentialMaterial {
      *
      * @param material Material of the block.
      * @param data     Byte data of the block.
+     * @param physics  If physics is on.
      */
     public PotentialMaterial(String material, byte data, boolean physics) {
         this.material = material;
@@ -121,6 +124,7 @@ public class PotentialMaterial {
      * @param material Material of the block.
      * @param data     Byte data of the block.
      * @param odds     The odds of this object being generated.
+     * @param physics  If physics is on.
      */
     public PotentialMaterial(String material, byte data, int odds, boolean physics) {
         if (odds == 0 || odds > 100) throw new PotentialMaterialException();
