@@ -74,7 +74,7 @@ public class ItemUtil {
      * @param location the location at which to create the chest.
      * @param items    the ArrayList of items to fill the chest with.
      */
-    public static void createChest(Location location, ArrayList<ItemStack> items) {
+    public static void createChest(Location location, List<ItemStack> items) {
         // Create the chest
         location.getBlock().setType(Material.CHEST);
 
